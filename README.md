@@ -7,6 +7,9 @@
 - Run `./scripts/create_local_databases`, this will create your local and test databases
 - Run `rails server` to start the demo app
 
+# Project Tracking
+- Use this set of boards to track progress of the application `https://github.com/saifabid/golf_tournament_app/projects/1`
+- _Please make sure to keep this updated :)_
 
 # Deploys
 - Once a branch has been merged into master, CI tests will run and if they pass, a deploy will automatically start on heroku
