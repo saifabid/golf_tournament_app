@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+
+<h1>Tournament Registration</h1>
+
+<h2>Tournament Information</h2>
+
+<p>
+	<%= label_tag(:tournament_name, "Tournament Name") %>
+	<%= text_field_tag(:tournament_name) %>
+</p>
+
+<p>
+	<!-- TODO: Add code for picture input -->
+	<%= label_tag(:tournament_logo, "Tournament Logo") %>
+	<%= text_field_tag(:tournament_logo) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_language, "Tournament Language") %>
+	<%= text_field_tag(:tournament_language) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_currency, "Tournament Currency") %>
+	<%= text_field_tag(:tournament_currency) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_time_zone, "Tournament Time Zone") %>
+	<%= text_field_tag(:tournament_time_zone) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_date, "Tournament Date") %>
+	<%= date_field(:date, :date) %>
+</p>
+
+<p>
+	<!-- TODO: Add code for picture input -->
+	<%= label_tag(:profile_pics, "Profile Pictures") %>
+	<%= text_field_tag(:profile_pics) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_desc, "Tournament Details") %>
+	<%= text_area_tag(:tournament_desc) %>
+</p>
+
+<p>
+	<%= label_tag(:private_tournament, "Private Tournament") %>
+	<%= radio_button_tag(:private_tournament, "private") %>
+
+	&nbsp
+
+	<%= label_tag(:public_tournament, "Public Tournament") %>
+	<%= radio_button_tag(:public_tournament, "public") %>
+</br>	
+	<label>Private Tournaments are open only to people who you share the URL with, Public Tournaments are open to everyone</label>
+</p>
+
+<h2>Venue Information</h2>
+
+<p>
+	<%= label_tag(:venue_name, "Name of Venue") %>
+	<%= text_field_tag(:venue_name) %>
+</p>
+
+<p>
+	<%= label_tag(:venue_desc, "Venue Overview") %>
+	<%= text_area_tag(:venue_desc) %>
+</p>
+
+<p>
+	<!-- TODO: Add code for picture input -->
+	<%= label_tag(:venue_pics, "Venue Pictures") %>
+	<%= text_field_tag(:venue_pics) %>
+</p>
+
+<p>
+	<!-- TODO: Add code for picture input -->
+	<%= label_tag(:venue_logo, "Venue Logo") %>
+	<%= text_field_tag(:venue_logo) %>
+</p>
+
+<p>
+	<%= label_tag(:venue_address_ln1, "Venue Address Line 1") %>
+	<%= text_field_tag(:venue_address_ln1) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_address_ln2, "Venue Address Line 2") %>
+	<%= text_field_tag(:venue_address_ln2) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_address_ln3, "Venue Address Line 3") %>
+	<%= text_field_tag(:venue_address_ln3) %>
+</br>
+	<%= label_tag(:venue_city, "Venue City") %>
+	<%= text_field_tag(:venue_city) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_post_code, "Venue Postal Code/ZIP Code") %>
+	<%= text_field_tag(:venue_post_code) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_country, "Venue Country") %>
+	<%= text_field_tag(:venue_country) %>
+
+</p>
+
+<p>
+	<%= label_tag(:venue_url, "Venue URL") %>
+	<%= text_field_tag(:venue_url) %>
+</p>
+
+<p>
+	<%= label_tag(:venue_contact_name, "Venue Contact Name") %>
+	<%= text_field_tag(:venue_contact_name) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_contact_phone, "Venue Contact Phone") %>
+	<%= text_field_tag(:venue_contact_phone) %>
+
+	&nbsp
+
+	<%= label_tag(:venue_contact_email, "Venue Contact Email") %>
+	<%= text_field_tag(:venue_contact_email) %>
+
+</p>
+
+<h2>Ticket Information</h2>
+
+<p>
+	<%= label_tag(:ticket_name, "Ticket Name") %>
+	<%= text_field_tag(:ticket_name) %>
+
+	&nbsp
+
+	<%= label_tag(:ticket_desc, "Ticket Description") %>
+	<%= text_field_tag(:ticket_desc) %>
+
+	&nbsp
+
+	<%= label_tag(:ticket_price, "Ticket Price") %>
+	<%= text_field_tag(:ticket_price) %>
+
+</br>
+
+	<%= button_tag(type: 'button') do
+  		content_tag(:strong, 'Submit')
+	end %>
+
+	<%= button_tag(type: 'button') do
+  		content_tag(:strong, 'Delete')
+	end %>
+
+</p>
+
+<h2>Event Schedule</h2>
+
+<p>
+	<%= label_tag(:tournament_format, "Tournament Format") %>
+	<%= text_field_tag(:tournament_format) %>
+</p>
+
+<p>
+	<%= label_tag(:lunch_time, "Lunch Time") %>
+	<%= time_field_tag(:lunch_time) %>
+</p>
+
+<p>
+	<%= label_tag(:tournament_start_time, "Tournament Start Time") %>
+	<%= time_field_tag(:tournament_start_time) %>
+</p>
+
+<p>
+	<%= label_tag(:Dinner_time, "Dinner Time") %>
+	<%= time_field_tag(:Dinner_time) %>
+</p>
+
+<h2>Tournament Features</h2>
+
+<p>
+	<%= label_tag(:hole_in_one_prize, "Hole In One Prize") %>
+	<%= text_area_tag(:hole_in_one_prize) %>
+</p>
+
+<p>
+	<%= label_tag(:longest_drive_comp, "Longest Drive Compettion") %>
+	<%= text_area_tag(:longest_drive_comp) %>
+</p>
+
+<p>
+	<%= label_tag(:putting_contest, "Putting Compettion") %>
+	<%= text_area_tag(:putting_contest) %>
+</p>
+
+<p>
+	<%= label_tag(:beer_cart, "Beer Cart") %>
+	<%= text_area_tag(:beer_cart) %>
+</p>
+
+<h2>Sponsor Information</h2>
+
+<p>
+	<%= label_tag(:sponsor_name, "Sponsor Name") %>
+	<%= text_field_tag(:sponsor_name) %>
+</p>
+
+<p>
+	<%= label_tag(:sponsor_type, "Sponsorship Type") %>
+	<%= text_field_tag(:sponsor_type) %>
+</p>
+
+<p>
+	<%= label_tag(:sponsor_logo, "Sponsor Logo") %>
+	<%= text_field_tag(:sponsor_logo) %>
+</p>
+
+<p>
+	<%= label_tag(:sponsor_Website, "Sponsor Website") %>
+	<%= text_field_tag(:sponsor_Website) %>
+</p>
+
+<p>
+	<%= label_tag(:sponsor_email, "Sponsor Email") %>
+	<%= text_field_tag(:sponsor_email) %>
+
+&nbsp
+
+	<%= label_tag(:sponsor_twitter, "Sponsor Twitter Account") %>
+	<%= text_field_tag(:sponsor_twitter) %>
+
+&nbsp
+
+	<%= label_tag(:sponsor_facebook, "Sponsor Facebook Page") %>
+	<%= text_field_tag(:sponsor_facebook) %>
+
+&nbsp
+
+	<%= label_tag(:sponsor_snapchat, "Sponsor Snapchant Handle") %>
+	<%= text_field_tag(:sponsor_snapchat) %>
+</p>
+
+<h2>Organizer Contact Info</h2>
+
+<p>
+	<%= label_tag(:organizer_name, "Organizer Name") %>
+	<%= text_field_tag(:organizer_name) %>
+</p>
+
+<p>
+	<%= label_tag(:organizer_email, "Organizer Email") %>
+	<%= email_field(:organizer_email, "addres") %>
+</p>
+
+<p>
+	<%= label_tag(:organizer_phone, "Organizer Phone Number") %>
+	<%= telephone_field(:organizer_phone, "phone") %>
+</p>
+
+<h2>Optional Player Questionnaire</h2>
+
+<p>
+	<%= label_tag(:player_questions, "Player Questions") %>
+	<%= text_area_tag(:player_questions) %>
+</p>
