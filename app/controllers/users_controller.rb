@@ -8,6 +8,9 @@ class UsersController < ApplicationController
   end
 
   def create
+    logger.debug "debugging create"
+    logger.debug "user #{params[:user][:first_name]}"
+    render plain: params[:user].inspect
   end
 
   def show
