@@ -3,8 +3,11 @@
 
 # Getting Started
 
+- On Mac, install `mysql` with [brew](http://brew.sh/) by running `brew install mysql`
+- Start mysql with `mysql.server start`
 - Make sure mysql is running locally (on mac if you are not sure run `mysql.server status`)
-- Run `./scripts/create_local_databases`, this will create your local and test databases
+- Run `bundle install`
+- Run `./scripts/create_local_databases.sh`, this will create your local and test databases
 - Run `rails server` to start the demo app
 
 # Project Tracking
