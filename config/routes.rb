@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   # get 'tournament_registration/index'
 
+  post 'users/signin'
+
+  get 'users/account'
   resources :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

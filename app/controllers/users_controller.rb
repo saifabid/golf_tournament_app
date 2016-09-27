@@ -8,8 +8,15 @@ class UsersController < ApplicationController
   end
 
   def create
-    logger.debug "debugging create"
-    logger.debug "user #{params[:user][:first_name]}"
+    # logger.debug "debugging create"
+    # logger.debug "user #{params[:user][:first_name]}"
+
+    # if params[:user][:password] == params[:user][:confirm_password]
+    #   puts ("true")
+    # else
+    #   puts("false")
+    # end
+
     render plain: params[:user].inspect
   end
 
@@ -23,5 +30,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
+  end
+
+  def signin
+  
   end
 end
