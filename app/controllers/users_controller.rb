@@ -32,7 +32,10 @@ class UsersController < ApplicationController
   def destroy
   end
 
-  def signin
-  
+  def signin 
+  end
+
+  def fp
+    # render plain: params[:forgot_password].inspect
   end
 end
