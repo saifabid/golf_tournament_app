@@ -3,6 +3,6 @@ class TournamentsController < ApplicationController
     end
 
     def create
-
+      # do processing of form params
     end
 end
