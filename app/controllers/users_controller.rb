@@ -21,21 +21,25 @@ class UsersController < ApplicationController
   end
 
   def show
+    # before_action :authenticate_user
   end
 
   def edit
+    # before_action :authenticate_user
   end
 
   def update
+    # before_action :authenticate_user
   end
 
   def destroy
+    # before_action :authenticate_user
   end
 
-  def signin 
-  end
+  # def signin 
+  # end
 
-  def fp
-    # render plain: params[:forgot_password].inspect
-  end
+  # def fp
+  #   # render plain: params[:forgot_password].inspect
+  # end
 end
