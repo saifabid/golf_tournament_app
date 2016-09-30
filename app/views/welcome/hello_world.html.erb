@@ -112,9 +112,28 @@
     </div>
     <div class="content-wrapper">
       <div class="content">
-        <div class="content-head">
-          Sort by [Start-Date]
-        </div>
+
+        <!-- dropdown form -->
+        <%= form_tag("/", method: "get") do %>
+          <%= hidden_field_tag(:q) %>
+          <%= submit_tag("Sort") %>
+
+          <select id = "dropdownSelect" onchange="myFunction()">
+            <option value="1">Start Date Ascending</option>
+            <option value="2">Start Date Decending</option>
+            <option value="3">Title Ascending</option>
+            <option value="4">Title Descending</option>
+          </select>
+
+          <script>
+            function myFunction() {
+                var mySelect = document.getElementById("dropdownSelect");
+                document.getElementById("q").value = mySelect.value
+            }
+          </script>
+
+        <% end %>
+
         <% @tournaments.each do |tournament| %>
           <tr>
             <div class="content-card-title">
