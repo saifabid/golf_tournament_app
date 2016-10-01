@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930013715) do
+ActiveRecord::Schema.define(version: 20161001005624) do
+
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.string   "prefix"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.string   "suffix"
+    t.string   "home_adr1"
+    t.string   "home_adr2"
+    t.string   "home_city"
+    t.string   "home_country"
+    t.string   "home_code"
+    t.string   "home_province"
+    t.boolean  "is_billing"
+    t.string   "bill_adr1"
+    t.string   "bill_adr2"
+    t.string   "bill_city"
+    t.string   "bill_country"
+    t.string   "bill_code"
+    t.string   "bill_province"
+    t.boolean  "gender"
+    t.date     "birth"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
+  end
 
   create_table "tournaments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -46,4 +73,5 @@ ActiveRecord::Schema.define(version: 20160930013715) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "accounts", "users"
 end
