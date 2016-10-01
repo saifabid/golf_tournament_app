@@ -1,4 +1,12 @@
-<ul class="nav">
-  <li><%= link_to 'Home', root_path %></li>
-  <%= render 'layouts/navigation_links' %>
-</ul>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Golf Tournament App</a>
+    </div>
+
+  <ul class="nav navbar-nav">
+      <%= nav_link 'Home', root_path %>
+      <%= nav_link 'Dashboard', dashboard_index_path%>
+  </ul>
+  </div>
+</nav>
