@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+
+<h1>Tournament Registration</h1>
+
+<%= bootstrap_form_tag url: '/tournaments', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
+    <h3>Tournament Information</h3>
+    <%= f.text_field :name %>
+    <%= f.file_field :logo %>
+    <%= f.select :language, options_for_select(Tournament.language_options) %>
+    <%= f.select :currency, options_for_select(Tournament.currency_options) %>
+    <%= f.file_field :profile_picture %>
+    <%= f.text_area :details %>
+    <br>
+    <h3>Venue Information</h3>
+    <%= f.text_field :venue_name %>
+    <%= f.file_field :venue_logo %>
+    <%= f.text_field :venue_address %>
+    <%= f.text_field :venue_website %>
+    <%= f.text_field :venue_contact %>
+    <br>
+    <%= f.check_box :private_event %>
+    <br>
+    <%= f.submit class: "btn-lg btn-success center-block " %>
+    <br>
+<% end %>
+
