@@ -8,6 +8,17 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
+
+  <ul class="hmenu">
+    <%= render 'devise/menu/registration_items' %>
+    <%= render 'devise/menu/login_items' %>
+  </ul>
+
+  <body>
+  	<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
+
   <body>
     <header>
       <%= render 'layouts/navigation' %>
@@ -15,5 +26,6 @@
     <main role="main">
       <%= yield %>
     </main>
+
   </body>
 </html>
