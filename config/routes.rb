@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
+
   devise_for :users, controllers: { registrations: "users/registrations" }
 
   # authenticated :user do
@@ -30,10 +30,10 @@ Rails.application.routes.draw do
   post 'users/forgot_password'
 
   resources :users
-=======
+
   resource :tournaments
   get 'dashboard/index'
->>>>>>> origin/master
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'welcome#hello_world'
