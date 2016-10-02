@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20161001005624) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -40,6 +41,11 @@ ActiveRecord::Schema.define(version: 20161001005624) do
   end
 
   create_table "tournaments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+=======
+ActiveRecord::Schema.define(version: 20160927231813) do
+
+  create_table "tournaments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+>>>>>>> origin/master
     t.string   "name"
     t.string   "logo"
     t.string   "language"
@@ -56,6 +62,7 @@ ActiveRecord::Schema.define(version: 20161001005624) do
     t.datetime "updated_at",            null: false
   end
 
+<<<<<<< HEAD
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -74,4 +81,6 @@ ActiveRecord::Schema.define(version: 20161001005624) do
   end
 
   add_foreign_key "accounts", "users"
+=======
+>>>>>>> origin/master
 end
