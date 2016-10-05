@@ -5,7 +5,7 @@ class TournamentsController < ApplicationController
 
     def create
       # Confirm user is logged in
-      return false unless session["warden.user.user.key"][0][0]
+      return render :new unless session["warden.user.user.key"]
 
       # Store images. If no images provided, it isn't an error. Continue storing data
       logo_url = Image.store(:logo, image_store_params[:logo])
@@ -33,8 +33,10 @@ class TournamentsController < ApplicationController
                                     :venue_logo => venue_logo_url
                                    })
 
-
       @tournament.save
+     @ppl =  @tournament.person.create({:is_guest => true})
+      @ppl.save
+      puts 'ppl saved too'
     end
 
     private 

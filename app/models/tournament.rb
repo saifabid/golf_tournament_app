@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  has_many :person
+
   @language_options = [
       ['English', 'english'],
       ['French', 'french']
