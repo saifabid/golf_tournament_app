@@ -19,4 +19,10 @@ class Tournament < ApplicationRecord
     @currency_options
   end
 
+  # Register a new tournament
+  def register
+    self.save
+    return true
+  end
+
 end
