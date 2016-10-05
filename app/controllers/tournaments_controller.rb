@@ -5,20 +5,14 @@ class TournamentsController < ApplicationController
 
     def create
       # Confirm user is logged in
-      return render :new unless session["warden.user.user.key"]
+      return self.error() unless session["warden.user.user.key"]
+      @user = User.find(session["warden.user.user.key"][0][0])
+      return self.error() unless @user
 
       # Store images. If no images provided, it isn't an error. Continue storing data
       logo_url = Image.store(:logo, image_store_params[:logo])
       venue_logo_url = Image.store(:venue_logo, image_store_params[:venue_logo])
       profile_picture_url = Image.store(:tournament_profile_picture, image_store_params[:profile_picture])
-
-
-      @user = User.find(session["warden.user.user.key"][0][0])
-      if @user == false
-        render :new # TODO: Take user to appropriate view if they are logged out
-        return
-      end
-
       @tournament = Tournament.new({:name => tournament_params[:name],
                                     :language => tournament_params[:language],
                                     :currency => tournament_params[:currency],
@@ -33,22 +27,24 @@ class TournamentsController < ApplicationController
                                     :venue_logo => venue_logo_url
                                    })
 
-      @tournament.save
-     @ppl =  @tournament.person.create({:is_guest => true})
-      @ppl.save
-      puts 'ppl saved too'
+      return self.error() unless @tournament.register
+      return self.error() unless @tournament.person.new().insert_organizer @user.id
+      return self.success()
     end
-
-    private 
 
     def image_store_params
-      params.permit(
-                :logo,
-                :venue_logo,
-                :profile_picture
-      )
+      params.permit(:logo, :venue_logo, :profile_picture)
     end
 
+    # Placeholder to be replaced by success view
+    def success
+      render :new
+    end
+
+    # Placeholder to be replaced by failiure view
+    def error
+      render :new
+    end
     def tournament_params
       # fields we want to perform any operations on on in this controller
       params.permit(
