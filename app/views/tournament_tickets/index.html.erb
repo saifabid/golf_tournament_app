@@ -1,0 +1,8 @@
+<div class="tickets-panel">
+  <h2>Ticket</h2>
+  <%=render  'tournament_tickets/list', tournament_tickets: @tournament.tournament_tickets %>
+
+  <h2>Create New Ticket Type</h2>
+  <%= render 'tournament_tickets/createticket'%>
+
+</div>

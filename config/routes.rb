@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :users
   resources :tournaments do
     resources :tournament_events
+    resources :tournament_tickets
   end
   get 'dashboard/index'
 
