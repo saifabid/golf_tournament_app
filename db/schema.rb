@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005050328) do
+ActiveRecord::Schema.define(version: 20161006042209) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -53,6 +53,26 @@ ActiveRecord::Schema.define(version: 20161005050328) do
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
   end
 
+  create_table "tournament_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tournament_id"
+    t.string   "event_name"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["tournament_id"], name: "index_tournament_events_on_tournament_id", using: :btree
+  end
+
+  create_table "tournament_tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "ticket_name"
+    t.text     "ticket_desc",   limit: 65535
+    t.decimal  "ticket_price",                precision: 10
+    t.integer  "tournament_id"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["tournament_id"], name: "index_tournament_tickets_on_tournament_id", using: :btree
+  end
+
   create_table "tournaments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "logo"
@@ -88,4 +108,6 @@ ActiveRecord::Schema.define(version: 20161005050328) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "tournament_events", "tournaments"
+  add_foreign_key "tournament_tickets", "tournaments"
 end

@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  has_many :tournament_events, dependent: :destroy
+  has_many :tournament_tickets, dependent: :destroy
   has_many :person
 
   @language_options = [
