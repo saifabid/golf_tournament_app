@@ -1,4 +1,4 @@
-class CreateTournamentEvents < ActiveRecord::Migration[5.0]
+class CreateTournamentSchedules < ActiveRecord::Migration[5.0]
   def change
     create_table :tournament_events do |t|
       t.references :tournament, foreign_key: true
