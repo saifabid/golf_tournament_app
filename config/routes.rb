@@ -30,8 +30,9 @@ Rails.application.routes.draw do
   post 'users/forgot_password'
 
   resources :users
-
-  resource :tournaments
+  resources :tournaments do
+    resources :tournament_events
+  end
   get 'dashboard/index'
 
 

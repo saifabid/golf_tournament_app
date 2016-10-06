@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ticket_name: MyString
+  ticket_desc: MyText
+  ticket_price: 9.99
+  tournament: one
+
+two:
+  ticket_name: MyString
+  ticket_desc: MyText
+  ticket_price: 9.99
+  tournament: two
