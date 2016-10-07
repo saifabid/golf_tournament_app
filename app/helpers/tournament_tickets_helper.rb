@@ -1,0 +1,2 @@
+module TournamentTicketsHelper
+end

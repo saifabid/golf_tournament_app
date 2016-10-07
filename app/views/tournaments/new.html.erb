@@ -10,6 +10,7 @@
     <%= f.select :currency, options_for_select(Tournament.currency_options) %>
     <%= f.file_field :profile_picture %>
     <%= f.text_area :details %>
+    <%= f.datetime_field :start_date %>
     <br>
     <h3>Venue Information</h3>
     <%= f.text_field :venue_name %>

@@ -7,6 +7,7 @@
 # Ignore bundler config.
 /.bundle
 
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -14,6 +15,7 @@
 !/tmp/.keep
 .idea/workspace.xml
 .idea/tasks.xml
+uploads/*.jpeg
 
 # Ignore Byebug command history file.
 .byebug_history

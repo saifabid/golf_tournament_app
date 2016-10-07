@@ -1,0 +1,18 @@
+
+
+<%= form_for ([@tournament, @tournament.tournament_tickets.build]) do |f| %>
+    <p>
+      <label>Ticket Name:</label><br>
+      <%= f.text_field :ticket_name  %>
+    </p>
+    <p>
+     <label>Ticket Description</label><br>
+      <%= f.text_area :ticket_desc %>
+    </p>
+    <p>
+      <label>Price:</label> <br>
+      <%= f.text_field :ticket_price  %>
+    </p>
+
+    <%= f.submit%>
+<% end %>

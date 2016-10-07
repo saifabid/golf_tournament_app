@@ -1,0 +1,15 @@
+<table class="table">
+  <tr><th> Name of Ticket</th>
+  <th>Description</th>
+  <th>Price</th>
+  <th></th></tr>
+  <% tournament_tickets.each do|e|%>
+  <tr>
+    <td><%=e.ticket_name%></td>
+    <td><%=e.ticket_desc %></td>
+    <td><%=number_with_precision(e.ticket_price, :precision=>2)%></td>
+
+  </tr>
+  <% end%>
+
+</table>
