@@ -51,4 +51,12 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+end
+
+# Used to spoof current IP
+class ActionDispatch::Request
+    def ip
+      "184.175.29.245"
+    end
 end

@@ -1,0 +1,42 @@
+<div class="center-block events-container">
+     <!-- dropdown form -->
+  <%= form_tag("/", method: "get") do %>
+    <%= hidden_field_tag(:q) %>
+    <%= hidden_field_tag(:client_ip) %>
+    <%= submit_tag("Sort") %>
+
+    <select id = "dropdownSelect" onchange="myFunction()">
+      <option value="1">Ascending Start Date</option>
+      <option value="2">Decending Start Date</option>
+      <option value="3">Ascending Title</option>
+      <option value="4">Descending Title</option>
+      <option value="5">Choose distance</option>
+    </select>
+
+    <script>
+      function myFunction() {
+          $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+            var mySelect = document.getElementById("dropdownSelect");
+            document.getElementById("q").value = mySelect.value
+            var client_ip = data.ip;
+            console.log('client_ip: ', client_ip);
+            document.getElementById("client_ip").value = client_ip
+        });
+      }
+    </script>
+
+  <% end %>
+  
+      <% @tournaments.each do |tournament| %>
+    <tr>
+      <div class="content-card-title">
+        <%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %>
+      </div>
+      <div class="content-card">
+        <td><%= tournament.name %></td>
+        <br/>
+        <td><%= tournament.details %></td>
+      </div>
+    </tr>
+  <% end %>
+</div>

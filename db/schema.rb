@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20160927231813) do
     t.string   "venue_address"
     t.string   "venue_website"
     t.string   "venue_contact_details"
+    t.datetime "start_date"
+    t.float "longitude"
+    t.float "latitude"
     t.boolean  "is_private"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false

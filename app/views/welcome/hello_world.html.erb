@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style type="text/css">
+		.col-spacing {
+			padding-bottom: 20px;
+			margin: auto;
+		}
+		.span-collection {
+			text-align: center
+			margin: auto;
+			padding: 20px;
+		}
+		#bottom-line {
+    	border-bottom: solid;
+		}
+		.events-container{
+			margin: auto;
+			width: 70%;
+			text-align:center;
+			border: solid;
+			padding-top:20px;
+			padding-bottom:20px;
+		}
+		.events-view-selector {
+			margin: auto;
+			width: 30%;
+			padding-top:30px;
+			padding-bottom:10px;
+			text-align:center;
+			border: solid;
+		}
+		.footer-view {
+			margin: auto;
+			padding-top:30px;
+			padding-bottom:10px;
+			text-align:center;
+			border: solid #ff69b4;
+		}
+		.content-card {
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .content-card-title {
+      border-style: solid;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      width:50%;
+      margin:0 auto;
+      text-align: center;
+      align-self: center;
+    }
+		</style>
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-7 col-spacing"></div>
+			<div class="col-md-5 col-spacing">
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						Contacts
+					</button>
+				</span>
+				<span class="span-collection">English</span>
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						About
+					</button>
+				</span>
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						Login/Register
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="row" id="bottom-line">
+			<h1 class="col-md-8 col-spacing ">General Landing Page</h1>
+			<div class="col-md-4 col-spacing">
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						Features
+					</button>
+				</span>
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						FAQ
+					</button>
+				</span>
+				<span class="span-collection">
+					<button type="button" class="btn btn-info">
+						Partners
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center-block events-view-selector">
+				<%= button_to 'List', {:controller => "welcome", :action => "hello_world", :state => "List"}, :method=>:post %>
+				<%= button_to 'Map', {:controller => "welcome", :action => "hello_world", :state => "Map"}, :method=>:post %>
+			</div>
+			
+			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
+
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="footer-view">
+					<%= button_to "Privacy Policy", legal_privacy_path, :method => "get" %>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="footer-view">
+					<%= button_to "Terms of Service", legal_terms_of_service_path, :method => "get" %>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="footer-view">
+					<%= button_to "Site Map", legal_site_map_path, :method => "get" %>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
