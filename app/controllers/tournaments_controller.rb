@@ -24,7 +24,8 @@ class TournamentsController < ApplicationController
                                     :is_private => tournament_params[:private_event],
                                     :logo => logo_url,
                                     :profile_pictures => [profile_picture_url],
-                                    :venue_logo => venue_logo_url
+                                    :venue_logo => venue_logo_url,
+                                    :start_date => tournament_params[:start_date]
                                    })
 
       return self.error() unless @tournament.register
@@ -56,7 +57,8 @@ class TournamentsController < ApplicationController
           :venue_address,
           :venue_website,
           :venue_contact,
-          :private_event
+          :private_event,
+          :start_date
       )
     end
 end
