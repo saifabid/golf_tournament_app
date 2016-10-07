@@ -6,11 +6,6 @@
 			padding-bottom: 20px;
 			margin: auto;
 		}
-		.span-collection {
-			text-align: center
-			margin: auto;
-			padding: 20px;
-		}
 		#bottom-line {
     	border-bottom: solid;
 		}
@@ -58,44 +53,34 @@
 	</head>
 	<body>
 		<div class="row">
-			<div class="col-md-7 col-spacing"></div>
-			<div class="col-md-5 col-spacing">
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						Contacts
-					</button>
-				</span>
-				<span class="span-collection">English</span>
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						About
-					</button>
-				</span>
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						Login/Register
-					</button>
-				</span>
+			<div class="col-md-6 col-spacing"></div>
+			<div class="col-md-6 col-spacing">
+				<div class="col-md-3 col-spacing">
+					<%= button_to "Contacts", about_contact_path, :method => "get" %>
+				</div>
+				<div class="col-md-3 col-spacing">
+					<button type="button">English/French</button>
+				</div>
+				<div class="col-md-3 col-spacing">
+					<%= button_to "About", about_company_path, :method => "get" %>
+				</div>
+				<div class="col-md-3 col-spacing">
+					<button type="button">Login/Register</button>
+				</div>
 			</div>
 		</div>
 		<div class="row" id="bottom-line">
-			<h1 class="col-md-8 col-spacing ">General Landing Page</h1>
-			<div class="col-md-4 col-spacing">
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						Features
-					</button>
-				</span>
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						FAQ
-					</button>
-				</span>
-				<span class="span-collection">
-					<button type="button" class="btn btn-info">
-						Partners
-					</button>
-				</span>
+			<h1 class="col-md-7 col-spacing ">General Landing Page</h1>
+			<div class="col-md-5 col-spacing">
+				<div class="col-md-4 col-spacing">
+				<%= button_to "Features", about_features_path, :method => "get" %>
+				</div>
+				<div class="col-md-4 col-spacing">
+				<%= button_to "FAQ", about_faq_path, :method => "get" %>
+				</div>
+				<div class="col-md-4 col-spacing">
+				<%= button_to "Partners", about_partners_path, :method => "get" %>
+				</div>
 			</div>
 		</div>
 		<div class="row">
