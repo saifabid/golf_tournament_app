@@ -60,5 +60,3 @@ gem 'geokit-rails'
 gem 'wdm', '>0.1.0' if Gem.win_platform?
 
 gem 'bcrypt','~>3.1.11'
-
-gem 'jquery-rails'
