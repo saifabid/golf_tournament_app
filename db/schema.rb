@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006224213) do
+ActiveRecord::Schema.define(version: 20161008171509) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -85,12 +85,12 @@ ActiveRecord::Schema.define(version: 20161006224213) do
     t.string   "venue_address"
     t.string   "venue_website"
     t.string   "venue_contact_details"
-    t.float    "longitude",             limit: 24
-    t.float    "latitude",              limit: 24
     t.boolean  "is_private"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.datetime "start_date"
+    t.float    "longitude",             limit: 24
+    t.float    "latitude",              limit: 24
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
