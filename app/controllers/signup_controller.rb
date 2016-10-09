@@ -15,6 +15,31 @@ class SignupController < ApplicationController
 								:player_tickets => signup_params[:player_tickets],
 								:sponsor_tickets => signup_params[:sponsor_tickets]})
 
+		if signup_params[:player_tickets] == ''
+			signup_params[:player_tickets] = 0.to_s
+		end
+
+		if signup_params[:sponsor_tickets] == ''
+			signup_params[:sponsor_tickets] = 0.to_s
+		end
+		
+		if signup_params[:player_tickets] > 0.to_s && signup_params[:sponsor_tickets] > 0.to_s
+			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
+			@person.is_player = true
+			@person.is_sponsor = true
+			@person.save
+		elsif signup_params[:player_tickets] > 0.to_s 
+			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
+			@person.is_player = true
+			@person.save
+		elsif signup_params[:sponsor_tickets] > 0.to_s
+			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
+			@person.is_sponsor = true
+			@person.save
+		else
+			self.error
+		end
+
 		return self.error unless @signup.register
 	end
 
