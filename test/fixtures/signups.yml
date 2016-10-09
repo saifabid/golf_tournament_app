@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  tournament_id: 
+  player_tickets: 
+  sponsor_tickets: 
+
+two:
+  user_id: 
+  tournament_id: 
+  player_tickets: 
+  sponsor_tickets: 

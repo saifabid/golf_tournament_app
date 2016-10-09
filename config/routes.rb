@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     resources :tournament_events
     resources :tournament_tickets
   end
+  resources :signup
   get 'dashboard/index'
 
 

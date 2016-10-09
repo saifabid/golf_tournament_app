@@ -25,6 +25,14 @@
 			text-align:center;
 			border: solid;
 		}
+		.player-signup {
+			margin: auto;
+			width: 30%;
+			padding-top:30px;
+			padding-bottom:10px;
+			text-align:center;
+			border: solid;
+		}
 		.footer-view {
 			margin: auto;
 			padding-top:30px;
@@ -91,6 +99,11 @@
 			
 			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
 
+		</div>
+		<div class="row">
+			<div class="center-block player-signup">
+				<%= button_to 'Signup', {:controller => "signup", :action => "new"}, :method=>:get %>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
