@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'credit_card/index'
+
   get 'about/contact'
 
   get 'about/company'
