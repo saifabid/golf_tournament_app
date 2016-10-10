@@ -1,0 +1,11 @@
+<div class="row">
+	<div class="col-md-6 col-spacing">
+		<h1>
+		Hello <%=@first_name%> !
+		tournament name <%=@tournament.name%>
+		</h1>
+	</div>
+	<div class="col-md-6 col-spacing">
+		<%= button_to 'Event Stats', {:controller => "tournament_stats", :action => "show"}, :method=>:get %>
+	</div>
+</div>
