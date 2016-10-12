@@ -41,6 +41,32 @@ class SignupController < ApplicationController
 			self.error
 		end
 
+		@i = 0
+
+		while @i < signup_params[:sponsor_tickets].to_i do
+			@ticket = Ticket.new({:transaction_number => @transaction_num.join.to_i,
+									:user_id => @user.id,
+									:tournament_id => @tournament_id.first.id,
+									:sponsor_ticket => true})
+
+			@ticket.register
+			@i += 1
+
+		end
+
+		@i = 0
+
+		while @i < signup_params[:player_tickets].to_i do
+			@ticket = Ticket.new({:transaction_number => @transaction_num.join.to_i,
+									:user_id => @user.id,
+									:tournament_id => @tournament_id.first.id,
+									:player_ticket => true})
+
+			@ticket.register
+			@i += 1
+
+		end
+
 		return self.error unless @signup.register
 	end
 
