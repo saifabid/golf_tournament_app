@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   # get 'tournament_registration/index'
 
-  # post 'users/signin'
+  post 'users/edit' => 'accounts#create'
 
   get 'users/account'
 
