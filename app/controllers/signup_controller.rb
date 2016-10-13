@@ -8,12 +8,13 @@ class SignupController < ApplicationController
 
 		@tournament_id = Tournament.where("tournaments.name LIKE ?", signup_params[:tournament_name])
 
-		puts @tournament_id.inspect
+		@transaction_num = [@user.id, @tournament_id.first.id, Time.now.to_i]
 
 		@signup = Signup.new({:tournament_id => @tournament_id.first.id,
 								:user_id => @user.id,
 								:player_tickets => signup_params[:player_tickets],
-								:sponsor_tickets => signup_params[:sponsor_tickets]})
+								:sponsor_tickets => signup_params[:sponsor_tickets],
+								:transaction_number => @transaction_num.join.to_i})
 
 		if signup_params[:player_tickets] == ''
 			signup_params[:player_tickets] = 0.to_s
@@ -38,6 +39,32 @@ class SignupController < ApplicationController
 			@person.save
 		else
 			self.error
+		end
+
+		@i = 0
+
+		while @i < signup_params[:sponsor_tickets].to_i do
+			@ticket = Ticket.new({:transaction_number => @transaction_num.join.to_i,
+									:user_id => @user.id,
+									:tournament_id => @tournament_id.first.id,
+									:sponsor_ticket => true})
+
+			@ticket.register
+			@i += 1
+
+		end
+
+		@i = 0
+
+		while @i < signup_params[:player_tickets].to_i do
+			@ticket = Ticket.new({:transaction_number => @transaction_num.join.to_i,
+									:user_id => @user.id,
+									:tournament_id => @tournament_id.first.id,
+									:player_ticket => true})
+
+			@ticket.register
+			@i += 1
+
 		end
 
 		return self.error unless @signup.register
