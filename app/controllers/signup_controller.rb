@@ -42,7 +42,7 @@ class SignupController < ApplicationController
 				:is_guest => true,
 				:transaction_number => @transaction_num.join.to_i,
 				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => form_params[:sponsor_level]
+				:ticket_description => 0
 				).insert_person
 
 			@i += 1
