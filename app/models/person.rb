@@ -7,4 +7,9 @@ class Person < ApplicationRecord
     self.save
     return true
   end
+
+  def insert_person	
+	self.save
+	return true
+  end
 end
