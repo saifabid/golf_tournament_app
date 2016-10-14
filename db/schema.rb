@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014004315) do
+ActiveRecord::Schema.define(version: 20161014234321) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 20161014004315) do
     t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
   end
 
+  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tournament_id"
+    t.integer  "current_members"
+    t.integer  "member_one"
+    t.integer  "member_two"
+    t.integer  "member_three"
+    t.integer  "member_four"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "tournament_id"
@@ -51,9 +62,12 @@ ActiveRecord::Schema.define(version: 20161014004315) do
     t.bigint   "ticket_number"
     t.integer  "ticket_description"
     t.integer  "guest_of"
+    t.text     "fname",              limit: 65535
+    t.text     "lname",              limit: 65535
+    t.integer  "group_number"
     t.boolean  "checked_in"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
   end
