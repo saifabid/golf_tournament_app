@@ -55,6 +55,8 @@ Rails.application.routes.draw do
     resources :tournament_tickets
   end
   resources :signup
+
+  resources :charges
   # resource :tournies
 
   get 'tournaments/:id', to: 'tournaments#show'

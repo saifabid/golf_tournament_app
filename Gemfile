@@ -63,3 +63,6 @@ gem 'bcrypt','~>3.1.11'
 
 gem 'barby'
 
+#credit card processing
+gem 'stripe'
+
