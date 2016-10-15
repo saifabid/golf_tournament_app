@@ -1,5 +1,5 @@
 class SignupController < ApplicationController
-	helper_method :assigngroup
+	helper_method :assigngroup, :assignfoursome
 
 	def new
 	end
@@ -40,6 +40,29 @@ class SignupController < ApplicationController
 
 	end
 
+	def assignfoursome
+		@person = Person.last(4)
+
+		@group = Group.new(
+			:current_members => 4,
+			:tournament_id => @person[0].tournament_id,
+			:member_one => @person[0].id,
+			:member_two => @person[1].id,
+			:member_three => @person[2].id,
+			:member_four => @person[3].id
+		)
+		@group.save
+		@person[0].group_number = @group.id
+		@person[0].save
+		@person[1].group_number = @group.id
+		@person[1].save
+		@person[2].group_number = @group.id
+		@person[2].save
+		@person[3].group_number = @group.id
+		@person[3].save
+
+	end
+
 
 
 	def create
@@ -53,7 +76,13 @@ class SignupController < ApplicationController
 			form_params[:player_tickets] = 0.to_s
 		end
 
-		if form_params[:sponsor_level] != "0"
+		if form_params[:foursome_tickets] == ''
+			form_params[:foursome_tickets] = 0.to_s
+		end
+
+		@offset = 0
+
+		if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, 1]
 			@tournament.person.new(
 				:user_id => current_user.id,
@@ -63,7 +92,32 @@ class SignupController < ApplicationController
 				:ticket_description => form_params[:sponsor_level]
 				).insert_person
 				assigngroup
-		else
+		elsif form_params[:foursome_tickets].to_i > 0
+			@ticket_num = [@transaction_num, 1]
+
+			@tournament.person.new(
+				:user_id => current_user.id,
+				:is_player => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => form_params[:sponsor_level]
+				).insert_person
+
+			@l = 0
+
+			while @l < 3
+				@tournament.person.new(
+				:guest_of => current_user.id,
+				:is_guest => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => 0
+				).insert_person
+
+				@l += 1
+			end
+			assignfoursome
+		else	
 			@ticket_num = [@transaction_num, 1]
 			@tournament.person.new(
 				:user_id => current_user.id,
@@ -72,9 +126,29 @@ class SignupController < ApplicationController
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => form_params[:sponsor_level]
 				).insert_person
+			assigngroup
 		end
 
-		@i = 2
+		@k = 1
+
+		while @k < form_params[:foursome_tickets].to_i
+			@l = 0
+			while @l < 4
+				@tournament.person.new(
+				:guest_of => current_user.id,
+				:is_guest => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => 0
+				).insert_person
+
+				@l += 1
+			end
+			assignfoursome
+			@k += 1
+		end
+
+		@i = 2 + @offset
 
 		while @i <= form_params[:player_tickets].to_i
 			@ticket_num = [@transaction_num, @i]
@@ -85,17 +159,17 @@ class SignupController < ApplicationController
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
-
+			assigngroup
 			@i += 1
 		end
 
 		render :new
 
-
 	end
 
 	def form_params
 		params.permit(
+			:foursome_tickets,
 			:tournament_name,
 			:player_tickets,
 			:sponsor_level
