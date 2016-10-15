@@ -1,4 +1,5 @@
 class TournamentEventsController < ApplicationController
+  before_action :check_user_auth
   def index
     @tournament= Tournament.find(params[:tournament_id])
   end

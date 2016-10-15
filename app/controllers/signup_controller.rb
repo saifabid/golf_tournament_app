@@ -1,4 +1,7 @@
+# TODO: Change name, signup is confusing
 class SignupController < ApplicationController
+  before_action :check_user_auth
+
 	def new
 	end
 

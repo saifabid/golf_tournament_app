@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  def check_user_auth(notice = nil)
+    redirect_to "/users/sign_in", notice:notice unless user_signed_in?
+  end
   # saves the location before loading each page so we can return to the
   # right page. If we're on a devise page, we don't want to store that as the
   # place to return to (for example, we don't want to return to the sign in page

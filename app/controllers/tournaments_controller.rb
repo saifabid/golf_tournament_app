@@ -1,8 +1,6 @@
 class TournamentsController < ApplicationController
-  before_action :check_user_auth, only: [:new, :update, :destroy, :edit, :create]
-
-  def check_user_auth
-    redirect_to "/users/sign_in", notice: "Please login before creating a new tournament" unless user_signed_in?
+  before_action only: [:new, :update, :destroy, :edit, :create] do
+    check_user_auth("Please login before creating a new tournament")
   end
 
   def new
