@@ -20,8 +20,7 @@ class TournamentsController < ApplicationController
       render :new
       return
     end
-
-    render :new # TODO: change this to success view
+    redirect_to @tournament
   end
 
   def show
@@ -37,7 +36,10 @@ class TournamentsController < ApplicationController
     # 3. Not logged in. Can log in as organizer or attendee
     if user_signed_in?
       @session_user = current_user
-      @is_organizer = Person.where(tournament_id: params[:id]).where(user_id: current_user.id).where(is_organizer: 1).exists?
+      @is_organizer = Person.where(tournament_id: params[:id])
+        .where(user_id: current_user.id)
+        .where(is_organizer: 1).exists?
+      # ToDo: Pull this data from Accounts table
       @first_name = 'Leroy Jenkins'
     else
       @session_user = 'none'
@@ -48,6 +50,15 @@ class TournamentsController < ApplicationController
 
   def success
     redirect_to @tournament
+  end
+
+  def update
+    @tournament = Tournament.find(params[:id])
+    if @tournament.update_attributes(tournament_params)
+      redirect_to @tournament
+    else 
+      Rails.logger.info(@tournament.errors.messages.inspect)
+    end
   end
 
   def tournament_params
@@ -70,4 +81,26 @@ class TournamentsController < ApplicationController
       :total_audience_tickets
     )
   end
+
+  def edit
+    return render :new unless Tournament.exists?(id: params[:id])
+    if session["warden.user.user.key"]
+      @session_user = User.find(session["warden.user.user.key"][0][0])
+      @is_organizer = Person.where(tournament_id: params[:id])
+        .where(user_id: @session_user.id)
+        .where(is_organizer: 1)
+        .exists?
+      if !@is_organizer
+        render :new
+        return
+      else
+        @tournament = Tournament.find(params[:id])
+        @id = params[:id] 
+      end
+    else
+      render :new
+      return
+    end
+  end 
+
 end
