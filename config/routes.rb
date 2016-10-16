@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id', to: 'tournaments#show'
   get 'tournament_stats/:id', to: 'tournament_stats#show'
+  get 'tournaments/:id/edit', to: 'tournaments#edit'
 
   get 'dashboard/index'
 

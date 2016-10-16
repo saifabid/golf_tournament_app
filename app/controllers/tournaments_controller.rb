@@ -13,7 +13,7 @@ class TournamentsController < ApplicationController
       if session["warden.user.user.key"]
         @session_user = User.find(session["warden.user.user.key"][0][0])
         @is_organizer = Person.where(tournament_id: params[:id]).where(user_id: @session_user.id).where(is_organizer: 1).exists?
-        # ToDo: Implement when available
+        # ToDo: Implement when available, temp use fake name
         #@first_name = Account.where(user_id: @session_user.id)
         @first_name = 'Leroy Jenkins'
       else
@@ -22,8 +22,26 @@ class TournamentsController < ApplicationController
         @first_name = 'none'
       end
       # ToDo: Update website URL in tournaments table: venue_website
-
     end
+
+    def edit
+      return self.error() unless Tournament.exists?(id: params[:id])
+      if session["warden.user.user.key"]
+        @session_user = User.find(session["warden.user.user.key"][0][0])
+        @is_organizer = Person.where(tournament_id: params[:id]).where(user_id: @session_user.id).where(is_organizer: 1).exists?
+        if !@is_organizer
+          return self.error()
+        else
+          @tournament = Tournament.find(params[:id])
+          puts "---oen"
+          puts @tournament
+          puts "---oen"
+        end
+      else
+        return self.error()
+      end
+  
+    end 
 
     def create
       # Confirm user is logged in
