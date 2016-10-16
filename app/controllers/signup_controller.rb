@@ -1,54 +1,64 @@
+# TODO: Change name, signup is confusing
 class SignupController < ApplicationController
+  before_action :check_user_auth
+
 	def new
 	end
 
 	def create
+	    @tournament_id = Tournament.where("tournaments.name LIKE ?", form_params[:tournament_name])
 
-	    @user = User.find(session["warden.user.user.key"][0][0])	
+	    @tournament = Tournament.find_by id: @tournament_id.first.id
 
-		@tournament_id = Tournament.where("tournaments.name LIKE ?", signup_params[:tournament_name])
+	    @transaction_num = [current_user.id, @tournament_id.first.id, Time.now.to_i]
 
-		puts @tournament_id.inspect
-
-		@signup = Signup.new({:tournament_id => @tournament_id.first.id,
-								:user_id => @user.id,
-								:player_tickets => signup_params[:player_tickets],
-								:sponsor_tickets => signup_params[:sponsor_tickets]})
-
-		if signup_params[:player_tickets] == ''
-			signup_params[:player_tickets] = 0.to_s
+	    if form_params[:player_tickets] == ''
+			form_params[:player_tickets] = 0.to_s
 		end
 
-		if signup_params[:sponsor_tickets] == ''
-			signup_params[:sponsor_tickets] = 0.to_s
-		end
-		
-		if signup_params[:player_tickets] > 0.to_s && signup_params[:sponsor_tickets] > 0.to_s
-			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
-			@person.is_player = true
-			@person.is_sponsor = true
-			@person.save
-		elsif signup_params[:player_tickets] > 0.to_s 
-			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
-			@person.is_player = true
-			@person.save
-		elsif signup_params[:sponsor_tickets] > 0.to_s
-			@person = Person.find_or_initialize_by(:user_id => @user.id, :tournament_id => @tournament_id.first.id)
-			@person.is_sponsor = true
-			@person.save
+		if form_params[:sponsor_level] != "0"
+			@ticket_num = [@transaction_num, 1]
+			@tournament.person.new(
+				:user_id => current_user.id,
+				:is_sponsor => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => form_params[:sponsor_level]
+				).insert_person
 		else
-			self.error
+			@ticket_num = [@transaction_num, 1]
+			@tournament.person.new(
+				:user_id => current_user.id,
+				:is_player => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => form_params[:sponsor_level]
+				).insert_person
 		end
 
-		return self.error unless @signup.register
+		@i = 2
+
+		while @i <= form_params[:player_tickets].to_i
+			@ticket_num = [@transaction_num, @i]
+			@tournament.person.new(
+				:guest_of => current_user.id,
+				:is_guest => true,
+				:transaction_number => @transaction_num.join.to_i,
+				:ticket_number => @ticket_num.join.to_i,
+				:ticket_description => 0
+				).insert_person
+
+			@i += 1
+		end
+
+
 	end
 
-	def signup_params
-      # fields we want to perform any operations on on in this controller
-      params.permit(
-          :tournament_name,
-          :player_tickets,
-          :sponsor_tickets
-      )
-    end
+	def form_params
+		params.permit(
+			:tournament_name,
+			:player_tickets,
+			:sponsor_level
+			)
+	end
 end

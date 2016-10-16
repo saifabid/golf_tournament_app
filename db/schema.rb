@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008234514) do
+ActiveRecord::Schema.define(version: 20161016063544) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -47,19 +47,15 @@ ActiveRecord::Schema.define(version: 20161008234514) do
     t.boolean  "is_guest"
     t.boolean  "is_player"
     t.boolean  "is_sponsor"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.bigint   "transaction_number"
+    t.bigint   "ticket_number"
+    t.integer  "ticket_description"
+    t.integer  "guest_of"
+    t.boolean  "checked_in"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
-  end
-
-  create_table "signups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "tournament_id"
-    t.integer  "player_tickets"
-    t.integer  "sponsor_tickets"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
   end
 
   create_table "tournament_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -95,11 +91,14 @@ ActiveRecord::Schema.define(version: 20161008234514) do
     t.string   "venue_website"
     t.string   "venue_contact_details"
     t.boolean  "is_private"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "tickets_left"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "start_date"
-    t.float    "longitude",             limit: 24
-    t.float    "latitude",              limit: 24
+    t.float    "longitude",              limit: 24
+    t.float    "latitude",               limit: 24
+    t.integer  "total_player_tickets"
+    t.integer  "total_audience_tickets"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -117,15 +116,6 @@ ActiveRecord::Schema.define(version: 20161008234514) do
     t.datetime "updated_at",                          null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  end
-
-  create_table "venues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.string   "address"
-    t.string   "website"
-    t.string   "contact"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "accounts", "users"

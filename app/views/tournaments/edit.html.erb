@@ -1,10 +1,15 @@
 <!DOCTYPE HTML>
 
-<h1>Tournament Registration</h1>
+<h1>Update Tournament</h1>
 
-<%= bootstrap_form_for(@tournament, url: '/tournaments/:id/edit', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5")  do |f| %>
+<%= bootstrap_form_for(@tournament, :url => { :action => :update, :id => @id }, multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5")  do |f| %>
   
+    <%= f.error_summary %>
+
     <h3>Tournament Information</h3>
+    <br>
+    <%= f.submit class: "btn-lg btn-success center-block"%>
+    <br>
     <%= f.text_field :name %>
     <%= f.file_field :logo %>
     <%= f.select :language, options_for_select(Tournament.language_options) %>
@@ -20,10 +25,11 @@
     <%= f.text_field :venue_website %>
     <%= f.text_field :venue_contact_details %>
     <br>
-    <%= f.check_box :is_private %>
-    <br>
-    <%= f.submit class: "btn-lg btn-success center-block " %>
-    <br>
+    <h3>Ticket Information</h3>
+    <%= f.number_field :total_player_tickets%>
+    <%= f.number_field :total_audience_tickets%>
+    <%= f.check_box :is_private%>
+    
 <% end %>
 
 <script>
