@@ -4,6 +4,7 @@ class Tournament < ApplicationRecord
   has_many :person
 
   validates_presence_of :name, :venue_address, :start_date
+  validates_numericality_of :total_player_tickets, :total_audience_tickets, only_integer: true, greater_than_or_equal_to: 0
   validate :start_date_is_not_past
 
   def start_date_is_not_past

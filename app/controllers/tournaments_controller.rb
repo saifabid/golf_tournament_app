@@ -65,7 +65,9 @@ class TournamentsController < ApplicationController
       :start_date,
       :logo_data,
       :venue_logo_data,
-      :profile_picture_data
+      :profile_picture_data,
+      :total_player_tickets,
+      :total_audience_tickets
     )
   end
 end
