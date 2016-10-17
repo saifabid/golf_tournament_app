@@ -10,6 +10,7 @@ class SignupController < ApplicationController
 
 	#TODO: Move to helper function
 	def download_ticket
+		#TODO: User authorization
 		@person=Person.find(params[:person_id])
 		@tournament=@person.tournament
 
