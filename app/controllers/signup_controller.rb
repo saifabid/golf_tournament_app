@@ -1,6 +1,18 @@
+require 'pdfkit'
+require 'barby'
+
 # TODO: Change name, signup is confusing
 class SignupController < ApplicationController
   before_action :check_user_auth
+
+	#TODO: Move to helper function
+	def download_ticket
+		@person=Person.find(params[:person_id])
+		@tournament=@person.tournament
+		html = render_to_string('display_ticket', :locals=>{:person=> @person, :tournament=> @tournament} , :layout => false)
+		pdf = PDFKit.new(html)
+		send_data(pdf.to_pdf)
+	end
 
 	def new
 	end

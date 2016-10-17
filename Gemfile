@@ -63,7 +63,7 @@ gem 'wdm', '>0.1.0' if Gem.win_platform?
 
 
 gem 'barby'
-gem 'wicked_pdf'
+gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 
 #credit card processing
