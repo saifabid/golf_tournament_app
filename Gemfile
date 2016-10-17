@@ -32,7 +32,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+
+gem 'bcrypt', '~> 3.1.11'
+
 gem 'devise'
 
 # Use Capistrano for deployment
@@ -59,9 +61,10 @@ gem 'gmaps4rails'
 gem 'geokit-rails'
 gem 'wdm', '>0.1.0' if Gem.win_platform?
 
-gem 'bcrypt','~>3.1.11'
 
 gem 'barby'
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
 
 #credit card processing
 gem 'stripe'
