@@ -54,7 +54,8 @@ Rails.application.routes.draw do
     resources :tournament_events
     resources :tournament_tickets
   end
-  resources :signup
+  resources :signup, :except => [:show]
+  get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
 
   resources :charges
   # resource :tournies
