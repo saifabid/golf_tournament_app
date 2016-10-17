@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014004315) do
+ActiveRecord::Schema.define(version: 20161016063544) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -92,11 +92,13 @@ ActiveRecord::Schema.define(version: 20161014004315) do
     t.string   "venue_contact_details"
     t.boolean  "is_private"
     t.integer  "tickets_left"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "start_date"
-    t.float    "longitude",             limit: 24
-    t.float    "latitude",              limit: 24
+    t.float    "longitude",              limit: 24
+    t.float    "latitude",               limit: 24
+    t.integer  "total_player_tickets"
+    t.integer  "total_audience_tickets"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
