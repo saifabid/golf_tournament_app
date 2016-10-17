@@ -94,10 +94,10 @@ class SignupController < ApplicationController
 			form_params[:foursome_tickets] = 0.to_s
 		end
 
-		@offset = 0
+		@offset = 1
 
 		if form_params[:sponsor_level].to_i > 0
-			@ticket_num = [@transaction_num, 1]
+			@ticket_num = [@transaction_num, @offset]
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_sponsor => true,
@@ -105,9 +105,11 @@ class SignupController < ApplicationController
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => form_params[:sponsor_level]
 				).insert_person
-				assigngroup
-		elsif form_params[:foursome_tickets].to_i > 0
-			@ticket_num = [@transaction_num, 1]
+			@offset += 1
+		end
+
+		if form_params[:foursome_tickets].to_i > 0
+			@ticket_num = [@transaction_num, @offset]
 
 			@offset += 4
 
@@ -148,11 +150,11 @@ class SignupController < ApplicationController
 
 		@k = 1
 
-		while @k <= form_params[:foursome_tickets].to_i
+		while @k < form_params[:foursome_tickets].to_i
 			@offset += 4
 			@l = 1
 			while @l < 5
-				@ticket_num = [@transaction_num, @l]
+				@ticket_num = [@transaction_num, @l+@offset]
 				@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
