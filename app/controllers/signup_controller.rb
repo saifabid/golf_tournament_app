@@ -22,7 +22,7 @@ class SignupController < ApplicationController
 			File.open(tempfile.path, 'wb'){|f| f.write blob }
 			html = render_to_string('display_ticket', :locals=>{:person=> @person, :barcode=>tempfile.path, :tournament=> @tournament} , :layout => false)
 			pdf = PDFKit.new(html)
-			send_data(pdf.to_pdf)
+			send_data pdf.to_pdf, :filename => 'ticket.pdf',  :type=> 'application/pdf'
 		ensure
 			tempfile.close
 			tempfile.unlink   # deletes the temp file
