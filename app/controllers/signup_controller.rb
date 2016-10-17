@@ -111,19 +111,17 @@ class SignupController < ApplicationController
 		if form_params[:foursome_tickets].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
 
-			@offset += 4
-
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_player => true,
 				:transaction_number => @transaction_num.join.to_i,
 				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => form_params[:sponsor_level]
+				:ticket_description => 0
 				).insert_person
 
-			@l = 2
+			@l = @offset + 1
 
-			while @l < 5
+			while @l < @offset + 4
 				@ticket_num = [@transaction_num, @l]
 				@tournament.person.new(
 				:guest_of => current_user.id,
@@ -136,14 +134,17 @@ class SignupController < ApplicationController
 				@l += 1
 			end
 			assignfoursome
+
+			@offset += 4
+
 		else	
-			@ticket_num = [@transaction_num, 1]
+			@ticket_num = [@transaction_num, @offset]
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_player => true,
 				:transaction_number => @transaction_num.join.to_i,
 				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => form_params[:sponsor_level]
+				:ticket_description => 0
 				).insert_person
 			assigngroup
 		end
@@ -151,10 +152,9 @@ class SignupController < ApplicationController
 		@k = 1
 
 		while @k < form_params[:foursome_tickets].to_i
-			@offset += 4
-			@l = 1
-			while @l < 5
-				@ticket_num = [@transaction_num, @l+@offset]
+			@l = @offset
+			while @l < @offset + 4
+				@ticket_num = [@transaction_num, @l]
 				@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
@@ -167,12 +167,13 @@ class SignupController < ApplicationController
 			end
 			assignfoursome
 			@k += 1
+			@offset += 4
 		end
 
-		@i = 2
+		@i = @offset
 
-		while @i <= form_params[:player_tickets].to_i + 1
-			@ticket_num = [@transaction_num, @i+@offset]
+		while @i < form_params[:player_tickets].to_i + @offset
+			@ticket_num = [@transaction_num, @i]
 			@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
