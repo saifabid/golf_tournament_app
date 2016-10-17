@@ -1,8 +1,64 @@
-<% if @is_organizer %>
-	<%=render('layouts/event_organizer_header') %>
-<% end %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style type="text/css">
+		.col-centered{
+    	float: none;
+     	margin: auto;
+		}
+		.center-text{
+			text-align: center
+		}
+		.countdown {
+			width:200px;
+			height:80px;
+			padding: 20px;
+			float: none;
+     	margin: auto;
+		}
+		</style>
+	</head>
+	<body>
 
-<p>
-<strong>Title:</strong>
-<%=@tournament.name%>
-</p>
+	 <script>
+	    jQuery(document).on("ready page:load", function() {
+			  $(function () { 
+			    $('#countdown').countdown({until: new Date(gon.year, gon.month - 1, gon.day), compact: true, 
+    			layout: 'Golfing in <b>{dn} {dl} {hnn}{sep}{mnn}{sep}{snn}</b> {desc}'});
+			  });
+			});
+    </script>
+
+		<% if @is_organizer %>
+			<%=render('layouts/event_organizer_header') %>
+		<% end %>
+		<div class="row">
+			<div class="col-md-1 col-spacing">
+				<%= tag "input", { "type" => "button", "value" => "Menu", "onclick"=> "expandMenu()" } %>
+			</div>
+			<div class="col-md-10">
+				<div class="center-text">
+				<% if @tournament.logo == "0" %>
+				 	<h1>
+						<%=@tournament.name%>
+					</h1>
+				<% else %>
+					<div class="logo">
+				 		Logo
+				 	</div>
+				<% end %>
+					
+				</div>
+				<%= render('layouts/general_map_view') %>
+				<div class="col-md-12">
+					<div class="countdown center-text">
+						<div id="countdown"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1 col-spacing">
+				Profile
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,5 +1,8 @@
 require 'pdfkit'
+require 'tempfile'
 require 'barby'
+require 'barby/barcode/code_128'
+require 'barby/outputter/png_outputter'
 
 # TODO: Change name, signup is confusing
 class SignupController < ApplicationController
@@ -8,11 +11,24 @@ class SignupController < ApplicationController
 
 	#TODO: Move to helper function
 	def download_ticket
+		#TODO: User authorization
 		@person=Person.find(params[:person_id])
 		@tournament=@person.tournament
-		html = render_to_string('display_ticket', :locals=>{:person=> @person, :tournament=> @tournament} , :layout => false)
-		pdf = PDFKit.new(html)
-		send_data(pdf.to_pdf)
+
+		ticket_num= @person.ticket_number
+
+		barcode = Barby::Code128B.new(ticket_num)
+		blob = Barby::PngOutputter.new(barcode).to_png #Raw PNG data
+		tempfile = Tempfile.new([ticket_num.to_s,'.png'], "#{Rails.root.to_s}/tmp/")
+		begin
+			File.open(tempfile.path, 'wb'){|f| f.write blob }
+			html = render_to_string('display_ticket', :locals=>{:person=> @person, :barcode=>tempfile.path, :tournament=> @tournament} , :layout => false)
+			pdf = PDFKit.new(html)
+			send_data pdf.to_pdf, :filename => 'ticket.pdf',  :type=> 'application/pdf'
+		ensure
+			tempfile.close
+			tempfile.unlink   # deletes the temp file
+		end
 	end
 
 	def new
