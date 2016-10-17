@@ -24,8 +24,8 @@ class SignupController < ApplicationController
 			pdf = PDFKit.new(html)
 			send_data(pdf.to_pdf)
 		ensure
-			file.close
-			file.unlink   # deletes the temp file
+			tempfile.close
+			tempfile.unlink   # deletes the temp file
 		end
 	end
 
