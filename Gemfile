@@ -61,8 +61,9 @@ gem 'gmaps4rails'
 gem 'geokit-rails'
 gem 'wdm', '>0.1.0' if Gem.win_platform?
 
-
+gem 'rqrcode'
 gem 'barby'
+gem 'chunky_png'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 
