@@ -40,6 +40,7 @@ class TournamentsController < ApplicationController
     end
 
     # Countdown Timer
+    # ToDo: when timer finishes, flash numbers indicating live
     @date = @tournament.start_date.strftime("%Y-%m-%d-%I:%M%P")
     gon.year = @date.split('-')[0]
     gon.month = @date.split('-')[1]

@@ -38,9 +38,16 @@
 			</div>
 			<div class="col-md-10">
 				<div class="center-text">
-					<h1>
+				<% if @tournament.venue_logo == "0" %>
+				 	<h1>
 						<%=@tournament.name%>
 					</h1>
+				<% else %>
+					<div class="logo">
+				 		Logo
+				 	</div>
+				<% end %>
+					
 				</div>
 				<%= render('layouts/general_map_view') %>
 				<div class="col-md-12">
