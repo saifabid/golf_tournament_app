@@ -30,7 +30,22 @@ class TournamentsController < ApplicationController
       return
     end
 
-    # 3 cases of users.
+    # Map
+    marker_info = @tournament.venue_name + ' @ ' + @tournament.venue_address.partition(',').first
+    puts marker_info
+    @hash = Gmaps4rails.build_markers(@tournament) do |event, marker|
+      marker.lat event.latitude
+      marker.lng event.longitude
+      marker.infowindow marker_info
+    end
+
+    # Countdown Timer
+    @date = @tournament.start_date.strftime("%Y-%m-%d-%I:%M%P")
+    gon.year = @date.split('-')[0]
+    gon.month = @date.split('-')[1]
+    gon.day = @date.split('-')[2]
+
+    # User cases
     # 1. Organizer
     # 2. Attendee
     # 3. Not logged in. Can log in as organizer or attendee
