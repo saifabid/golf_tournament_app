@@ -70,3 +70,5 @@ gem 'wkhtmltopdf-binary'
 #credit card processing
 gem 'stripe'
 
+gem 'jquery-countdown-rails'
+gem 'gon'
