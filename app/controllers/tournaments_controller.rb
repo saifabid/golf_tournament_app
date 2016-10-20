@@ -52,11 +52,31 @@ class TournamentsController < ApplicationController
     # 3. Not logged in. Can log in as organizer or attendee
     if user_signed_in?
       @session_user = current_user
-      @is_organizer = Person.where(tournament_id: params[:id])
+      @user_tournament = Person.where(tournament_id: params[:id])
         .where(user_id: current_user.id)
-        .where(is_organizer: 1).exists?
+
+      @is_organizer = @user_tournament.where(is_organizer: 1).exists?
       # ToDo: Pull this data from Accounts table
       @first_name = 'Leroy Jenkins'
+      @is_signed_up = @user_tournament
+        .where(is_player: 1).exists?
+
+      if @is_signed_up
+        @player_tournament = @user_tournament
+          .where(is_player: 1)
+        @group_members = Person.where(tournament_id: params[:id])
+          .where(group_number: @player_tournament.first.group_number)
+
+        @members = Array.new
+        @group_members.each do |member|
+          if member.user_id
+            # map user_id to Accounts table and retrieve first last name
+            @members.push ('Leroy Jenkins')
+          else
+            @members.push('Guest of user #')
+          end
+        end        
+      end
     else
       @session_user = 'none'
       @is_organizer = false

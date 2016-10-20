@@ -55,6 +55,16 @@
 						<div id="countdown"></div>
 					</div>
 				</div>
+
+				<% if @is_signed_up %>
+				<div class="col-md-12">
+					<%= render('layouts/event_group_view') %>
+				</div>
+			<% else %>
+			<div class="center-text">
+				<a ">Join Group</a>
+			</div>
+			<% end %>
 			</div>
 			<div class="col-md-1 col-spacing">
 				Profile

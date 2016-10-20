@@ -1,0 +1,19 @@
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th> Group <%=@player_tournament.first.group_number%></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+		<% @members.each do |member| %>
+		<td>
+			<%=member%>
+		</td>
+		<% end %>
+		</tr>
+	</tbody>
+</table>
+<div class="center-text">
+	Tee Off Time : 
+</div>
