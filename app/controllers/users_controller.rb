@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+rclass UsersController < ApplicationController
   def index
     # @users = User.all
   end
@@ -26,7 +26,6 @@ class UsersController < ApplicationController
 
   def edit
     # before_action :authenticate_user
-    render plain: params[:account].inspect
   end
 
   def update
