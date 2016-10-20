@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20161016063544) do
+ActiveRecord::Schema.define(version: 20161020155646) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -26,7 +25,6 @@ ActiveRecord::Schema.define(version: 20161016063544) do
     t.string   "home_country"
     t.string   "home_code"
     t.string   "home_province"
-    t.boolean  "is_billing"
     t.string   "bill_adr1"
     t.string   "bill_adr2"
     t.string   "bill_city"
@@ -37,6 +35,8 @@ ActiveRecord::Schema.define(version: 20161016063544) do
     t.date     "birth"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "mobile_phone"
+    t.boolean  "is_home"
     t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
   end
 
