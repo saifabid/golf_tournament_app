@@ -111,6 +111,7 @@ class SignupController < ApplicationController
 		end
 
 		@offset = 1
+		@player_offset = 0
 
 		if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
@@ -163,6 +164,9 @@ class SignupController < ApplicationController
 				:ticket_description => 0
 				).insert_person
 			assigngroup
+			@player_offset = 1
+			@offset += 1
+
 		end
 
 		@k = 1
@@ -188,7 +192,7 @@ class SignupController < ApplicationController
 
 		@i = @offset
 
-		while @i < form_params[:player_tickets].to_i + @offset
+		while @i < form_params[:player_tickets].to_i + @offset - @player_offset
 			@ticket_num = [@transaction_num, @i]
 			@tournament.person.new(
 				:guest_of => current_user.id,
