@@ -1,4 +1,4 @@
-rclass UsersController < ApplicationController
+class UsersController < ApplicationController
   def index
     # @users = User.all
   end
@@ -21,6 +21,11 @@ rclass UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(current_user.id)
+    # puts(@user.account.)
+    @account = @user.account.find(current_user.id)
+    # puts(@account.first_name)
+    # @data = params[:account]
     # before_action :authenticate_user
   end
 
