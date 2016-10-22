@@ -20,7 +20,9 @@ class TournamentsController < ApplicationController
       render :new
       return
     end
-    redirect_to @tournament
+
+    # Redirects organizer to view to setup tournament agenda of the day
+    redirect_to sprintf("/tournaments/%s/tournament_events", @tournament.id)
   end
 
   def show
@@ -75,7 +77,7 @@ class TournamentsController < ApplicationController
           else
             @members.push('Guest of user #')
           end
-        end        
+        end
       end
     else
       @session_user = 'none'
@@ -92,7 +94,7 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.find(params[:id])
     if @tournament.update_attributes(tournament_params)
       redirect_to @tournament
-    else 
+    else
       Rails.logger.info(@tournament.errors.messages.inspect)
     end
   end
@@ -131,12 +133,12 @@ class TournamentsController < ApplicationController
         return
       else
         @tournament = Tournament.find(params[:id])
-        @id = params[:id] 
+        @id = params[:id]
       end
     else
       render :new
       return
     end
-  end 
+  end
 
 end
