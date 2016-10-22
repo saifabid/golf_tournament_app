@@ -3,6 +3,10 @@ class TournamentsController < ApplicationController
     check_user_auth('Please login before creating a new tournament')
   end
 
+  def index
+    redirect_to "/"
+  end
+
   def new
     @tournament = Tournament.new
   end
