@@ -4,7 +4,7 @@
 <%= bootstrap_form_for(@tournament, url: '/tournaments', multipart: true, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5")  do |f| %>
     <%= f.error_summary %>
     <br>
-    <%= f.submit class: "btn-lg btn-success center-block"%>
+    <%= f.submit 'Continue', class: "btn-lg btn-success center-block"%>
     <br>
     <h3>Tournament Information</h3>
     <%= f.text_field :name %>
