@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
-
+<div class="container">
 <h1>Tournament Registration</h1>
-
-<%= bootstrap_form_for(@tournament, url: '/tournaments', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5")  do |f| %>
+<%= bootstrap_form_for(@tournament, url: '/tournaments', multipart: true, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5")  do |f| %>
     <%= f.error_summary %>
     <br>
     <%= f.submit class: "btn-lg btn-success center-block"%>
@@ -14,7 +13,7 @@
     <%= f.select :currency, options_for_select(Tournament.currency_options) %>
     <%= f.file_field :profile_picture %>
     <%= f.text_area :details %>
-    <%= f.datetime_field :start_date %>
+    <%= f.datetime_select :start_date,  {:start_year => Time.now().year, :prompt => true, :ampm => true} %>
     <br>
     <h3>Venue Information</h3>
     <%= f.text_field :venue_name %>
@@ -27,8 +26,8 @@
     <%= f.number_field :total_player_tickets%>
     <%= f.number_field :total_audience_tickets%>
     <%= f.check_box :is_private%>
-    
 <% end %>
+</div>
 
 <script>
   var autocomplete;

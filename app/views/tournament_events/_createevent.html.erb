@@ -1,18 +1,10 @@
-
-
-<%= form_for ([@tournament, @tournament.tournament_events.build]) do |f| %>
+<%= bootstrap_form_for ([@tournament, @tournament.tournament_events.build]) do |f| %>
     <p>
-      <label>Event Name:</label><br>
       <%= f.text_field :event_name  %>
-    </p>
-    <p>
-     <label>Start Time:</label><br>
-      <%= f.text_field :start_time, class:'timepickable' %>
-    </p>
-    <p>
-      <label>End Time:</label> <br>
-      <%= f.text_field :end_time, class:'timepickable'%>
+      <%= f.text_area :description %>
+      <%= f.time_select  :start_time,  {:prompt => true, :ampm => true} %>
+      <%= f.time_select  :end_time,  {:prompt => true, :ampm => true} %>
     </p>
 
-    <%= f.submit%>
+    <%= f.submit %>
 <% end %>

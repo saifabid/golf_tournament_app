@@ -1,8 +1,18 @@
-<div class="events-panel">
-  <h2>Events</h2>
-  <%=render  'tournament_events/list', tournament_events: @tournament.tournament_events %>
+<div class="events-panel container">
+  <% if flash[:error] %>
+    <br>
+    <div class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      Error: <%= flash[:error] %>
+    </div>
+  <% end %>
+  
 
+
+  <h2>Tournament Agenda</h2>
   <h2>Create New Event</h2>
   <%= render 'tournament_events/createevent'%>
 
+  <h2> Current Agenga </h2>
+  <%=render  'tournament_events/list', tournament_events: @tournament.tournament_events %>
 </div>
