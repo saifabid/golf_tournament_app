@@ -7,6 +7,7 @@ class TournamentEventsController < ApplicationController
      flash[:error] = "Cannot Update Tournament"
      redirect_to "/"
      return
+   end
   end
 
   def index
@@ -32,6 +33,11 @@ class TournamentEventsController < ApplicationController
       end
 
       redirect_to tournament_tournament_events_path(@tournament)
+  end
+
+  def destroy
+    TournamentEvent.find(params[:id]).destroy
+    redirect_to tournament_tournament_events_path(Tournament.find(params[:tournament_id]))
   end
 
   private

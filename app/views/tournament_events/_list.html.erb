@@ -1,15 +1,23 @@
 <table class="table">
-  <tr><th> Name of Event</th>
-  <th>Start Time</th>
-  <th>End Time</th>
-  <th></th></tr>
-  <% tournament_events.each do|e|%>
-  <% if e.event_name %>
-  <tr>
-    <td><%=e.event_name%></td>
-    <td><%=e.start_time.strftime("%I:%M %p") if e.start_time%></td>
-    <td><%=e.end_time.strftime("%I:%M %p") if e.end_time%></td>
-  </tr>
-  <% end %>
-  <% end %>
+    <tr>
+        <th>Name of Event</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th></th>
+    </tr>
+    <% tournament_events.each do|e|%>
+    <% if e.event_name %>
+    <tr>
+        <td><%=e.event_name%></td>
+        <td><%=e.start_time.strftime("%I:%M %p") if e.start_time%></td>
+        <td><%=e.end_time.strftime("%I:%M %p") if e.end_time%></td>
+        <td>
+          <a class="btn-danger btn-sm" href="/tournaments/<%=e.tournament_id%>/tournament_events/<%=e.id%>" data-method="delete">
+              <i class="pg-trash"></i>
+              <span class="bold">Delete</span>
+          </a>
+        </td>
+    </tr>
+    <% end %>
+    <% end %>
 </table>
