@@ -1,0 +1,11 @@
+<%= form_tag("/tournaments/:id/guest_login", method: "post") do %>
+	<%= hidden_field_tag :tournament_id , @id %>
+
+	<%= label_tag(:purchaser_email, "Purchaser's Email") %>
+	<%= text_field_tag(:purchaser_email) %>
+
+	<%= label_tag(:ticket_number, "Your Ticket Number") %>
+	<%= number_field_tag(:ticket_number) %>
+
+  <%= submit_tag("Submit") %>
+<%end%>
