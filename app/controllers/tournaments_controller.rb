@@ -191,4 +191,13 @@ class TournamentsController < ApplicationController
     @id = params[:id]
   end 
 
+  def schedule
+    @id = params[:id]
+    @has_agenda = TournamentEvent.where(tournament_id: params[:id])
+      .exists?
+    if @has_agenda
+      @agenda = TournamentEvent.where(tournament_id: params[:id])
+    end
+  end
+
 end

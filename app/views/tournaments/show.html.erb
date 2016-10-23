@@ -34,7 +34,7 @@
 		<% end %>
 		<div class="row">
 			<div class="col-md-1 col-spacing">
-				<%= tag "input", { "type" => "button", "value" => "Menu", "onclick"=> "expandMenu()" } %>
+				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
 			</div>
 			<div class="col-md-10">
 				<div class="center-text">
