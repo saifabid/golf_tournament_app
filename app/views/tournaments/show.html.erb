@@ -56,13 +56,14 @@
 					</div>
 				</div>
 
-				<% if @is_signed_up %>
+				<% if @is_signed_up or @is_valid_guest %>
 				<div class="col-md-12">
 					<%= render('layouts/event_group_view') %>
 				</div>
 			<% else %>
 			<div class="center-text">
-				<a ">Join Group</a>
+				
+				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
 			</div>
 			<% end %>
 			</div>

@@ -30,6 +30,7 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    @id = params[:id]
     @tournament = Tournament.find(params[:id])
     if @tournament.errors.any?
       render :new
@@ -62,8 +63,9 @@ class TournamentsController < ApplicationController
         .where(user_id: current_user.id)
 
       @is_organizer = @user_tournament.where(is_organizer: 1).exists?
-      # ToDo: Pull this data from Accounts table
-      @first_name = 'Leroy Jenkins'
+      @account = Account.where(user_id: current_user.id).first()
+      @first_name = @account.first_name
+      @last_name = @account.last_name
       @is_signed_up = @user_tournament
         .where(is_player: 1).exists?
 
@@ -73,13 +75,14 @@ class TournamentsController < ApplicationController
         @group_members = Person.where(tournament_id: params[:id])
           .where(group_number: @player_tournament.first.group_number)
 
+        @group_number = @player_tournament.first.group_number
         @members = Array.new
         @group_members.each do |member|
           if member.user_id
-            # map user_id to Accounts table and retrieve first last name
-            @members.push ('Leroy Jenkins')
+            @members.push (@first_name + @last_name)
           else
-            @members.push('Guest of user #')
+            @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
+            @members.push(@guest_name)
           end
         end
       end
@@ -87,6 +90,24 @@ class TournamentsController < ApplicationController
       @session_user = 'none'
       @is_organizer = false
       @first_name = 'none'
+      if params[:is_valid_guest]
+        @is_valid_guest = params[:is_valid_guest]
+        @group_members = Person.where(tournament_id: params[:id])
+          .where(group_number: params[:group_number])
+        @group_number = params[:group_number]
+        @members = Array.new
+        @group_members.each do |member|
+          if member.user_id
+            @account = Account.where(user_id: member.user_id).first()
+            @first_name = @account.first_name
+            @last_name = @account.last_name
+            @members.push (@first_name + @last_name)
+          else
+            @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
+            @members.push(@guest_name)
+          end
+        end
+      end
     end
   end
 
@@ -144,5 +165,30 @@ class TournamentsController < ApplicationController
       return
     end
   end
+
+  def guest_login
+    @id = params[:id]
+    if params[:purchaser_email] and params[:ticket_number]
+      @id = params[:tournament_id]
+      @is_valid_guest = Person.where(tournament_id: params[:tournament_id])
+        .where(ticket_number: params[:ticket_number]).exists?
+      if @is_valid_guest
+        @guest = Person.where(tournament_id: params[:tournament_id])
+        .where(ticket_number: params[:ticket_number])
+        @group_number = @guest.first().group_number
+        redirect_to controller: 'tournaments',
+          action: 'show',
+          id: params[:tournament_id],
+          is_valid_guest: true,
+          group_number: @group_number
+      else
+        redirect_to '/tournaments/' + @id + '/guest_login_fail'
+      end 
+    end
+  end
+
+  def guest_login_fail
+    @id = params[:id]
+  end 
 
 end

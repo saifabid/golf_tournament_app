@@ -46,6 +46,10 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/edit', to: 'tournaments#edit'
 
+  get 'tournaments/:id/guest_login', to: 'tournaments#guest_login'
+  post 'tournaments/:id/guest_login', to: 'tournaments#guest_login'
+  get 'tournaments/:id/guest_login_fail', to: 'tournaments#guest_login_fail'
+
   get 'dashboard/index'
 
   root to: 'welcome#hello_world'
