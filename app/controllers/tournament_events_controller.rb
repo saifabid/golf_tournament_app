@@ -1,25 +1,20 @@
 class TournamentEventsController < ApplicationController
   before_action :check_user_auth
-  def index
-    # Determine if this is the owners tournament
-    # TODO: Make this a filter method so it can be reused.
+  before_action :check_tournament_organizer, only: [:index, :create, :destroy]
+
+  def check_tournament_organizer
     if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:tournament_id])).exists?
      flash[:error] = "Cannot Update Tournament"
      redirect_to "/"
      return
-    end
+  end
+
+  def index
     @tournament= Tournament.find(params[:tournament_id])
     @tournament.tournament_events.build
   end
 
   def create
-      # Determine if the current user has access to this tournament
-      if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:tournament_id])).exists?
-       flash[:error] = "Cannot Update Tournament"
-       redirect_to "/"
-       return
-      end
-
       @tournament= Tournament.find(params[:tournament_id])
       if @tournament.errors.any?
         flash[:error] = @tournament.errors.full_messages.to_sentence
