@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "users/registrations" }
 
   resources :users
+  post 'users/new' => "users#create"
+  post 'users/edit' => "users#update"
+
   resources :tournaments do
     resources :tournament_events
     resources :tournament_tickets
@@ -32,13 +35,13 @@ Rails.application.routes.draw do
 
   get "welcome/hello_world" => "welcome#hello_world"
   
-  post 'users/edit' => 'accounts#create'
+  # post 'users/edit' => 'accounts#create'
 
-  get 'users/account'
+  # get 'users/account'
 
-  get 'users/forgot_password'
+  # get 'users/forgot_password'
 
-  post 'users/forgot_password'
+  # post 'users/forgot_password'
 
   get 'tournaments/:id', to: 'tournaments#show'
 
@@ -49,22 +52,6 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   root to: 'welcome#hello_world'
-  # authenticated :user do
-  #   root 'users#account', as: :authenticated_root
-  # end
-  # get 'users/index'
-
-  # get 'users/new'
-
-  # get 'users/create'
-
-  # get 'users/show'
-
-  # get 'users/edit'
-
-  # get 'users/update'
-
-  # get 'users/destroy'
 
   # get 'tournament_registration/index'
 
