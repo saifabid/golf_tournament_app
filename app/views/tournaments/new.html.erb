@@ -3,9 +3,7 @@
 <h1>Tournament Registration</h1>
 <%= bootstrap_form_for(@tournament, url: '/tournaments', multipart: true, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5")  do |f| %>
     <%= f.error_summary %>
-    <br>
-    <%= f.submit 'Continue', class: "btn-lg btn-success center-block"%>
-    <br>
+    
     <h3>Tournament Information</h3>
     <%= f.text_field :name %>
     <%= f.file_field :logo %>
@@ -26,6 +24,9 @@
     <%= f.number_field :total_player_tickets%>
     <%= f.number_field :total_audience_tickets%>
     <%= f.check_box :is_private%>
+    <br>
+    <%= f.submit 'Continue', class: "btn-lg btn-success center-block"%>
+    <br>
 <% end %>
 </div>
 
