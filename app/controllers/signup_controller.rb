@@ -9,27 +9,47 @@ class SignupController < ApplicationController
 	helper_method :assigngroup, :assignfoursome
   before_action :check_user_auth
 
-	#TODO: Move to helper function
-	def download_ticket
-		#TODO: User authorization
-		@person=Person.find(params[:person_id])
-		@tournament=@person.tournament
-
-		ticket_num= @person.ticket_number
-
-		barcode = Barby::Code128B.new(ticket_num)
-		blob = Barby::PngOutputter.new(barcode).to_png #Raw PNG data
-		tempfile = Tempfile.new([ticket_num.to_s,'.png'], "#{Rails.root.to_s}/tmp/")
-		begin
-			File.open(tempfile.path, 'wb'){|f| f.write blob }
-			html = render_to_string('display_ticket', :locals=>{:person=> @person, :barcode=>tempfile.path, :tournament=> @tournament} , :layout => false)
-			pdf = PDFKit.new(html)
-			send_data pdf.to_pdf, :filename => 'ticket.pdf',  :type=> 'application/pdf'
-		ensure
-			tempfile.close
-			tempfile.unlink   # deletes the temp file
-		end
+	#TODO: place in helper class
+	def generate_barcode_img(numtoCode)
+		barcode = Barby::Code128B.new(numtoCode)
+		png = Barby::PngOutputter.new(barcode).to_png #Raw PNG data
+		return png
 	end
+
+	def generate_ticket_pdf(personid)
+	@person=Person.find(personid)
+	@tournament=@person.tournament
+
+	ticket_num= @person.ticket_number
+	barcodepng= generate_barcode_img(ticket_num)
+	tempbarcode=Tempfile.new([ticket_num.to_s, '.png'], "#{Rails.root.to_s}/tmp/")
+
+	begin
+		File.open(tempbarcode.path, 'wb') { |f| f.write barcodepng }
+		# do something with image
+		html = render_to_string('display_ticket', :locals => {:person => @person, :barcode => tempbarcode.path, :tournament => @tournament}, :layout => false)
+		pdf = PDFKit.new(html).to_pdf
+		return pdf
+	ensure
+		tempbarcode.close
+		tempbarcode.unlink
+	end
+	end
+
+	def download_ticket
+		person_id= params[:person_id]
+		pdf= generate_ticket_pdf(person_id)
+		 send_data pdf, type:'application/pdf',  disposition: 'attachment', filename:'ticket.pdf'
+end
+	def signup_summary
+		@transaction_num= params[:transaction_num]
+		people= Person.where(:transaction_number=>@transaction_num, :user_id=>current_user.id)
+		if(!people.any?)
+			raise 'You cannot view these ticket purchases'
+		end
+		@tickets= people.where('is_guest= 1 OR is_player = 1 OR is_sponsor= 1')
+	end
+
 
 	def new
 	end
@@ -205,7 +225,7 @@ class SignupController < ApplicationController
 			@i += 1
 		end
 
-		render :new
+		redirect_to action: 'signup_summary', transaction_num: @transaction_num.join.to_i
 
 	end
 

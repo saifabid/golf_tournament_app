@@ -1,0 +1,17 @@
+<h1> Transaction number: <%= @transaction_num%></h1>
+
+<table class="table">
+  <tr>
+    <th>Ticket Number</th>
+    <th></th>
+    <th></th></tr>
+  <% @tickets.each do|t|%>
+      <tr>
+        <td><%=t.ticket_number%></td>
+        <td><%= link_to "Download", {:controller => "signup", :action => "download_ticket", :person_id => t.id }, :'data-no-turbolink'=>true %>  </td>
+
+      </tr>
+  <% end%>
+
+</table>
+

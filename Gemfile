@@ -69,8 +69,11 @@ gem 'chunky_png'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 
+gem 'mail'
+
 #credit card processing
 gem 'stripe'
 
 gem 'jquery-countdown-rails'
 gem 'gon'
+gem 'rubyzip'

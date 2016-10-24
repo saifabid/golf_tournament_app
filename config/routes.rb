@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
   resources :signup, :except => [:show]
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
+  get 'signup/signup_summary/:transaction_num'=> 'signup#signup_summary'
   resources :charges
 
   get 'credit_card/index'
