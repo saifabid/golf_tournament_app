@@ -59,6 +59,8 @@ Rails.application.routes.draw do
 
   get 'dashboard/index'
 
+  get 'charges/new'
+
   root to: 'welcome#hello_world'
 
   # get 'tournament_registration/index'
