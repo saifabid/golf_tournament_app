@@ -46,11 +46,12 @@ end
 		transaction= TicketTransaction.find(transaction_id)
 		if(transaction.user_id!= current_user.id)
 			raise 'You are not permitted to view this transaction'
-			end
+		end
+		@transaction_num = transaction.transaction_number
 		people= Person.where(:ticket_transaction_id=> transaction_id)
 		@tickets= people.where('is_guest= 1 OR is_player = 1 OR is_sponsor= 1')
 
-		end
+	end
 
 
 	def new
