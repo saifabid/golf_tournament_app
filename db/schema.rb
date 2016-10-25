@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022050136) do
+ActiveRecord::Schema.define(version: 20161025004705) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -63,18 +63,29 @@ ActiveRecord::Schema.define(version: 20161022050136) do
     t.boolean  "is_guest"
     t.boolean  "is_player"
     t.boolean  "is_sponsor"
-    t.bigint   "transaction_number"
     t.bigint   "ticket_number"
     t.integer  "ticket_description"
     t.integer  "guest_of"
-    t.text     "fname",              limit: 65535
-    t.text     "lname",              limit: 65535
+    t.text     "fname",                 limit: 65535
+    t.text     "lname",                 limit: 65535
     t.integer  "group_number"
     t.boolean  "checked_in"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "ticket_transaction_id"
+    t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
+  end
+
+  create_table "ticket_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "transaction_number"
+    t.integer  "user_id"
+    t.decimal  "amount_paid",        precision: 10
+    t.datetime "transaction_date"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
   end
 
   create_table "tournament_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -134,11 +145,16 @@ ActiveRecord::Schema.define(version: 20161022050136) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "account_id"
+    t.index ["account_id"], name: "index_users_on_account_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "people", "ticket_transactions"
+  add_foreign_key "ticket_transactions", "users"
   add_foreign_key "tournament_events", "tournaments"
   add_foreign_key "tournament_tickets", "tournaments"
+  add_foreign_key "users", "accounts"
 end

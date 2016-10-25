@@ -42,13 +42,15 @@ class SignupController < ApplicationController
 		 send_data pdf, type:'application/pdf',  disposition: 'attachment', filename:'ticket.pdf'
 end
 	def signup_summary
-		@transaction_num= params[:transaction_num]
-		people= Person.where(:transaction_number=>@transaction_num, :user_id=>current_user.id)
-		if(!people.any?)
-			raise 'You cannot view these ticket purchases'
-		end
+		transaction_id= params[:transaction_id]
+		transaction= TicketTransaction.find(transaction_id)
+		if(transaction.user_id!= current_user.id)
+			raise 'You are not permitted to view this transaction'
+			end
+		people= Person.where(:ticket_transaction_id=> transaction_id)
 		@tickets= people.where('is_guest= 1 OR is_player = 1 OR is_sponsor= 1')
-	end
+
+		end
 
 
 	def new
@@ -122,6 +124,17 @@ end
 
 	    @transaction_num = [current_user.id, @tournament_id.first.id, Time.now.to_i]
 
+
+			TicketTransaction.transaction do
+			transaction=	TicketTransaction.new(
+					:transaction_number=>@transaction_num.join.to_i,
+			:user_id => current_user.id,
+
+					#zero until payment processing is added
+					:amount_paid=> 0
+			)
+			transaction.save
+			transaction_id= transaction.id
 	    if form_params[:player_tickets] == ''
 			form_params[:player_tickets] = 0.to_s
 		end
@@ -138,7 +151,7 @@ end
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_sponsor => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => form_params[:sponsor_level]
 				).insert_person
@@ -151,7 +164,7 @@ end
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_player => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
@@ -163,7 +176,7 @@ end
 				@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
@@ -179,7 +192,7 @@ end
 			@tournament.person.new(
 				:user_id => current_user.id,
 				:is_player => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id=> transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
@@ -198,7 +211,7 @@ end
 				@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
@@ -217,17 +230,20 @@ end
 			@tournament.person.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
-				:transaction_number => @transaction_num.join.to_i,
+				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
 				).insert_person
 			assigngroup
 			@i += 1
 		end
+			redirect_to action: 'signup_summary', transaction_id: transaction_id
+		end
 
-		redirect_to action: 'signup_summary', transaction_num: @transaction_num.join.to_i
 
-	end
+
+
+			end
 
 	def form_params
 		params.permit(
