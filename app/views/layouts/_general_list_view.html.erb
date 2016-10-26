@@ -3,9 +3,23 @@
   <%= form_tag("/", method: "get") do %>
     <%= hidden_field_tag(:q) %>
     <%= hidden_field_tag(:client_ip) %>
-    <%= submit_tag("Sort") %>
 
-    <select id = "dropdownSelect" onchange="myFunction()">
+
+    <%= label_tag(:searchTitle, "Title:") %>
+    <%= text_field_tag(:searchTitle) %>
+
+    <%= label_tag(:searchStart, "Start date:") %>
+    <%= text_field_tag(:searchStart) %>
+
+    <%= label_tag(:searchEnd, "End date:") %>
+    <%= text_field_tag(:searchEnd) %>
+
+    <%= label_tag(:searchDistance, "Distance (km)") %>
+    <%= text_field_tag(:searchDistance) %>
+
+    <%= submit_tag("Search") %>
+
+    <select id = "dropdownSelect" onchange="getSort()">
       <option value="1">Ascending Start Date</option>
       <option value="2">Decending Start Date</option>
       <option value="3">Ascending Title</option>
@@ -14,15 +28,21 @@
     </select>
 
     <script>
-      function myFunction() {
+      function getSort() {
+          var mySelect = document.getElementById("dropdownSelect");
+          document.getElementById("q").value = mySelect.value;
+      }
+
+      function getIP() {
           $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
-            var mySelect = document.getElementById("dropdownSelect");
-            document.getElementById("q").value = mySelect.value
             var client_ip = data.ip;
             console.log('client_ip: ', client_ip);
             document.getElementById("client_ip").value = client_ip
         });
       }
+
+      getSort()
+      getIP()
     </script>
 
   <% end %>
