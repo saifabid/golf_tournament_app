@@ -2,9 +2,18 @@ class TournamentsController < ApplicationController
   before_action only: [:new, :update, :destroy, :edit, :create] do
     check_user_auth('Please login before creating a new tournament')
   end
+  before_action :check_tournament_organizer, only: [:show]
+
 
   def index
     redirect_to "/"
+  end
+
+  def check_tournament_organizer
+    if Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
+      redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+      return
+    end
   end
 
   def new
