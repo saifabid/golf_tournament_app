@@ -3,6 +3,8 @@
   <%= form_tag("/", method: "get") do %>
     <%= hidden_field_tag(:q) %>
     <%= hidden_field_tag(:client_ip) %>
+    <%= hidden_field_tag(:client_lat) %>
+    <%= hidden_field_tag(:client_lng) %>
 
 
     <%= label_tag(:searchTitle, "Title:") %>
@@ -10,9 +12,6 @@
 
     <%= label_tag(:searchStart, "Start date:") %>
     <%= text_field_tag(:searchStart) %>
-
-    <%= label_tag(:searchEnd, "End date:") %>
-    <%= text_field_tag(:searchEnd) %>
 
     <%= label_tag(:searchDistance, "Distance (km)") %>
     <%= text_field_tag(:searchDistance) %>
@@ -36,8 +35,11 @@
       function getIP() {
           $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
             var client_ip = data.ip;
-            console.log('client_ip: ', client_ip);
-            document.getElementById("client_ip").value = client_ip
+            var client_lat = data.latitude
+            var client_lng = data.longitude;
+            document.getElementById("client_ip").value = client_ip;
+            document.getElementById("client_lat").value = client_lat;
+            document.getElementById("client_lng").value = client_lng;
         });
       }
 
@@ -54,8 +56,14 @@
       </div>
       <div class="content-card">
         <td><%= tournament.name %></td>
-        <br/>
         <td><%= tournament.details %></td>
+        <td>
+          <a href="/tournaments/<%= tournament.id %>">
+            <div style="height:100%;width:100%">
+              Sign Up
+            </div>
+          </a>  
+        </td>
       </div>
     </tr>
   <% end %>

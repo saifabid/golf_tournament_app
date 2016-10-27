@@ -6,19 +6,23 @@ class WelcomeController < ApplicationController
   	
     #url search params
     sortType = params[:q]
-    title = ActiveRecord::Base::sanitize(params[:searchTitle])
-    searchStart = ActiveRecord::Base::sanitize(params[:searchStart])
-    searchEnd = ActiveRecord::Base::sanitize(params[:searchEnd])
-    searchDistance = ActiveRecord::Base::sanitize(params[:searchDistance])
-    clientIp = ActiveRecord::Base::sanitize(params[:client_ip])
 
-    #puts sortType
-    #puts title
-    #puts searchStart
-    #puts searchEnd
-    #puts searchDistance
-    #puts clientIp
+    if params[:searchTitle].blank?
+      searchTitle = "%%"
+    else
+      searchTitle = "%"+params[:searchTitle]+"%" #for sql query LIKE clause
+    end
 
+    if params[:searchDistance].blank?
+      searchDistance = 5 #5km default value
+    else
+      searchDistance = params[:searchDistance]
+    end
+
+    searchStart = params[:searchStart]
+    clientIp = params[:client_ip]
+    clientLat = params[:client_lat]
+    clientLng = params[:client_lng]
 
   	@events = Tournament.where("start_date >= NOW()").where("is_private = '0'")
     @hash = Gmaps4rails.build_markers(@events) do |event, marker|
@@ -39,6 +43,7 @@ class WelcomeController < ApplicationController
     #Caught an error during Ip geocoding call: Failed to open TCP connection to api.h
     #ostip.info:80 (getaddrinfo: No such host is known. )
     
+    #alternative is to get the geo lat/lng from JS call in frontend
     
     # https://github.com/geokit/geokit-rails
     # Caveat notes that not able to do a where clause, therefore can't get descending locations
@@ -50,17 +55,16 @@ class WelcomeController < ApplicationController
 
   	@state = params[:state]
   	if sortType == "1"
-	  	@tournaments = Tournament.where("start_date >= ?", searchStart).where("is_private = '0'").order(start_date: :asc)
+	  	@tournaments = Tournament.where("start_date >= ?", searchStart).where("name LIKE ?", searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :asc)
   	elsif sortType == "2"
-  		@tournaments = Tournament.where("start_date >= NOW()").where("is_private = '0'").order(start_date: :desc)
+  		@tournaments = Tournament.where("start_date >= ?", searchStart).where("name LIKE ?", searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :desc)
   	elsif sortType == "3"
-  		@tournaments = Tournament.where("start_date >= NOW()").where("is_private = '0'").order(name: :asc)
+  		@tournaments = Tournament.where("start_date >= ?", searchStart).where("name LIKE ?", searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(name: :asc)
   	elsif sortType == "4"
-  		@tournaments = Tournament.where("start_date >= NOW()").where("is_private = '0'").order(name: :desc)
+  		@tournaments = Tournament.where("start_date >= ?", searchStart).where("name LIKE ?", searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(name: :desc)
     elsif sortType == "5"
-      # ToDo: Implement sort by location
-      #@tournaments = Tournament.within(0.5, :origin => '21 Carlton St, Toronto, ON')
-      @tournaments = Tournament.within(0.5, :origin => [43.6611,-79.3821])
+      #TODO: .order(distance: :desc) (unknown column 'distance', add to model???)
+      @tournaments = Tournament.where("start_date >= ?", searchStart).where("name LIKE ?", searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng])
   	else
 	  	@tournaments = Tournament.where("start_date >= NOW()").where("is_private = '0'").order(start_date: :asc)
 		end
