@@ -238,7 +238,7 @@ end
 			@i += 1
 		end
 
-			@tickets_left = @tournament.tickets_left - (@i -1)
+			@tickets_left = @tournament.tickets_left - (@i - 1 - @player_offset)
 			@tournament.update_column(:tickets_left, @tickets_left)
 
 			redirect_to action: 'signup_summary', transaction_id: transaction_id
