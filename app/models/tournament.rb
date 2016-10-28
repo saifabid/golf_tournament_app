@@ -44,7 +44,6 @@ class Tournament < ApplicationRecord
     self.logo = Image.store(:logo, self.logo)
     self.venue_logo = Image.store(:venue_logo, self.venue_logo)
     self.profile_pictures = Image.store(:profile_pictures, self.profile_pictures)
-    self.tickets_left = 144
     self.save
   end
 end

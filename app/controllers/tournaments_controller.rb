@@ -22,6 +22,7 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = Tournament.new(tournament_params)
+    @tournament.tickets_left = tournament_params[:total_player_tickets].to_i
     @tournament.create_tournament
     if @tournament.errors.any?
       render :new
