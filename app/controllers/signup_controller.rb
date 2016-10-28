@@ -58,6 +58,10 @@ end
 	def new
 	end
 
+	def index
+		redirect_to "/signup/new"
+	end
+
 	def check_number_tickets
 		@sponsor_tickets = 0
 		if params[:sponsor_level].to_i > 0
