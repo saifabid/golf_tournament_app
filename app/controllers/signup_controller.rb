@@ -8,6 +8,7 @@ require 'barby/outputter/png_outputter'
 class SignupController < ApplicationController
 	helper_method :assigngroup, :assignfoursome
   before_action :check_user_auth
+	before_action :check_number_tickets, only: [:create]
 
 	#TODO: place in helper class
 	def generate_barcode_img(numtoCode)
@@ -55,6 +56,23 @@ end
 
 
 	def new
+	end
+
+	def check_number_tickets
+		@sponsor_tickets = 0
+		if params[:sponsor_level].to_i > 0
+			@sponsor_tickets = 1
+		end
+
+		@total_tickets = @sponsor_tickets + params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
+
+		@tournament_id = Tournament.where("tournaments.name LIKE ?", params[:tournament_name])
+
+		@tournament = Tournament.find_by id: @tournament_id.first.id
+
+		if @total_tickets > @tournament.tickets_left.to_i
+			redirect_to "/signup/new"
+		end
 	end
 
 
@@ -187,7 +205,7 @@ end
 
 			@offset += 4
 
-		else	
+		elsif (form_params[:player_tickets].to_i > 0)
 			@ticket_num = [@transaction_num, @offset]
 			@tournament.person.new(
 				:user_id => current_user.id,
@@ -200,6 +218,7 @@ end
 			@player_offset = 1
 			@offset += 1
 
+		else
 		end
 
 		@k = 1
@@ -238,7 +257,7 @@ end
 			@i += 1
 		end
 
-			@tickets_left = @tournament.tickets_left - (@i - 1 - @player_offset)
+			@tickets_left = @tournament.tickets_left - (@i - 1)
 			@tournament.update_column(:tickets_left, @tickets_left)
 
 			redirect_to action: 'signup_summary', transaction_id: transaction_id
