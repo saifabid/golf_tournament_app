@@ -71,6 +71,11 @@ bower.json
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/.generators
+.idea/.rakeTasks
+.idea/dataSources/
+.idea/golf_tournament_app.iml
+.idea/runConfigurations
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
