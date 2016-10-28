@@ -77,7 +77,11 @@ end
 		if @total_tickets > @tournament.tickets_left.to_i
 			flash[:error] = "You have selected more tickets than what's available for #{@tournament.name}"
 			render :new
+			return
+		else
+			flash[:error] = ""
 		end
+
 	end
 
 
