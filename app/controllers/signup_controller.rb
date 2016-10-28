@@ -71,7 +71,8 @@ end
 		@tournament = Tournament.find_by id: @tournament_id.first.id
 
 		if @total_tickets > @tournament.tickets_left.to_i
-			redirect_to "/signup/new"
+			flash[:error] = "You have selected more tickets than what's available for #{@tournament.name}"
+			render :new
 		end
 	end
 

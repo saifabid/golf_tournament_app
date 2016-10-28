@@ -3,11 +3,15 @@
 <h1>Sign Up For a Tournament</h1>
 
 <%= bootstrap_form_tag url: '/signup', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
-
 	<h4>Search for a Tournament</h4>
 	<%= f.collection_select(:tournament_name, Tournament.all, :name, :name) %>
 
 	<h4>Ticket Quantities</h4>
+  <% if flash[:error] %>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> <%= flash[:error].html_safe %>
+        </div>
+  <% end %>
 	<%= f.text_field :player_tickets %>
 	<%= f.text_field :foursome_tickets %>
 	<%= f.form_group :sponsor_level, label: { text: "Sponsor Level" } do %>
