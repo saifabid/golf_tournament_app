@@ -125,7 +125,6 @@ end
 
 	    @transaction_num = [current_user.id, @tournament_id.first.id, Time.now.to_i]
 
-
 			TicketTransaction.transaction do
 			transaction=	TicketTransaction.new(
 					:transaction_number=>@transaction_num.join.to_i,
@@ -238,10 +237,12 @@ end
 			assigngroup
 			@i += 1
 		end
+
+			@tickets_left = @tournament.tickets_left - (@i -1)
+			@tournament.update_column(:tickets_left, @tickets_left)
+
 			redirect_to action: 'signup_summary', transaction_id: transaction_id
 		end
-
-
 
 
 			end
