@@ -77,3 +77,7 @@ gem 'stripe'
 gem 'jquery-countdown-rails'
 gem 'gon'
 gem 'rubyzip'
+
+# image management pipeline
+gem 'carrierwave'
+gem 'cloudinary'

@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: hhvsmdrr3
+  api_key: '318787796159638'
+  api_secret: AIdS_UPXajrzTgTU9it-f-8_ojE
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: hhvsmdrr3
+  api_key: '318787796159638'
+  api_secret: AIdS_UPXajrzTgTU9it-f-8_ojE
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: hhvsmdrr3
+  api_key: '318787796159638'
+  api_secret: AIdS_UPXajrzTgTU9it-f-8_ojE
+  enhance_image_tag: true
+  static_image_support: false
