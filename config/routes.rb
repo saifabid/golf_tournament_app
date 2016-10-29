@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :charges
-
+  get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
 
   get 'credit_card/index'

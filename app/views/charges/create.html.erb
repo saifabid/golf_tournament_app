@@ -1,5 +1,7 @@
-<h2>Thanks, you paid <strong>$5.00</strong>!</h2>
+<h2>Thanks you!</h2>
+<p>Your payment of <strong><%= number_to_currency(@amount * 0.01) %></strong>
+ has been received for id <strong><%= (@transaction_id) %></strong>.</p>
 
 <%= link_to("Go to Print Ticket",
-    {:controller => 'welcome', :action => 'hello_world'}) %> 
+    {:controller => 'signup', :action => 'signup_summary', transaction_id: @transaction_id}) %> 
 

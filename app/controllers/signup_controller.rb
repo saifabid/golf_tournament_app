@@ -268,8 +268,9 @@ end
 
 			@tickets_left = @tournament.tickets_left - (@i - 1)
 			@tournament.update_column(:tickets_left, @tickets_left)
+			@amount = 1000
+			redirect_to controller: 'charges', action: 'new', transaction_id: transaction_id, amount: @amount
 
-			redirect_to action: 'signup_summary', transaction_id: transaction_id
 		end
 
 
