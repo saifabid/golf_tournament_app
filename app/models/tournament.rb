@@ -1,4 +1,5 @@
 class Tournament < ApplicationRecord
+  attr_accessor  :profile_picture
   has_many :tournament_events, dependent: :destroy
   has_many :tournament_tickets, dependent: :destroy
   has_many :person
@@ -36,14 +37,5 @@ class Tournament < ApplicationRecord
 
   def self.currency_options
     @currency_options
-  end
-
-
-  # create_tournament creates a new tournament
-  def create_tournament
-    self.logo = Image.store(:logo, self.logo)
-    self.venue_logo = Image.store(:venue_logo, self.venue_logo)
-    self.profile_pictures = Image.store(:profile_pictures, self.profile_pictures)
-    self.save
   end
 end

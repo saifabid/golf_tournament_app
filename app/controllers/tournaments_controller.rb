@@ -21,16 +21,39 @@ class TournamentsController < ApplicationController
   end
 
   def create
-    @tournament = Tournament.new(tournament_params)
-    @tournament.tickets_left = tournament_params[:total_player_tickets].to_i
-    @tournament.create_tournament
+    params = tournament_params
+    uploaded_logo = Image.store(:logo, params[:logo])
+    if uploaded_logo.nil?
+      uploaded_logo = {}
+    end
+
+    uploaded_venue_logo = Image.store(:venue_logo, params[:venue_logo])
+    if uploaded_venue_logo.nil?
+      uploaded_venue_logo = {}
+    end
+
+    uploaded_profile_picture = Image.store(:profile_picture, params[:profile_picture])
+    if uploaded_profile_picture.nil?
+      uploaded_profile_picture = {}
+    end
+
+    params[:logo] = uploaded_logo["url"]
+    params[:venue_logo] = uploaded_logo["url"]
+    params[:profile_pictures] = uploaded_profile_picture["url"]
+
+    @tournament = Tournament.new(params)
+    @tournament.tickets_left = params[:total_player_tickets].to_i
+
+    @tournament.save
     if @tournament.errors.any?
+      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
       render :new
       return
     end
 
     @tournament.person.new.insert_organizer current_user.id
     if @tournament.errors.any?
+      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
       render :new
       return
     end
@@ -147,11 +170,11 @@ class TournamentsController < ApplicationController
       :venue_contact_details,
       :is_private,
       :start_date,
-      :logo_data,
-      :venue_logo_data,
-      :profile_picture_data,
       :total_player_tickets,
-      :total_audience_tickets
+      :total_audience_tickets,
+      :logo,
+      :venue_logo,
+      :profile_picture
     )
   end
 
