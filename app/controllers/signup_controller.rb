@@ -181,7 +181,7 @@ end
 				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => form_params[:sponsor_level]
-				).insert_person
+				).save
 			@offset += 1
 		end
 
@@ -194,7 +194,7 @@ end
 				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
-				).insert_person
+				).save
 
 			@l = @offset + 1
 
@@ -206,7 +206,7 @@ end
 				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
-				).insert_person
+				).save
 
 				@l += 1
 			end
@@ -222,7 +222,7 @@ end
 				:ticket_transaction_id=> transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
-				).insert_person
+				).save
 			assigngroup
 			@player_offset = 1
 			@offset += 1
@@ -242,7 +242,7 @@ end
 				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
-				).insert_person
+				).save
 
 				@l += 1
 			end
@@ -261,7 +261,7 @@ end
 				:ticket_transaction_id => transaction_id,
 				:ticket_number => @ticket_num.join.to_i,
 				:ticket_description => 0
-				).insert_person
+				).save
 			assigngroup
 			@i += 1
 		end

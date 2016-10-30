@@ -2,7 +2,7 @@ class Tournament < ApplicationRecord
   attr_accessor  :profile_picture
   has_many :tournament_events, dependent: :destroy
   has_many :tournament_tickets, dependent: :destroy
-  has_many :person
+  has_many :people
 
   validates_presence_of :name, :venue_address, :start_date
   validates_numericality_of :total_player_tickets, :total_audience_tickets, only_integer: true, greater_than_or_equal_to: 0
