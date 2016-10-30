@@ -10,9 +10,13 @@ class TournamentEventsController < ApplicationController
    end
   end
 
-  def index
+  def new
     @tournament= Tournament.find(params[:tournament_id])
     @tournament.tournament_events.build
+  end
+
+  def index
+
   end
 
   def create
@@ -20,7 +24,7 @@ class TournamentEventsController < ApplicationController
       if @tournament.errors.any?
         flash[:error] = @tournament.errors.full_messages.to_sentence
         puts flash[:error]
-        render :index
+        render :new
         return
       end
 
@@ -28,16 +32,16 @@ class TournamentEventsController < ApplicationController
       if @tournament_event.errors.any?
         flash[:error] = @tournament_event.errors.full_messages.to_sentence
         puts flash[:error]
-        render :index
+        render :new
         return
       end
 
-      redirect_to tournament_tournament_events_path(@tournament)
+      redirect_to new_tournament_tournament_event_path(@tournament.id)
   end
 
   def destroy
     TournamentEvent.find(params[:id]).destroy
-    redirect_to tournament_tournament_events_path(Tournament.find(params[:tournament_id]))
+    redirect_to new_tournament_tournament_event_path(Tournament.find(params[:tournament_id]))
   end
 
   private

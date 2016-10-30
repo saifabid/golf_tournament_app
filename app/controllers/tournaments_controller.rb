@@ -59,7 +59,7 @@ class TournamentsController < ApplicationController
     end
 
     # Redirects organizer to view to setup tournament agenda of the day
-    redirect_to sprintf("/tournaments/%s/tournament_events", @tournament.id)
+    redirect_to new_tournament_tournament_event_path(@tournament.id)
   end
 
   def show
@@ -216,13 +216,13 @@ class TournamentsController < ApplicationController
           group_number: @group_number
       else
         redirect_to '/tournaments/' + @id + '/guest_login_fail'
-      end 
+      end
     end
   end
 
   def guest_login_fail
     @id = params[:id]
-  end 
+  end
 
   def schedule
     @id = params[:id]
