@@ -175,7 +175,7 @@ end
 
 		if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
-			@tournament.person.new(
+			@tournament.people.new(
 				:user_id => current_user.id,
 				:is_sponsor => true,
 				:ticket_transaction_id => transaction_id,
@@ -188,7 +188,7 @@ end
 		if form_params[:foursome_tickets].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
 
-			@tournament.person.new(
+			@tournament.people.new(
 				:user_id => current_user.id,
 				:is_player => true,
 				:ticket_transaction_id => transaction_id,
@@ -200,7 +200,7 @@ end
 
 			while @l < @offset + 4
 				@ticket_num = [@transaction_num, @l]
-				@tournament.person.new(
+				@tournament.people.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
 				:ticket_transaction_id => transaction_id,
@@ -216,7 +216,7 @@ end
 
 		elsif (form_params[:player_tickets].to_i > 0)
 			@ticket_num = [@transaction_num, @offset]
-			@tournament.person.new(
+			@tournament.people.new(
 				:user_id => current_user.id,
 				:is_player => true,
 				:ticket_transaction_id=> transaction_id,
@@ -236,7 +236,7 @@ end
 			@l = @offset
 			while @l < @offset + 4
 				@ticket_num = [@transaction_num, @l]
-				@tournament.person.new(
+				@tournament.people.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
 				:ticket_transaction_id => transaction_id,
@@ -255,7 +255,7 @@ end
 
 		while @i < form_params[:player_tickets].to_i + @offset - @player_offset
 			@ticket_num = [@transaction_num, @i]
-			@tournament.person.new(
+			@tournament.people.new(
 				:guest_of => current_user.id,
 				:is_guest => true,
 				:ticket_transaction_id => transaction_id,

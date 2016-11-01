@@ -10,7 +10,7 @@ class TournamentsController < ApplicationController
   end
 
   def check_tournament_organizer
-    if Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
+    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])
       return
     end
@@ -51,7 +51,7 @@ class TournamentsController < ApplicationController
       return
     end
 
-    if @tournament.people.create({user_id: current_user.id, is_organizer: true})
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
       render :new
       return
