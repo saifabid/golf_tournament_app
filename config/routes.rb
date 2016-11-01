@@ -64,6 +64,9 @@ Rails.application.routes.draw do
 
   get 'charges/new'
 
+  get 'dashboard/participatingtournaments_feed'
+  get 'dashboard/createdtournaments_feed'
+
   root to: 'welcome#hello_world'
 
   # get 'tournament_registration/index'

@@ -3,11 +3,47 @@
 
 
 
-<div class="mytournaments-panel">
+<script>
+  $(document).ready(function () {
+    $('#dashboardCalendar').fullCalendar({
+      header: {
+        left: 'prev,next',
+        center: 'title'
+      },
 
-<%= render 'dashboard/tournamentlist', title: "Tournaments I'm Participating In", tournaments: @participatingtournaments %>
-</div>
+      eventSources: [
+        {
+          url: 'participatingtournaments_feed',
+          color: 'blue',
+          textColor: 'white'
+        },
+        {
+          url: 'createdtournaments_feed',
+          color: 'green',
+          textColor: 'white'
+        }
+      ]
+    });
+  });
+</script>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div id="dashboardCalendar">
 
-<div class="mycreatedtournaments-panel">
-  <%= render  'dashboard/tournamentlist', title:"Tournaments I've Created", tournaments: @createdtournaments %>
-</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="mytournaments-panel">
+
+        <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Participating In", tournaments: @participatingtournaments %>
+      </div>
+
+
+      <div class="mycreatedtournaments-panel">
+        <%= render 'dashboard/tournamentlist', title: "Tournaments I've Created", tournaments: @createdtournaments %>
+      </div>
+
+    </div>
+  </div>
+  <div>
