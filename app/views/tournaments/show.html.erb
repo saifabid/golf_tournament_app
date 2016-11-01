@@ -39,12 +39,10 @@
 			<div class="col-md-10">
 				<div class="center-text">
 				<% if @tournament.logo.present? %>
-				 	<h1>
-						<%=@tournament.name%>
-					</h1>
+				 	<img src=<%= @tournament.logo %> >
 				<% else %>
 					<div class="logo">
-				 		Logo
+				 		<%=@tournament.name%>
 				 	</div>
 				<% end %>
 					
