@@ -1,0 +1,19 @@
+<% if (tournaments && tournaments.any?) %>
+    <h3><%= title %></h3>
+    <table class="table table-responsive">
+
+      <% tournaments.each do |t| %>
+          <tr>
+            <td>
+              <p><%= link_to t.name, tournament_path(t.id) %></p>
+            </td>
+            <td>
+              <p><%= t.start_date %></p>
+            </td>
+            <td>
+
+            </td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>

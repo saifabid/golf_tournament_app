@@ -1,102 +1,13 @@
-<!--Mockup Dashboard Page-->
-<h2> Welcome, User!</h2>
-<div class="search-panel">
-  <h3>Search Tournaments:
-  </h3>
-  <span><label>Title:</label><input type="text"></span>
-  <span><label>Date from: </label> <input type="text"> <label>to:</label> <input type="text"></span>
-  <span><label>Near Location:</label><input type="text"></span>
+<h2>User Dashboard</h2>
 
 
-  <button>Search</button>
 
-</div>
-
-<div class="tournaments-panel">
-  <h3>
-    Find tournaments:</h3>
-  Order By:
-  <select>
-    <option> Name(A-Z)</option>
-    <option> Newest</option>
-    <option> Closest</option>
-  </select>
-  <table id = tournamentTable>
-    <tr>
-      <td><a href="#">Tournament 1</a></td>
-      <td>Some short description...</td>
-      <td>9/26/2016</td>
-      <td>
-        <button type="button">Register</button>
-        <button type="button"> Bookmark</button>
-        <button type="button"> Share</button>
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><a href="#">Tournament 2</a></td>
-      <td>Some short description...</td>
-      <td>9/26/2016</td>
-      <td>
-        <button type="button">Register</button>
-        <button type="button"> Bookmark</button>
-        <button type="button"> Share</button>
-      </td>
-      <td></td>
-    </tr>
-
-  </table>
-  <button onclick="moreoption()">See More </button>
-  <button onclick="lessoption()">See Less </button>
-
-  <script>
-    function moreoption() {
-    var table = document.getElementById("tournamentTable");
-    var row = table.insertRow(0);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = "Tournament Next";
-    cell2.innerHTML = "Next!!";
-    cell3.innerHTML = "9/27/2016";
-    }
-    function lessoption() {
-    var table = document.getElementById("tournamentTable");
-    var row = table.deleteRow(0);
-    }
-  </script>
-
-</div>
 
 <div class="mytournaments-panel">
-  <h4>My Upcoming Tournaments:</h4>
-  <table>
-    <tr>
-      <td><a href="#">My Tournament 1</a></td>
-      <td>9/20/2016</td>
 
-
-    </tr>
-    <tr>
-      <td><a href="#">My Tournament 2</a></td>
-      <td>9/20/2016</td>
-    </tr>
-  </table>
-  <button>See All </button>
+<%= render 'dashboard/tournamentlist', title: "Tournaments I'm Participating In", tournaments: @participatingtournaments %>
 </div>
 
 <div class="mycreatedtournaments-panel">
-  <h4>My Created Tournaments:</h4>
-  <table>
-    <tr>
-      <td><a href="#">My Tournament 3</a></td>
-      <td>9/21/2016</td>
-
-    </tr>
-    <tr>
-      <td><a href="#">My Tournament 4</a></td>
-      <td>9/21/2016</td>
-    </tr>
-  </table>
-  <button>See All </button>
+  <%= render  'dashboard/tournamentlist', title:"Tournaments I've Created", tournaments: @createdtournaments %>
 </div>
