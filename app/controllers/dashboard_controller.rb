@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   end
   def getpartipatingtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>0} )
+    return Tournament.joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>nil} )
 
   end
   def getcreatedtournaments
