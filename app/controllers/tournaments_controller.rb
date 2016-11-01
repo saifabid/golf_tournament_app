@@ -51,7 +51,7 @@ class TournamentsController < ApplicationController
       return
     end
 
-    if @tournament.people.create({user_id: current_user.id, is_organizer: true})
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
       render :new
       return
