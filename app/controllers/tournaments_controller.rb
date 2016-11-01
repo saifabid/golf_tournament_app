@@ -229,6 +229,9 @@ class TournamentsController < ApplicationController
       .exists?
     if @has_agenda
       @agenda = TournamentEvent.where(tournament_id: params[:id])
+    else
+      # ToDo: Fix this, how to use render instead?
+      redirect_to '/tournaments/' + @id
     end
   end
 

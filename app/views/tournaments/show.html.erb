@@ -38,7 +38,7 @@
 			</div>
 			<div class="col-md-10">
 				<div class="center-text">
-				<% if @tournament.logo == "0" %>
+				<% if @tournament.logo.present? %>
 				 	<h1>
 						<%=@tournament.name%>
 					</h1>
