@@ -96,8 +96,8 @@ class TournamentsController < ApplicationController
 
       @is_organizer = @user_tournament.where(is_organizer: 1).exists?
       @account = Account.where(user_id: current_user.id).first()
-      @first_name = @account.first_name
-      @last_name = @account.last_name
+      @first_name = @account.first_name rescue 'none'
+      @last_name = @account.last_name rescue 'none'
       @is_signed_up = @user_tournament
         .where(is_player: 1).exists?
 

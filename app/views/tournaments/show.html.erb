@@ -38,6 +38,9 @@
 			</div>
 			<div class="col-md-10">
 				<div class="center-text">
+
+				<%= button_to 'Signup', {:controller => "signup", :action => "new"}, :method=>:get %>
+				
 				<% if @tournament.logo.present? %>
 				 	<img src=<%= @tournament.logo %> >
 				<% else %>
