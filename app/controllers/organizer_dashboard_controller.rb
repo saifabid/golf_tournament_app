@@ -10,6 +10,7 @@ class OrganizerDashboardController < ApplicationController
   end
 
   def show
-
+    @tournament = Tournament.where("id = ?", params[:id]).first
+    puts @tournament.tickets_left
   end
 end
