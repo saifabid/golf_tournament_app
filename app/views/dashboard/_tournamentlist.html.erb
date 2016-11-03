@@ -1,5 +1,8 @@
 <% if (tournaments && tournaments.any?) %>
-    <h3><%= title %></h3>
+<div class="small-accent pull-left"></div>
+    <h3><%= title %>
+    </h3>
+    
     <table class="table table-responsive">
 
       <% tournaments.each do |t| %>
@@ -8,7 +11,7 @@
               <p><%= link_to t.name, tournament_path(t.id) %></p>
             </td>
             <td>
-              <p><%= t.start_date %></p>
+              <p><%= t.start_date.strftime("%m/%d/%Y %H:%M") %></p>
             </td>
             <td>
 

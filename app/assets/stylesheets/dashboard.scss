@@ -1,17 +1,25 @@
 // Place all the styles related to the dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-
-.dashboard-panel{
-
-  .mytournaments-panel{
-    display:inline-block;
-    margin-left: 50px;
-
+#userDashboard {
+  .mycreatedtournaments-panel {
+    .small-accent {
+      width: 15px;
+      height: 15px;
+      background-color: green;
+    }
+    h3{
+      text-align:center;
+    }
   }
-  .tournaments-panel{
-    float:left;
-    display:inline-block;
+  .mytournaments-panel {
+    .small-accent {
+      width: 15px;
+      height: 15px;
+      background-color: blue;
+    }
+    h3{
+      text-align:center;
+    }
   }
 }
