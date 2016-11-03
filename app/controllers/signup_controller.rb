@@ -153,6 +153,8 @@ end
 
 
 	def create
+	    @amount = 0
+
 	    @tournament_id = Tournament.where("tournaments.name LIKE ?", form_params[:tournament_name])
 
 	    @tournament = Tournament.find_by id: @tournament_id.first.id
@@ -204,6 +206,7 @@ end
 				).save
 
 			@l = @offset + 1
+			@amount += 400
 
 			while @l < @offset + 4
 				@ticket_num = [@transaction_num, @l]
@@ -233,10 +236,12 @@ end
 			assigngroup
 			@player_offset = 1
 			@offset += 1
+			@amount += 100
 
 		else
 		end
 
+		
 		@k = 1
 
 		while @k < form_params[:foursome_tickets].to_i
@@ -256,6 +261,7 @@ end
 			assignfoursome
 			@k += 1
 			@offset += 4
+			
 		end
 
 		@i = @offset
@@ -271,11 +277,11 @@ end
 				).save
 			assigngroup
 			@i += 1
+			
 		end
 
 			@tickets_left = @tournament.tickets_left - (@i - 1)
 			@tournament.update_column(:tickets_left, @tickets_left)
-			@amount = 1000
 			redirect_to controller: 'charges', action: 'new', transaction_id: transaction_id, amount: @amount
 
 		end

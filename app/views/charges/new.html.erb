@@ -7,10 +7,11 @@
     <% end %>
     <article>
        <label class="amount">
-         <span>Your total is <%= number_to_currency(@amount*0.01) %> and id is <%= (@transaction_id) %></span>
+         <span>Your total is <%= number_to_currency(@amountd) %> and id is <%= (@transaction_id) %></span>
        </label>
     </article>
   </article>
+
 
   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="<%= Rails.configuration.stripe[:publishable_key] %>"

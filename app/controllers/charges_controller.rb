@@ -1,13 +1,14 @@
 class ChargesController < ApplicationController
    def new
 	@amount = params[:amount]
+	@amountd = @amount * 0.01
 	@transaction_id= params[:transaction_id]
    end
 
    def create
-     #transaction_id
-     #transaction_id= params[:transaction_id]
-     @transaction_id= 3
+     #getting transaction_id
+	     
+
      # Amount in cents
      @amount = 100
 
