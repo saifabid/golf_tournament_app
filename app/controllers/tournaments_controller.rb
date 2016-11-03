@@ -89,6 +89,8 @@ class TournamentsController < ApplicationController
     # 1. Organizer
     # 2. Attendee
     # 3. Not logged in. Can log in as organizer or attendee
+    @email = nil
+    @profile_pic = nil
     if user_signed_in?
       @session_user = current_user
       @user_tournament = Person.where(tournament_id: params[:id])
@@ -98,6 +100,9 @@ class TournamentsController < ApplicationController
       @account = Account.where(user_id: current_user.id).first()
       @first_name = @account.first_name rescue 'none'
       @last_name = @account.last_name rescue 'none'
+      @profile_pic = @account.profile_pic rescue nil
+      @user = User.where(id: current_user.id).first()
+      @email = @user.email
       @is_signed_up = @user_tournament
         .where(is_player: 1).exists?
 

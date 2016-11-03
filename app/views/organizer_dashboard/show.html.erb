@@ -27,3 +27,9 @@
   <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get %>
 
 </div>
+
+<div class = center-text>
+
+  <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get %>
+
+</div>

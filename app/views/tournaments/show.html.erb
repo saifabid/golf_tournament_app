@@ -36,10 +36,10 @@
 			<div class="col-md-1 col-spacing">
 				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-9">
 				<div class="center-text">
 
-				<%= button_to 'Signup', {:controller => "signup", :action => "new"}, :method=>:get %>
+				<%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
 				
 				<% if @tournament.logo.present? %>
 				 	<img src=<%= @tournament.logo %> >
@@ -68,8 +68,16 @@
 			</div>
 			<% end %>
 			</div>
-			<div class="col-md-1 col-spacing">
-				Profile
+			<div class="col-md-2 col-spacing">
+				<% if @profile_pic %>
+					<img height="100" width="100" src=<%= @profile_pic %> >
+				<% elsif @first_name != 'none' %>
+					<%=@first_name%>
+				<% elsif @email %>
+					<%=@email %> 
+				<% else %>
+					Please Log in
+				<% end %>
 			</div>
 		</div>
 	</body>

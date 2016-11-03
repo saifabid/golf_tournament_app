@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+
+<h1>Signup for <%= @tournament.name %></h1>
+
+<%= bootstrap_form_tag url: '/signup', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
+
+  <%= f.hidden_field(:tournament_name, :value => @tournament.name) %>
+
+	<h4>Ticket Quantities</h4>
+	<%= f.text_field :player_tickets %>
+	<%= f.text_field :foursome_tickets %>
+	<%= f.form_group :sponsor_level, label: { text: "Sponsor Level" } do %>
+	  <%= f.radio_button :sponsor_level, 1, label: "Gold" %>
+	  <%= f.radio_button :sponsor_level, 2, label: "Silver" %>
+	  <%= f.radio_button :sponsor_level, 3, label: "Bronze" %>
+	  <%= f.radio_button :sponsor_level, 0, label: "Player Tickets Only", checked: true %>
+	<% end %>
+
+	<br>
+	<%= f.submit class: "btn-lg btn-success center-block " %>
+	
+<% end %>

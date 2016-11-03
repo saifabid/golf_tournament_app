@@ -56,7 +56,12 @@ end
 
 
 	def new
-	end
+  end
+
+  def signup_from_tournament
+    @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
+    params[:tournament_name] = @tournament.name
+  end
 
 	def index
 		redirect_to "/signup/new"
@@ -69,6 +74,8 @@ end
 		end
 
 		@total_tickets = @sponsor_tickets + params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
+
+    puts params[:tournament_name]
 
 		@tournament_id = Tournament.where("tournaments.name LIKE ?", params[:tournament_name])
 
