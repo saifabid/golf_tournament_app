@@ -96,8 +96,8 @@ class TournamentsController < ApplicationController
 
       @is_organizer = @user_tournament.where(is_organizer: 1).exists?
       @account = Account.where(user_id: current_user.id).first()
-      @first_name = @account.first_name
-      @last_name = @account.last_name
+      @first_name = @account.first_name rescue 'none'
+      @last_name = @account.last_name rescue 'none'
       @is_signed_up = @user_tournament
         .where(is_player: 1).exists?
 
@@ -225,14 +225,38 @@ class TournamentsController < ApplicationController
 
   def schedule
     @id = params[:id]
-    @has_agenda = TournamentEvent.where(tournament_id: params[:id])
-      .exists?
+
+    if params[:searchTitle].blank?
+      searchTitle = "%%"
+    else
+      searchTitle = "%"+params[:searchTitle]+"%"
+    end
+    
+    @has_agenda = TournamentEvent.where(tournament_id: params[:id]).exists?
     if @has_agenda
       @agenda = TournamentEvent.where(tournament_id: params[:id])
+        .where("event_name LIKE ?", searchTitle).order(start_time: :asc)
+      if params[:query]
+        if params[:query] == 'z_a'
+          @agenda = TournamentEvent.where(tournament_id: params[:id])
+            .where("event_name LIKE ?", searchTitle).order(event_name: :desc)
+        elsif params[:query] == 'a_z'
+          @agenda = TournamentEvent.where(tournament_id: params[:id])
+            .where("event_name LIKE ?", searchTitle).order(event_name: :asc)
+        elsif params[:query] == 'time_asc'
+          @agenda = TournamentEvent.where(tournament_id: params[:id])
+            .where("event_name LIKE ?", searchTitle).order(start_time: :asc)
+        elsif params[:query] == 'time_desc'
+          @agenda = TournamentEvent.where(tournament_id: params[:id])
+            .where("event_name LIKE ?", searchTitle).order(start_time: :desc)
+        end
+      end
+      if params[:reset]
+        @agenda = TournamentEvent.where(tournament_id: params[:id]).order(start_time: :asc)
+      end
     else
       # ToDo: Fix this, how to use render instead?
       redirect_to '/tournaments/' + @id
     end
   end
-
 end
