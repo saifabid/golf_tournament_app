@@ -9,6 +9,7 @@ class SignupController < ApplicationController
 	helper_method :assigngroup, :assignfoursome
   before_action :check_user_auth
 	before_action :check_number_tickets, only: [:create]
+  before_action :check_positive_amounts, only: [:create]
 
 	#TODO: place in helper class
 	def generate_barcode_img(numtoCode)
@@ -56,6 +57,8 @@ end
 
 
 	def new
+    flash[:error] = ""
+    @tournament = Tournament.first
   end
 
   def signup_from_tournament
@@ -82,7 +85,7 @@ end
 		@tournament = Tournament.find_by id: @tournament_id.first.id
 
 		if @total_tickets > @tournament.tickets_left.to_i
-			flash[:error] = "You have selected more tickets than what's available for #{@tournament.name}"
+			flash[:error] = "You have selected more tickets than what's available"
 			render :new
 			return
 		else
@@ -91,6 +94,20 @@ end
 
 	end
 
+	def check_positive_amounts
+
+    if params[:player_tickets] != "" && params[:player_tickets].to_i < 0
+      flash[:error] = "Negative"
+      puts "-----------------------------------------------"
+      render :new
+    end
+
+    if params[:foursome_tickets] != "" && params[:foursome_tickets].to_i < 0
+      flash[:error] = "Negative"
+      render :new
+    end
+
+  end
 
 	def assigngroup
 		@person = Person.last

@@ -7,13 +7,17 @@
 	<%= f.collection_select(:tournament_name, Tournament.all, :name, :name) %>
 
 	<h4>Ticket Quantities</h4>
-  <% if flash[:error] %>
+  <% if flash[:error] == "You have selected more tickets than what's available" %>
         <div class="alert alert-warning">
-          <strong>Warning!</strong> <%= flash[:error].html_safe %>
+          <strong>Warning!</strong> <%= "You have selected more tickets than what's available for #{@tournament.name}"  %>
+        </div>
+  <%elsif flash[:error] == "Negative" %>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> <%= "Please enter a ticket quantity greater than 0"  %>
         </div>
   <% end %>
 	<%= f.text_field :player_tickets %>
-	<%= f.text_field :foursome_tickets %>
+  <%= f.text_field :foursome_tickets %>
 	<%= f.form_group :sponsor_level, label: { text: "Sponsor Level" } do %>
 	  <%= f.radio_button :sponsor_level, 1, label: "Gold" %>
 	  <%= f.radio_button :sponsor_level, 2, label: "Silver" %>
