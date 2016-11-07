@@ -38,18 +38,23 @@
 			</div>
 			<div class="col-md-9">
 				<div class="center-text">
-
-				<%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
-				
 				<% if @tournament.logo.present? %>
-				 	<img src=<%= @tournament.logo %> >
-				<% else %>
-					<div class="logo">
-				 		<%=@tournament.name%>
-				 	</div>
+				 	<img src=<%= @tournament.logo %> >	
 				<% end %>
-					
+				<div class="logo">
+				 	<%=@tournament.name%>
 				</div>
+				<div>
+					Start Time : <%=@date%>
+				</div>
+				<div>
+				 <%=@tickets_left%> Tickets Remaining
+				 <% if @tickets_left >= 1%>
+				 <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 <%end%>
+				</div>
+				</div>
+
 				<%= render('layouts/general_map_view') %>
 				<div class="col-md-12">
 					<div class="countdown center-text">
@@ -62,10 +67,7 @@
 					<%= render('layouts/event_group_view') %>
 				</div>
 			<% else %>
-			<div class="center-text">
-				
-				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
-			</div>
+			
 			<% end %>
 			</div>
 			<div class="col-md-2 col-spacing">
@@ -78,6 +80,11 @@
 				<% else %>
 					Please Log in
 				<% end %>
+				<%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+
+				
+				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
+			
 			</div>
 		</div>
 	</body>

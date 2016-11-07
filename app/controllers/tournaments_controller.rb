@@ -85,6 +85,9 @@ class TournamentsController < ApplicationController
     gon.month = @date.split('-')[1]
     gon.day = @date.split('-')[2]
 
+    # Retrieve tickets left
+    @tickets_left = @tournament.tickets_left
+
     # User cases
     # 1. Organizer
     # 2. Attendee

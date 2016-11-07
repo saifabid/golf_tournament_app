@@ -55,15 +55,13 @@
         <%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %>
       </div>
       <div class="content-card">
-        <td><%= tournament.name %></td>
-        <td><%= tournament.details %></td>
         <td>
           <a href="/tournaments/<%= tournament.id %>">
-            <div style="height:100%;width:100%">
-              Sign Up
-            </div>
+            <%= tournament.name %>
           </a>  
         </td>
+        <br />
+        <td><%= tournament.details %></td>
       </div>
     </tr>
   <% end %>
