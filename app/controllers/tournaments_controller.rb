@@ -78,6 +78,15 @@ class TournamentsController < ApplicationController
       marker.infowindow marker_info
     end
 
+    #retrieve sponsor logos
+    #1. Get all users that are sponsors for this tournament
+    #2. Get the profile_pics of those users
+
+    #1.
+    @sponsors_for_tournament = Person.where(tournament_id: params[:id]).where(:is_sponsor => 1);
+    @sponsor_accounts = Account.find(@sponsors_for_tournament.map(&:user_id).uniq)
+
+
     # Countdown Timer
     # ToDo: when timer finishes, flash numbers indicating live
     @date = @tournament.start_date.strftime("%Y-%m-%d-%I:%M%P")

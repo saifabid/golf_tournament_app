@@ -49,6 +49,9 @@
 				 <%=@tickets_left%> Tickets Remaining
 				 
 				</div>
+
+
+
 				</div>
 
 				<%= render('layouts/general_map_view') %>
@@ -62,9 +65,26 @@
 				<div class="col-md-12">
 					<%= render('layouts/event_group_view') %>
 				</div>
-			<% else %>
-			
-			<% end %>
+				<% else %>
+				
+				<% end %>
+
+				<% if @sponsor_accounts.present?%>
+					<div>
+						<div>Sponsored By:</div>
+						 <%@sponsor_accounts.each do |sponsor_account| -%>
+
+						 	<%=sponsor_account.first_name%> <%=sponsor_account.last_name%> ID(<%=sponsor_account.user_id%>):
+		 					<% if sponsor_account.profile_pic.present? %>
+							 	<img src=<%= sponsor_account.profile_pic %>>	
+							<% end %>
+
+							&nbsp;&nbsp;&nbsp;
+						 <%end -%>
+					</div>
+					<br>
+				<%end%>
+
 			</div>
 			<div class="col-md-2 col-spacing">
 				<% if @profile_pic %>
