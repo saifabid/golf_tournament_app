@@ -96,13 +96,13 @@ class TournamentsController < ApplicationController
     @profile_pic = nil
     @first_name = 'none'
 
-
     @no_group_need_to_buy_tickets = false
     @show_signup_button = true
     @buy_additional_tickets = false
+    @people_for_tournament = Person.where(tournament_id: params[:id])
     if user_signed_in?
       # check if user is part of event
-      @part_of_event = Person.where(tournament_id: params[:id])
+      @part_of_event = @people_for_tournament
         .where(user_id: current_user.id).exists?
 
       # if user is part of event,
@@ -117,29 +117,15 @@ class TournamentsController < ApplicationController
         @user = User.where(id: current_user.id).first()
         @email = @user.email
 
-        @user_tournament = Person.where(tournament_id: params[:id])
+        @user_tournament = @people_for_tournament
           .where(user_id: current_user.id)
         @is_signed_up = @user_tournament.where(is_player: 1).exists?
 
         # If already part of group, show group
         if @is_signed_up
           @buy_additional_tickets = true
-          @player_tournament = @user_tournament
-            .where(is_player: 1)
-          @group_members = Person.where(tournament_id: params[:id])
-            .where(group_number: @player_tournament.first.group_number)
-          @group_number = @player_tournament.first.group_number
-          @members = Array.new
-          @group_members.each do |member|
-            if member.user_id
-              @members.push (@first_name + @last_name)
-            else
-              @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
-              @members.push(@guest_name)
-            end
-          end
-        # not part of any golf group
         else
+          # not part of any golf group
           @no_group_need_to_buy_tickets = true
         end
       else
@@ -152,22 +138,50 @@ class TournamentsController < ApplicationController
       # Logged in as a guest
       if params[:is_valid_guest]
         @show_signup_button = false
-        @is_valid_guest = params[:is_valid_guest]
-        @group_members = Person.where(tournament_id: params[:id])
-          .where(group_number: params[:group_number])
-        @group_number = params[:group_number]
-        @members = Array.new
-        @group_members.each do |member|
-          if member.user_id
-            @account = Account.where(user_id: member.user_id).first()
-            @first_name = @account.first_name
-            @last_name = @account.last_name
-            @members.push (@first_name + @last_name)
-          else
-            @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
-            @members.push(@guest_name)
-          end
+        @is_valid_guest = params[:is_valid_guest] 
+      end
+    end
+
+    if @is_signed_up or @is_valid_guest
+      # Logged in Guest
+      if session[:guest_ticket_number] and session[:purchaser_email]
+        # Get purchaser's user id
+        @purchaser_id = User.where(email: session[:purchaser_email]).first().id
+        @checked_in = Person.where(guest_of: @purchaser_id)
+          .where(ticket_number: session[:guest_ticket_number])
+          .where(checked_in: 1)
+          .exists?
+      elsif @is_signed_up
+        # Sign in user
+        @checked_in = Person.where(tournament_id: params[:id])
+          .where(user_id: current_user.id)
+          .where(checked_in: 1)
+          .exists?
+      end
+
+      puts "checked_in"
+      puts @checked_in
+      # Generate checked_in table
+      @people_for_tournament = Person.where(tournament_id: params[:id]).where("is_guest = 1 OR is_player = 1")
+        .order("group_number asc")
+      @account = Account.all
+      @members = Array.new
+      @people_for_tournament.each do |member|
+        @people_data = {}
+        if member.user_id
+          @account = Account.where(user_id: member.user_id).first()
+          @f_name = @account.first_name rescue 'none'
+          @l_name = @account.last_name rescue 'none'
+          @people_data['name'] = @f_name + " " + @l_name
+        else
+          @account = Account.where(user_id: member.guest_of).first()
+          @f_name = @account.first_name rescue 'none'
+          @l_name = @account.last_name rescue 'none'
+          @people_data['name'] = "Guest of " + @f_name + " " + @l_name
         end
+        @people_data['group'] = member.group_number
+        @people_data['checked_in'] = member.checked_in
+        @members.push(@people_data)
       end
     end
   end
@@ -237,6 +251,10 @@ class TournamentsController < ApplicationController
         @guest = Person.where(tournament_id: params[:tournament_id])
         .where(ticket_number: params[:ticket_number])
         @group_number = @guest.first().group_number
+
+        session[:guest_ticket_number] = params[:ticket_number]
+        session[:purchaser_email] = params[:purchaser_email]
+
         redirect_to controller: 'tournaments',
           action: 'show',
           id: params[:tournament_id],
