@@ -182,11 +182,17 @@ class TournamentsController < ApplicationController
           @account = Account.where(user_id: member.user_id).first()
           @f_name = @account.first_name rescue 'none'
           @l_name = @account.last_name rescue 'none'
+          if @f_name.blank?
+            @f_name = User.where(id: member.user_id).first().email
+          end
           @people_data['name'] = @f_name + " " + @l_name
         else
           @account = Account.where(user_id: member.guest_of).first()
           @f_name = @account.first_name rescue 'none'
           @l_name = @account.last_name rescue 'none'
+          if @f_name.blank?
+            @f_name = User.where(id: member.guest_of).first().email
+          end
           @people_data['name'] = "Guest of " + @f_name + " " + @l_name
         end
         @people_data['group'] = member.group_number
