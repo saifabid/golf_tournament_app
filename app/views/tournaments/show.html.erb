@@ -29,9 +29,7 @@
 			});
     </script>
 
-		<% if @is_organizer %>
-			<%=render('layouts/event_organizer_header') %>
-		<% end %>
+
 		<div class="row">
 			<div class="col-md-1 col-spacing">
 				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
@@ -49,9 +47,7 @@
 				</div>
 				<div>
 				 <%=@tickets_left%> Tickets Remaining
-				 <% if @tickets_left >= 1%>
-				 <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
-				 <%end%>
+				 
 				</div>
 				</div>
 
@@ -77,13 +73,21 @@
 					<%=@first_name%>
 				<% elsif @email %>
 					<%=@email %> 
-				<% else %>
-					Please Log in
 				<% end %>
-				<%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				<% if @tickets_left >= 1 %>
+					<% if @show_signup_button and @no_group_need_to_buy_tickets %>
+				 		<%= button_to 'Buy Tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 		<% elsif @buy_additional_tickets %>
+				 		<%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 	<%end%>
+				 	<% if @show_signup_button and not @no_group_need_to_buy_tickets %>
+				 		<%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 	<% end %>
+				<%end%>
 
-				
+				<% if @show_signup_button %>
 				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
+				<% end %>
 			
 			</div>
 		</div>

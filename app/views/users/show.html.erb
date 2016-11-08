@@ -1,3 +1,5 @@
+<%= render 'layouts/link_back_to_event_page' %>
+
 <label> Profile Picture: </label> <BR/> <%= image_tag @account.profile_pic, size: "200x200", alt: "Edit Entry" %> <BR/><BR/>
 <label> Name: </label> <%=@account.prefix%> <%=@account.first_name%> <%=@account.middle_name%> <%=@account.last_name%> <%=@account.suffix%>  <BR/> <BR/>
 <label> Mobile Phone: </label> <%=@account.mobile_phone%> <BR/><BR/>

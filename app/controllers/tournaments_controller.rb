@@ -88,49 +88,70 @@ class TournamentsController < ApplicationController
     # Retrieve tickets left
     @tickets_left = @tournament.tickets_left
 
-    # User cases
-    # 1. Organizer
-    # 2. Attendee
-    # 3. Not logged in. Can log in as organizer or attendee
+    # set session for other pages to link back to event page
+    session[:tournament_id] = params[:id]
+
+    # Check if user signed in or not
     @email = nil
     @profile_pic = nil
+    @first_name = 'none'
+
+
+    @no_group_need_to_buy_tickets = false
+    @show_signup_button = true
+    @buy_additional_tickets = false
     if user_signed_in?
-      @session_user = current_user
-      @user_tournament = Person.where(tournament_id: params[:id])
-        .where(user_id: current_user.id)
+      # check if user is part of event
+      @part_of_event = Person.where(tournament_id: params[:id])
+        .where(user_id: current_user.id).exists?
 
-      @is_organizer = @user_tournament.where(is_organizer: 1).exists?
-      @account = Account.where(user_id: current_user.id).first()
-      @first_name = @account.first_name rescue 'none'
-      @last_name = @account.last_name rescue 'none'
-      @profile_pic = @account.profile_pic rescue nil
-      @user = User.where(id: current_user.id).first()
-      @email = @user.email
-      @is_signed_up = @user_tournament
-        .where(is_player: 1).exists?
+      # if user is part of event,
+      # check if part of group, if not, buy tickets
+      if @part_of_event
+        @show_signup_button = false
+        # Get User credentials
+        @account = Account.where(user_id: current_user.id).first()
+        @first_name = @account.first_name rescue 'none'
+        @last_name = @account.last_name rescue 'none'
+        @profile_pic = @account.profile_pic rescue nil
+        @user = User.where(id: current_user.id).first()
+        @email = @user.email
 
-      if @is_signed_up
-        @player_tournament = @user_tournament
-          .where(is_player: 1)
-        @group_members = Person.where(tournament_id: params[:id])
-          .where(group_number: @player_tournament.first.group_number)
+        @user_tournament = Person.where(tournament_id: params[:id])
+          .where(user_id: current_user.id)
+        @is_signed_up = @user_tournament.where(is_player: 1).exists?
 
-        @group_number = @player_tournament.first.group_number
-        @members = Array.new
-        @group_members.each do |member|
-          if member.user_id
-            @members.push (@first_name + @last_name)
-          else
-            @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
-            @members.push(@guest_name)
+        # If already part of group, show group
+        if @is_signed_up
+          @buy_additional_tickets = true
+          @player_tournament = @user_tournament
+            .where(is_player: 1)
+          @group_members = Person.where(tournament_id: params[:id])
+            .where(group_number: @player_tournament.first.group_number)
+          @group_number = @player_tournament.first.group_number
+          @members = Array.new
+          @group_members.each do |member|
+            if member.user_id
+              @members.push (@first_name + @last_name)
+            else
+              @guest_name = 'Guest of ' + @first_name + ' ' + @last_name
+              @members.push(@guest_name)
+            end
           end
+        # not part of any golf group
+        else
+          @no_group_need_to_buy_tickets = true
         end
+      else
+        # not part of event, must sign up for event
+        @no_group_need_to_buy_tickets = true
       end
     else
-      @session_user = 'none'
-      @is_organizer = false
-      @first_name = 'none'
+      #User is not logged in
+
+      # Logged in as a guest
       if params[:is_valid_guest]
+        @show_signup_button = false
         @is_valid_guest = params[:is_valid_guest]
         @group_members = Person.where(tournament_id: params[:id])
           .where(group_number: params[:group_number])
