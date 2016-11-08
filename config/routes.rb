@@ -48,6 +48,10 @@ Rails.application.routes.draw do
 
   # post 'users/forgot_password'
 
+  get 'tournaments/:id/check_in', to: 'tournaments#check_in'
+
+  get 'tournaments/:id/check_in_fail', to: 'tournaments#check_in_fail'
+
   get 'tournaments/:id', to: 'tournaments#show'
 
   get 'tournament_stats/:id', to: 'tournament_stats#show'

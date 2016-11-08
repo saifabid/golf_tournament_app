@@ -143,26 +143,27 @@ class TournamentsController < ApplicationController
     end
 
     if @is_signed_up or @is_valid_guest
-      # Logged in Guest
-      if session[:guest_ticket_number] and session[:purchaser_email]
-        # Get purchaser's user id
+      
+      if @is_signed_up
+        # Sign in user
+        @curr_user = current_user.id
+
+        @checked_in = Person.where(tournament_id: params[:id])
+          .where(user_id: current_user.id)
+          .where(checked_in: 1)
+          .exists?
+      elsif session[:guest_ticket_number] and session[:purchaser_email]
+        # Guest user
         @purchaser_id = User.where(email: session[:purchaser_email]).first().id
         @checked_in = Person.where(guest_of: @purchaser_id)
           .where(ticket_number: session[:guest_ticket_number])
           .where(checked_in: 1)
           .exists?
-      elsif @is_signed_up
-        # Sign in user
-        @checked_in = Person.where(tournament_id: params[:id])
-          .where(user_id: current_user.id)
-          .where(checked_in: 1)
-          .exists?
       end
 
-      puts "checked_in"
-      puts @checked_in
       # Generate checked_in table
-      @people_for_tournament = Person.where(tournament_id: params[:id]).where("is_guest = 1 OR is_player = 1")
+      @people_for_tournament = Person.where(tournament_id: params[:id])
+        .where("is_guest = 1 OR is_player = 1")
         .order("group_number asc")
       @account = Account.all
       @members = Array.new
@@ -239,6 +240,36 @@ class TournamentsController < ApplicationController
       render :new
       return
     end
+  end
+
+  def check_in
+    if params[:guest] == 'true'
+      @person = Person.where(guest_of: params[:purchaser_id])
+          .where(ticket_number: params[:ticket_number])
+          .first()
+      if @person.update(checked_in: 1)
+        redirect_to controller: 'tournaments',
+          action: 'show',
+          id: params[:id],
+          is_valid_guest: true
+      else
+        redirect_to 'tournaments/' + params[:id] + '/check_in_fail'
+      end
+    else
+      @person = Person.where(tournament_id: params[:id])
+          .where(user_id: current_user.id)
+          .first()
+      if @person.update(checked_in: 1)
+        redirect_to controller: 'tournaments',
+          action: 'show',
+          id: params[:id]
+      else
+        redirect_to 'tournaments/' + params[:id] + '/check_in_fail'
+      end
+    end
+  end
+
+  def check_in_fail
   end
 
   def guest_login
