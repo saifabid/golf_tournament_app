@@ -62,11 +62,6 @@ end
   end
 
   def signup_from_tournament
-  	if Person.where(tournament_id: params[:id]).where(user_id: current_user.id).where("is_player = 1").exists?
-  			redirect_to controller: 'tournaments',
-          action: 'show',
-          id: params[:id]
-  	end
     @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
     params[:tournament_name] = @tournament.name
   end
