@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109052643) do
+ActiveRecord::Schema.define(version: 20161109214351) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -33,15 +33,17 @@ ActiveRecord::Schema.define(version: 20161109052643) do
     t.string   "bill_province"
     t.boolean  "gender"
     t.date     "birth"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "mobile_phone"
     t.boolean  "is_home"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
+    t.text     "profile_pic",   limit: 65535
     t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
+  end
+
+  create_table "charges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(version: 20161109052643) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "ticket_transaction_id"
+    t.integer  "score"
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
@@ -82,7 +85,6 @@ ActiveRecord::Schema.define(version: 20161109052643) do
     t.bigint   "transaction_number"
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 10
-    t.datetime "transaction_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
@@ -156,6 +158,7 @@ ActiveRecord::Schema.define(version: 20161109052643) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "account_id"
+    t.boolean  "is_admin"
     t.index ["account_id"], name: "index_users_on_account_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

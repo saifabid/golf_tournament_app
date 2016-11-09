@@ -19,12 +19,14 @@
 		<th> Group Number</th>
 		<th> Name</th>
 		<th> Checked in </th>
+		<th> Score </th>
 	</tr>
 	<% @members.each do |member| %>
 	<tr>
 		<th><%=member['group']%></th>
 		<th><%=member['name']%></th>
 		<th><%=member['checked_in']%></th>
+		<th><%=member['is_sponsor']%></th>
 	</tr>	
 	<% end %>
 </table>

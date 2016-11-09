@@ -197,6 +197,7 @@ class TournamentsController < ApplicationController
         end
         @people_data['group'] = member.group_number
         @people_data['checked_in'] = member.checked_in
+	@people_data['score'] = member.score
         @members.push(@people_data)
       end
     end
