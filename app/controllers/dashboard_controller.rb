@@ -13,4 +13,5 @@ class DashboardController < ApplicationController
     userid= current_user.id
     return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_organizer=> 1})
   end
+
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sponsor_type: 1
+  description: MyText
+  ticket_price: 9.99
+  tournament: one
+
+two:
+  sponsor_type: 1
+  description: MyText
+  ticket_price: 9.99
+  tournament: two
