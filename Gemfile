@@ -81,3 +81,5 @@ gem 'rubyzip'
 # image management pipeline
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'

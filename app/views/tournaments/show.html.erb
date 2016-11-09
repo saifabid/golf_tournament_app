@@ -29,26 +29,31 @@
 			});
     </script>
 
-		<% if @is_organizer %>
-			<%=render('layouts/event_organizer_header') %>
-		<% end %>
+
 		<div class="row">
 			<div class="col-md-1 col-spacing">
 				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-9">
 				<div class="center-text">
-				<% if @tournament.logo == "0" %>
-				 	<h1>
-						<%=@tournament.name%>
-					</h1>
-				<% else %>
-					<div class="logo">
-				 		Logo
-				 	</div>
+				<% if @tournament.logo.present? %>
+				 	<img src=<%= @tournament.logo %> >	
 				<% end %>
-					
+				<div class="logo">
+				 	<%=@tournament.name%>
 				</div>
+				<div>
+					Start Time : <%=@date%>
+				</div>
+				<div>
+				 <%=@tickets_left%> Tickets Remaining
+				 
+				</div>
+
+
+
+				</div>
+
 				<%= render('layouts/general_map_view') %>
 				<div class="col-md-12">
 					<div class="countdown center-text">
@@ -60,15 +65,50 @@
 				<div class="col-md-12">
 					<%= render('layouts/event_group_view') %>
 				</div>
-			<% else %>
-			<div class="center-text">
+				<% else %>
 				
+				<% end %>
+
+				<% if @sponsor_accounts.present?%>
+					<div>
+						<div>Sponsored By:</div>
+						 <%@sponsor_accounts.each do |sponsor_account| -%>
+
+						 	<%=sponsor_account.first_name%> <%=sponsor_account.last_name%> ID(<%=sponsor_account.user_id%>):
+		 					<% if sponsor_account.profile_pic.present? %>
+							 	<img src=<%= sponsor_account.profile_pic %>>	
+							<% end %>
+
+							&nbsp;&nbsp;&nbsp;
+						 <%end -%>
+					</div>
+					<br>
+				<%end%>
+
+			</div>
+			<div class="col-md-2 col-spacing">
+				<% if @profile_pic %>
+					<img height="100" width="100" src=<%= @profile_pic %> >
+				<% elsif @first_name != 'none' %>
+					<%=@first_name%>
+				<% elsif @email %>
+					<%=@email %> 
+				<% end %>
+				<% if @tickets_left >= 1 %>
+					<% if @show_signup_button and @no_group_need_to_buy_tickets %>
+				 		<%= button_to 'Buy Tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 		<% elsif @buy_additional_tickets %>
+				 		<%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 	<%end%>
+				 	<% if @show_signup_button and not @no_group_need_to_buy_tickets %>
+				 		<%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+				 	<% end %>
+				<%end%>
+
+				<% if @show_signup_button %>
 				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
-			</div>
-			<% end %>
-			</div>
-			<div class="col-md-1 col-spacing">
-				Profile
+				<% end %>
+			
 			</div>
 		</div>
 	</body>

@@ -10,13 +10,16 @@
   </ul>
   
    <ul class="nav navbar-nav navbar-right">
+
    <% if user_signed_in? %>
     <li><a href="/users/account">My Account</a></li>
     <li><a href="/tournaments/new">Create Tournament</a></li>
     <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %> </li>
+
     <% else %>
       <li><a href="/users/sign_in/">Login/Register</a></li>
     <% end %>
+    
     </ul>
  
   </div>

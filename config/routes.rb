@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
 
+  get 'signup/:id', to: 'signup#signup_from_tournament'
+
   get 'credit_card/index'
 
   get 'about/contact'
@@ -47,6 +49,10 @@ Rails.application.routes.draw do
 
   # post 'users/forgot_password'
 
+  get 'tournaments/:id/check_in', to: 'tournaments#check_in'
+
+  get 'tournaments/:id/check_in_fail', to: 'tournaments#check_in_fail'
+
   get 'tournaments/:id', to: 'tournaments#show'
 
   get 'tournament_stats/:id', to: 'tournament_stats#show'
@@ -64,6 +70,9 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   get 'charges/new'
+
+  get 'dashboard/participatingtournaments_feed'
+  get 'dashboard/createdtournaments_feed'
 
   root to: 'welcome#hello_world'
 

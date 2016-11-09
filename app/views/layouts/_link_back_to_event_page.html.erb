@@ -1,0 +1,10 @@
+<% if session[:tournament_id]%>
+	<br/>
+  <div>
+  <a href="/tournaments/<%= session[:tournament_id] %>">
+      Return back to Event Page!
+   </a>
+   <%= button_to 'Buy Tickets for Event ', {:controller => "signup", :action => "signup_from_tournament", :id => session[:tournament_id]}, :method=>:get %>
+  </div>
+  <br/>
+<% end %>

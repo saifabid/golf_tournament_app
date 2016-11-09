@@ -15,4 +15,5 @@
  *= require rails_bootstrap_forms
  *= require timepicker
  *= require jquery.countdown
+ *= require fullcalendar
  */

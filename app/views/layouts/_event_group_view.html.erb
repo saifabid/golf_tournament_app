@@ -1,19 +1,32 @@
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th> Group <%=@group_number%></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-		<% @members.each do |member| %>
-		<td>
-			<%=member%>
-		</td>
-		<% end %>
-		</tr>
-	</tbody>
-</table>
+<% if @checked_in != true %>
+	<% if @is_signed_up %>
+		<div>
+			<a href="/tournaments/<%=params[:id]%>/check_in?guest=false&user=<%=@curr_user%>" class="btn btn-info" role="button">Check In</a>
+		</div>
+	<%elsif session[:guest_ticket_number] and session[:purchaser_email] %>
+		<div>
+			<a href="/tournaments/<%=params[:id]%>/check_in?guest=true&purchaser_id=<%=@purchaser_id%>&ticket_number=<%=session[:guest_ticket_number]%>" class="btn btn-info" role="button">Check In</a>
+		</div>
+	<%end%>
+<%end%>
+
 <div class="center-text">
-	Tee Off Time : 
+	Your team's Tee Off Time :  
 </div>
+
+<table class="table table-bordered">
+	<tr>
+		<th> Group Number</th>
+		<th> Name</th>
+		<th> Checked in </th>
+	</tr>
+	<% @members.each do |member| %>
+	<tr>
+		<th><%=member['group']%></th>
+		<th><%=member['name']%></th>
+		<th><%=member['checked_in']%></th>
+	</tr>	
+	<% end %>
+</table>
+
+

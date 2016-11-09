@@ -3,13 +3,36 @@
   <th>Start Time</th>
   <th>End Time</th>
   <th></th></tr>
-  <% @agenda.each do|e|%>
-  <% if e.event_name %>
-  <tr>
-    <td><%=e.event_name%></td>
-    <td><%=e.start_time.strftime("%I:%M %p") if e.start_time%></td>
-    <td><%=e.end_time.strftime("%I:%M %p") if e.end_time%></td>
-  </tr>
+  <select name = "sortAgenda" id = "sortAgenda">
+    <option value = "a_z"> Ascending Title </option>
+    <option value = "z_a"> Descending Title </option>
+    <option value = "time_asc"> Ascending Start Time </option>
+    <option value = "time_desc"> Descending Start Time </option>
+  </select>
+
+  <%= form_tag("/tournaments/"+@id+"/schedule", method: "get") do %>
+    <%= hidden_field_tag(:query) %>
+    <%= label_tag(:searchTitle, "Title:") %>
+    <%= text_field_tag(:searchTitle) %>
+    <%= submit_tag("Search") %>
   <% end %>
+  <%= form_tag("/tournaments/"+@id+"/schedule?reset=true", method: "post") do %>
+  <%= submit_tag("Reset") %>
+  <% end %>
+
+  <% @agenda.each do|e|%>
+    <% if e.event_name %>
+    <tr>
+      <td><%=e.event_name%></td>
+      <td><%=e.start_time.strftime("%I:%M %p") if e.start_time%></td>
+      <td><%=e.end_time.strftime("%I:%M %p") if e.end_time%></td>
+    </tr>
+    <% end %>
   <% end %>
 </table>
+
+<script>
+  document.getElementById("sortAgenda").onchange = function () {
+    document.getElementById("query").value = document.getElementById("sortAgenda").value
+  }
+</script>

@@ -1,3 +1,35 @@
 <!DOCTYPE HTML>
+<html>
+  <head>
+    <style type="text/css">
+      .col-centered{
+        float: none;
+        margin: auto;
+      }
+      .center-text{
+      text-align: center
+      }
+      </style>
+  </head>
+</html>
 
 <h1>Organiser Dashboard</h1>
+<%=render('layouts/event_organizer_header') %>
+
+<div class = center-text>
+
+    <thead>
+      <tr>
+        <th> Tickets Left: <%= @tournament.tickets_left %></th>
+      </tr>
+    </thead>
+
+  <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get %>
+
+</div>
+
+<div class = center-text>
+
+  <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get %>
+
+</div>

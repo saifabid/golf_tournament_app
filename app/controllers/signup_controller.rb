@@ -9,6 +9,7 @@ class SignupController < ApplicationController
 	helper_method :assigngroup, :assignfoursome
   before_action :check_user_auth
 	before_action :check_number_tickets, only: [:create]
+  before_action :check_positive_amounts, only: [:create]
 
 	#TODO: place in helper class
 	def generate_barcode_img(numtoCode)
@@ -56,7 +57,19 @@ end
 
 
 	def new
-	end
+    flash[:error] = ""
+    @tournament = Tournament.first
+  end
+
+  def signup_from_tournament
+  	if Person.where(tournament_id: params[:id]).where(user_id: current_user.id).where("is_player = 1").exists?
+  			redirect_to controller: 'tournaments',
+          action: 'show',
+          id: params[:id]
+  	end
+    @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
+    params[:tournament_name] = @tournament.name
+  end
 
 	def index
 		redirect_to "/signup/new"
@@ -70,12 +83,14 @@ end
 
 		@total_tickets = @sponsor_tickets + params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
 
+    puts params[:tournament_name]
+
 		@tournament_id = Tournament.where("tournaments.name LIKE ?", params[:tournament_name])
 
 		@tournament = Tournament.find_by id: @tournament_id.first.id
 
 		if @total_tickets > @tournament.tickets_left.to_i
-			flash[:error] = "You have selected more tickets than what's available for #{@tournament.name}"
+			flash[:error] = "You have selected more tickets than what's available"
 			render :new
 			return
 		else
@@ -84,6 +99,20 @@ end
 
 	end
 
+	def check_positive_amounts
+
+    if params[:player_tickets] != "" && params[:player_tickets].to_i < 0
+      flash[:error] = "Negative"
+      puts "-----------------------------------------------"
+      render :new
+    end
+
+    if params[:foursome_tickets] != "" && params[:foursome_tickets].to_i < 0
+      flash[:error] = "Negative"
+      render :new
+    end
+
+  end
 
 	def assigngroup
 		@person = Person.last
@@ -146,6 +175,8 @@ end
 
 
 	def create
+	    @amount = 0
+
 	    @tournament_id = Tournament.where("tournaments.name LIKE ?", form_params[:tournament_name])
 
 	    @tournament = Tournament.find_by id: @tournament_id.first.id
@@ -197,6 +228,7 @@ end
 				).save
 
 			@l = @offset + 1
+			@amount += 400
 
 			while @l < @offset + 4
 				@ticket_num = [@transaction_num, @l]
@@ -226,10 +258,12 @@ end
 			assigngroup
 			@player_offset = 1
 			@offset += 1
+			@amount += 100
 
 		else
 		end
 
+		
 		@k = 1
 
 		while @k < form_params[:foursome_tickets].to_i
@@ -249,6 +283,7 @@ end
 			assignfoursome
 			@k += 1
 			@offset += 4
+			
 		end
 
 		@i = @offset
@@ -264,11 +299,11 @@ end
 				).save
 			assigngroup
 			@i += 1
+			
 		end
 
 			@tickets_left = @tournament.tickets_left - (@i - 1)
 			@tournament.update_column(:tickets_left, @tickets_left)
-			@amount = 1000
 			redirect_to controller: 'charges', action: 'new', transaction_id: transaction_id, amount: @amount
 
 		end
