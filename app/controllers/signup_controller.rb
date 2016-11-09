@@ -62,11 +62,6 @@ end
   end
 
   def signup_from_tournament
-  	if Person.where(tournament_id: params[:id]).where(user_id: current_user.id).where("is_player = 1").exists?
-  			redirect_to controller: 'tournaments',
-          action: 'show',
-          id: params[:id]
-  	end
     @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
     params[:tournament_name] = @tournament.name
   end
@@ -202,6 +197,7 @@ end
 
 		@offset = 1
 		@player_offset = 0
+    @k = 0
 
 		if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
@@ -216,36 +212,39 @@ end
 		end
 
 		if form_params[:foursome_tickets].to_i > 0
-			@ticket_num = [@transaction_num, @offset]
+      if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_player = true", current_user.id, @tournament_id.first.id)).exists?
+        @ticket_num = [@transaction_num, @offset]
 
-			@tournament.people.new(
-				:user_id => current_user.id,
-				:is_player => true,
-				:ticket_transaction_id => transaction_id,
-				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => 0
-				).save
+        @tournament.people.new(
+          :user_id => current_user.id,
+          :is_player => true,
+          :ticket_transaction_id => transaction_id,
+          :ticket_number => @ticket_num.join.to_i,
+          :ticket_description => 0
+          ).save
 
-			@l = @offset + 1
-			@amount += 400
+        @l = @offset + 1
+        @amount += 400
 
-			while @l < @offset + 4
-				@ticket_num = [@transaction_num, @l]
-				@tournament.people.new(
-				:guest_of => current_user.id,
-				:is_guest => true,
-				:ticket_transaction_id => transaction_id,
-				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => 0
-				).save
+        while @l < @offset + 4
+          @ticket_num = [@transaction_num, @l]
+          @tournament.people.new(
+          :guest_of => current_user.id,
+          :is_guest => true,
+          :ticket_transaction_id => transaction_id,
+          :ticket_number => @ticket_num.join.to_i,
+          :ticket_description => 0
+          ).save
 
-				@l += 1
-			end
-			assignfoursome
+          @l += 1
+        end
+        assignfoursome
 
-			@offset += 4
+        @offset += 4
 
-    elsif (form_params[:player_tickets].to_i > 0)
+        @k = 1
+      end
+    elsif form_params[:player_tickets].to_i > 0
       if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_player = true", current_user.id, @tournament_id.first.id)).exists?
         @ticket_num = [@transaction_num, @offset]
         @tournament.people.new(
@@ -264,7 +263,7 @@ end
 		end
 
 		
-		@k = 1
+
 
 		while @k < form_params[:foursome_tickets].to_i
 			@l = @offset
