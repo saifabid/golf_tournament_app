@@ -103,7 +103,6 @@ end
 
     if params[:player_tickets] != "" && params[:player_tickets].to_i < 0
       flash[:error] = "Negative"
-      puts "-----------------------------------------------"
       render :new
     end
 
@@ -246,20 +245,21 @@ end
 
 			@offset += 4
 
-		elsif (form_params[:player_tickets].to_i > 0)
-			@ticket_num = [@transaction_num, @offset]
-			@tournament.people.new(
-				:user_id => current_user.id,
-				:is_player => true,
-				:ticket_transaction_id=> transaction_id,
-				:ticket_number => @ticket_num.join.to_i,
-				:ticket_description => 0
-				).save
-			assigngroup
-			@player_offset = 1
-			@offset += 1
-			@amount += 100
-
+    elsif (form_params[:player_tickets].to_i > 0)
+      if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_player = true", current_user.id, @tournament_id.first.id)).exists?
+        @ticket_num = [@transaction_num, @offset]
+        @tournament.people.new(
+          :user_id => current_user.id,
+          :is_player => true,
+          :ticket_transaction_id=> transaction_id,
+          :ticket_number => @ticket_num.join.to_i,
+          :ticket_description => 0
+          ).save
+        assigngroup
+        @player_offset = 1
+        @offset += 1
+        @amount += 100
+      end
 		else
 		end
 
