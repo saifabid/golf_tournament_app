@@ -1,16 +1,8 @@
 class AccountsController < ApplicationController
   def create
-    @user = User.find(current_user.id)
-    @account = @user.account.new account_params
-    if @account.save
-    	redirect_to '/'
-    else
-    	redirect_to edit_user_registration
-    end
   end
   
   def update
-    puts("helloklsldjfklsdfjkdslfjdkslfdslkfjdsklfjdkslfjdsklfjdkslfjdsklfjdsklfjdsklj")
   end
 
   attr_accessor :user_id
