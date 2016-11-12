@@ -76,6 +76,7 @@ bower.json
 .idea/dataSources/
 .idea/golf_tournament_app.iml
 .idea/runConfigurations
+.idea/codeStyleSettings.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
