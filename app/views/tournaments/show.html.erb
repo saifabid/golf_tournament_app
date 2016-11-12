@@ -87,12 +87,14 @@
 
 			</div>
 			<div class="col-md-2 col-spacing">
-				<% if @profile_pic %>
-					<img height="100" width="100" src=<%= @profile_pic %> >
-				<% elsif @first_name != 'none' %>
-					<%=@first_name%>
-				<% elsif @email %>
-					<%=@email %> 
+				<% if !@is_valid_guest %>
+					<% if @profile_pic %>
+						<img height="100" width="100" src=<%= @profile_pic %> >
+					<% elsif @f_name != 'none' %>
+						<%=@f_name%>
+					<% elsif @email %>
+						<%=@email %> 
+					<% end %>
 				<% end %>
 				<% if @tickets_left >= 1 %>
 					<% if @show_signup_button and @no_group_need_to_buy_tickets %>
