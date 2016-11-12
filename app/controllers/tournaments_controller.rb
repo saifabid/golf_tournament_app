@@ -195,7 +195,8 @@ class TournamentsController < ApplicationController
           end
           @people_data['name'] = "Guest of " + @f_name + " " + @l_name
         end
-        @people_data['group'] = member.group_number
+        @tournament_group_num = Group.where("id = %d", member.group_number).last
+        @people_data['group'] = @tournament_group_num.tournament_group_num
         @people_data['checked_in'] = member.checked_in
 	@people_data['score'] = member.score
         @members.push(@people_data)
