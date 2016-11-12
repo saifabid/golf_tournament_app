@@ -56,9 +56,8 @@
       </div>
       <div class="content-card">
         <td>
-          <a href="/tournaments/<%= tournament.id %>">
-            <%= tournament.name %>
-          </a>  
+         
+        <%= link_to tournament.name, tournament_path(tournament), data: { turbolinks: false } %>
         </td>
         <br />
         <td><%= tournament.details %></td>
