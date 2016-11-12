@@ -110,9 +110,20 @@ end
 
 	def assigngroup
 		@person = Person.last
+		@tournament_num = Group.where(sprintf("tournament_id = %d AND tournament_group_num IS NOT NULL", @person.tournament_id)).last
+
+    @num = 0
+
+    if @tournament_num.nil? || @tournament_num.tournament_group_num.nil?
+      @num = 1
+		else
+      @num = @tournament_num.tournament_group_num
+      @num += 1
+    end
 
 		@group = Group.find_or_initialize_by(tournament_id: @person.tournament_id, current_members: 0..3) do |group_work|
-			group_work.current_members = 0
+			group_work.tournament_group_num = @num
+      group_work.current_members = 0
 			group_work.tournament_id = @person.tournament_id
 			group_work.save
 		end
@@ -146,7 +157,19 @@ end
 	def assignfoursome
 		@person = Person.last(4)
 
+		@tournament_num = Group.where(sprintf("tournament_id = %d AND tournament_group_num IS NOT NULL", @person[0].tournament_id)).last
+
+		@num = 0
+
+		if @tournament_num.nil? || @tournament_num.tournament_group_num.nil?
+			@num = 1
+		else
+			@num = @tournament_num.tournament_group_num
+			@num += 1
+		end
+
 		@group = Group.new(
+			:tournament_group_num => @num,
 			:current_members => 4,
 			:tournament_id => @person[0].tournament_id,
 			:member_one => @person[0].id,
