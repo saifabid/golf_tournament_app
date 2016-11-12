@@ -181,17 +181,19 @@ class TournamentsController < ApplicationController
         if member.user_id
           @account = Account.where(user_id: member.user_id).first()
           @f_name = @account.first_name rescue 'none'
-          @l_name = @account.last_name rescue 'none'
-          if @f_name.blank?
+          @l_name = @account.last_name rescue ''
+          if @f_name == 'none' or @f_name == ''
             @f_name = User.where(id: member.user_id).first().email
+            @l_name = ''
           end
           @people_data['name'] = @f_name + " " + @l_name
         else
           @account = Account.where(user_id: member.guest_of).first()
           @f_name = @account.first_name rescue 'none'
-          @l_name = @account.last_name rescue 'none'
-          if @f_name.blank?
+          @l_name = @account.last_name rescue ''
+          if @f_name == 'none' or @f_name == ''
             @f_name = User.where(id: member.guest_of).first().email
+            @l_name = ''
           end
           @people_data['name'] = "Guest of " + @f_name + " " + @l_name
         end
