@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113005059) do
 
+ActiveRecord::Schema.define(version: 20161113012302) do
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "prefix"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20161113005059) do
     t.datetime "updated_at",                          null: false
     t.integer  "ticket_transaction_id"
     t.integer  "score"
+    t.integer  "guest_number"
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
