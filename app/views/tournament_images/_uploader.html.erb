@@ -1,0 +1,7 @@
+<div>
+  <%= form_tag '/upload', method: :post, class: 'dropzone file-dropzone' do %>
+      <div class="fallback">
+        <%= file_field_tag 'media', multiple: true %>
+      </div>
+  <% end %>
+</div>

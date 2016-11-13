@@ -26,6 +26,9 @@ class TournamentsController < ApplicationController
       return
     end
   end
+  def uploadimages
+
+  end
 
   def new
     @tournament = Tournament.new

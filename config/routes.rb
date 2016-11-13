@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :tournament_tickets
     resources :tournament_sponsorships
   end
+
+  get 'tournament/uploadimages' => 'tournaments#uploadimages'
   resources :signup, :except => [:show]
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
