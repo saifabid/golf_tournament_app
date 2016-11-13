@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 20161113052906) do
 
-ActiveRecord::Schema.define(version: 20161113012302) do
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "prefix"
@@ -136,7 +136,9 @@ ActiveRecord::Schema.define(version: 20161113012302) do
     t.string   "venue_website"
     t.string   "venue_contact_details"
     t.boolean  "is_private"
+    t.string   "private_event_password"
     t.integer  "tickets_left"
+    t.integer  "spctator_tickets_left"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.datetime "start_date"
@@ -144,7 +146,6 @@ ActiveRecord::Schema.define(version: 20161113012302) do
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
-    t.string   "private_event_password"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -165,6 +166,15 @@ ActiveRecord::Schema.define(version: 20161113012302) do
     t.index ["account_id"], name: "index_users_on_account_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "venues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "website"
+    t.string   "contact"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "accounts", "users"
