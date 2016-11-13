@@ -58,6 +58,7 @@ class TournamentsController < ApplicationController
 
     @tournament = Tournament.new(params)
     @tournament.tickets_left = params[:total_player_tickets].to_i
+    @tournament.spectator_tickets_left = params[:total_audience_tickets].to_i
 
     @tournament.save
     if @tournament.errors.any?

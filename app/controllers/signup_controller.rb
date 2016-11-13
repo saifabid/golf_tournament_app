@@ -298,21 +298,6 @@ end
 			end
 		end
 
-		while @s < form_params[:spectator_tickets].to_i
-					@ticket_num = [@transaction_num, @offset]
-					@tournament.people.new(
-							:guest_of => current_user.id,
-							:is_spectator => true,
-							:ticket_transaction_id=> transaction_id,
-							:ticket_number => @ticket_num.join.to_i,
-							:ticket_description => 4
-					).save
-			@offset += 1
-
-			@s += 1
-		end
-
-
 		while @k < form_params[:foursome_tickets].to_i
 			@l = @offset
 			while @l < @offset + 4
@@ -349,8 +334,29 @@ end
 			
 		end
 
-			@tickets_left = @tournament.tickets_left - (@i - 1)
+			@tickets_left = @tournament.tickets_left - (@i - 1 + @s)
+
+			while @s < form_params[:spectator_tickets].to_i
+				@ticket_num = [@transaction_num, @offset]
+				@tournament.people.new(
+						:guest_of => current_user.id,
+						:is_spectator => true,
+						:ticket_transaction_id=> transaction_id,
+						:ticket_number => @ticket_num.join.to_i,
+						:ticket_description => 4
+				).save
+				@offset += 1
+
+				@s += 1
+			end
+
+			if @tournament.spectator_tickets_left.nil?
+				@spectator_tickets_left = @tournament.total_audience_tickets - @s
+			else
+				@spectator_tickets_left = @tournament.spectator_tickets_left - @s
+			end
 			@tournament.update_column(:tickets_left, @tickets_left)
+			@tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
 			redirect_to controller: 'charges', action: 'new', transaction_id: transaction_id, amount: @amount
 
 		end
