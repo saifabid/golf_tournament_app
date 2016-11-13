@@ -26,6 +26,8 @@
       <td>
         <% if user["player"].checked_in != true %>
           false
+          <% else %>
+          true
         <% end %>
       </td>
       <td>
@@ -37,9 +39,7 @@
         </a>
       </td>
       <td>
-        <a class="btn-success btn-sm" href="/" data-method="delete">
-        <span class="bold">Check In User</span>
-        </a>
+        <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
       </td>
    </tr>
   <% end %>

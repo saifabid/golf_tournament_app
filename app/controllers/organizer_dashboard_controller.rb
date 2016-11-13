@@ -19,6 +19,12 @@ class OrganizerDashboardController < ApplicationController
     end
   end
 
+  def check_player_in
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"checked_in" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def get_tournament_players_list
     @all_tournament_playars = []
     all_persons = Person.where("tournament_id = ? AND is_player = 1", params[:id])
