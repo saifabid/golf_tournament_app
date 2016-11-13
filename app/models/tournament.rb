@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Tournament < ApplicationRecord
   attr_accessor  :profile_picture
   has_many :tournament_events, dependent: :destroy
@@ -37,5 +39,9 @@ class Tournament < ApplicationRecord
 
   def self.currency_options
     @currency_options
+  end
+
+  def self.create_private_event_hash
+    return SecureRandom.hex(3)
   end
 end

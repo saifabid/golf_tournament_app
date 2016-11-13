@@ -7,12 +7,12 @@
     </div>
   <% end %>
   
-
+  <%= link_to 'Go to Organizer Dashboard', tournament_path(id: params[:tournament_id]), data: { turbolinks: false } %>
 
   <h2>Tournament Agenda</h2>
   <h2>Create New Event</h2>
   <%= render 'tournament_events/createevent'%>
 
-  <h2> Current Agenga </h2>
+  <h2> Current Agenda </h2>
   <%=render  'tournament_events/list', tournament_events: @tournament.tournament_events %>
 </div>

@@ -1,0 +1,10 @@
+<h1>
+Incorrect Password. This is a Private Event. Please re-enter the password provided by the organizer.
+</h1>
+
+<%= form_tag("/tournaments/:id/private_event_login", method: "post") do %>
+	<%= hidden_field_tag :tournament_id , @id %>
+	<%= label_tag(:password, "Password") %>
+	<%= text_field_tag(:password) %>
+  <%= submit_tag("Submit") %>
+<%end%>

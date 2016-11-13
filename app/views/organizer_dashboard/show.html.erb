@@ -33,3 +33,9 @@
   <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get %>
 
 </div>
+
+<% if @is_private == true %>
+  <div class = center-text>
+  The password to your event is: <%= @private_event_password %>
+  </div>
+<% end %>

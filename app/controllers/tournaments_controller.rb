@@ -4,9 +4,20 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer, only: [:show]
 
+  before_action :check_private_event, only: [:show]
 
   def index
     redirect_to "/"
+  end
+
+  def check_private_event
+    session[:private_event_logged_in] ||= []
+    if Tournament.where(id: params[:id]).where(:is_private => 1).exists? and !session[:private_event_logged_in].include? params[:id]
+      redirect_to controller: 'tournaments',
+        action: 'private_event_login',
+        id: params[:id]
+      return
+    end
   end
 
   def check_tournament_organizer
@@ -41,6 +52,10 @@ class TournamentsController < ApplicationController
     params[:venue_logo] = uploaded_logo["url"]
     params[:profile_pictures] = uploaded_profile_picture["url"]
 
+    if params[:is_private] == "1"
+      params[:private_event_password] = Tournament.create_private_event_hash
+    end 
+
     @tournament = Tournament.new(params)
     @tournament.tickets_left = params[:total_player_tickets].to_i
 
@@ -62,6 +77,9 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    puts "-----"
+    puts session[:private_event_logged_in]
+    puts "------"
     @id = params[:id]
     @tournament = Tournament.find(params[:id])
     if @tournament.errors.any?
@@ -200,7 +218,7 @@ class TournamentsController < ApplicationController
         @tournament_group_num = Group.where("id = %d", member.group_number).last
         @people_data['group'] = @tournament_group_num.tournament_group_num
         @people_data['checked_in'] = member.checked_in
-	@people_data['score'] = member.score
+	      @people_data['score'] = member.score
         @members.push(@people_data)
       end
     end
@@ -317,6 +335,25 @@ class TournamentsController < ApplicationController
   end
 
   def guest_login_fail
+    @id = params[:id]
+  end
+
+  def private_event_login
+    @id = params[:id]
+    if params[:id] and params[:password]
+      @id = params[:tournament_id]
+      if Tournament.where(id: @id).where(:is_private => 1).where(private_event_password: params[:password]).exists?
+        session[:private_event_logged_in].push(@id)
+        redirect_to controller: 'tournaments',
+          action: 'show',
+          id: @id
+      else
+        redirect_to '/tournaments/' + @id + '/private_event_login_fail'
+      end
+    end
+  end
+
+  def private_event_login_fail
     @id = params[:id]
   end
 

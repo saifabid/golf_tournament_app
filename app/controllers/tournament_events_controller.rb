@@ -20,23 +20,23 @@ class TournamentEventsController < ApplicationController
   end
 
   def create
-      @tournament= Tournament.find(params[:tournament_id])
-      if @tournament.errors.any?
-        flash[:error] = @tournament.errors.full_messages.to_sentence
-        puts flash[:error]
-        render :new
-        return
-      end
+    @tournament= Tournament.find(params[:tournament_id])
+    if @tournament.errors.any?
+      flash[:error] = @tournament.errors.full_messages.to_sentence
+      puts flash[:error]
+      render :new
+      return
+    end
 
-      @tournament_event= @tournament.tournament_events.create(tournament_event_params)
-      if @tournament_event.errors.any?
-        flash[:error] = @tournament_event.errors.full_messages.to_sentence
-        puts flash[:error]
-        render :new
-        return
-      end
+    @tournament_event= @tournament.tournament_events.create(tournament_event_params)
+    if @tournament_event.errors.any?
+      flash[:error] = @tournament_event.errors.full_messages.to_sentence
+      puts flash[:error]
+      render :new
+      return
+    end
 
-      redirect_to new_tournament_tournament_event_path(@tournament.id)
+    redirect_to new_tournament_tournament_event_path(@tournament.id)
   end
 
   def destroy
