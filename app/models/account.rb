@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
   has_one :user
   
+  validates :first_name, presence: true
   validates :birth, presence: true
   validate :birth_date_in_future
 

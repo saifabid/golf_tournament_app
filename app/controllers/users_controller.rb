@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   end
 
   def new
+    @account = Account.new
   end
 
   def create
@@ -13,7 +14,7 @@ class UsersController < ApplicationController
     @account.save
 
     if @account.errors.any?
-      flash[:notice] = @account.errors.full_messages.to_sentence
+      # flash[:notice] = @account.errors.full_messages.to_sentence
       render :new
     else
       redirect_to @user
@@ -25,7 +26,7 @@ class UsersController < ApplicationController
     begin
       @account = Account.find_by!(user_id: current_user.id)
     rescue
-      flash[:notice] = 'Please create account first by filling out form with at least first name and birth date (cannot be in future)'
+      # flash[:notice] = 'Please fill out some basic information before attempting to view Account. Mandatory fields: first name and birthdate'
       redirect_to new_user_url
     end
   end
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
     @account.update(image_store)
 
     if @account.errors.any?
-      flash[:notice] = @account.errors.full_messages.to_sentence()
+      # flash[:notice] = @account.errors.full_messages.to_sentence()
       render :new
     else
       redirect_to @user
