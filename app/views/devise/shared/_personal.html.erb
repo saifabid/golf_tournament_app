@@ -1,9 +1,13 @@
 <%= form_for(:account, html: {method: :post}) do |f| %>
   
+    <div class = "message">
+      <h3>Mandatory fields: First name, birth date (cannot be in future)</h3>
+    </div>
+
     <div class = "row">
       <%= f.label :profile_picture %>
       <%= f.file_field :profile_pic %>
-      </div>
+    </div>
 
     <h3> Contact Information </h3>
 
