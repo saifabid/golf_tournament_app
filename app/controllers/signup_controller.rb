@@ -71,20 +71,24 @@ end
 	end
 
 	def check_number_tickets
-		@sponsor_tickets = 0
-		if params[:sponsor_level].to_i > 0
-			@sponsor_tickets = 1
-		end
 
-		@total_tickets = @sponsor_tickets + params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
-
-    puts params[:tournament_name]
+		@total_tickets =  params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
 
 		@tournament_id = Tournament.where("tournaments.name LIKE ?", params[:tournament_name])
 
 		@tournament = Tournament.find_by id: @tournament_id.first.id
 
 		if @total_tickets > @tournament.tickets_left.to_i
+			flash[:error] = "You have selected more tickets than what's available"
+			render :new
+			return
+		else
+			flash[:error] = ""
+		end
+
+		@total_spectator_tickets =  params[:spectator_tickets].to_i
+
+		if @total_spectator_tickets > @tournament.spectator_tickets_left.to_i
 			flash[:error] = "You have selected more tickets than what's available"
 			render :new
 			return
@@ -104,7 +108,12 @@ end
     if params[:foursome_tickets] != "" && params[:foursome_tickets].to_i < 0
       flash[:error] = "Negative"
       render :new
-    end
+		end
+
+		if params[:spectator_tickets] != "" && params[:spectator_tickets].to_i < 0
+			flash[:error] = "Negative"
+			render :new
+		end
 
   end
 
