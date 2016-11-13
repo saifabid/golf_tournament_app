@@ -22,7 +22,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(current_user.id)
-    @account = Account.find_by!(user_id: current_user.id)
+    begin
+      @account = Account.find_by!(user_id: current_user.id)
+    rescue
+      flash[:notice] = 'Please create account first by filling out form with at least first name and birth date (cannot be in future)'
+      redirect_to new_user_url
+    end
   end
 
   def edit
