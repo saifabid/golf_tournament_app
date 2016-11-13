@@ -8,12 +8,26 @@ class Tournament < ApplicationRecord
 
   validates_presence_of :name, :venue_address, :start_date
   validates_numericality_of :total_player_tickets, :total_audience_tickets, only_integer: true, greater_than_or_equal_to: 0
-  validate :start_date_is_not_past
+  validate :start_date_is_not_past, :no_more_than_12_profile_pictures
 
   def start_date_is_not_past
     if start_date.present? && start_date < Date.today
       errors.add(:start_date, "can't be in the past")
     end
+  end
+
+  def no_more_than_12_profile_pictures
+    arr_profile_pictures = string_to_arr(profile_pictures)
+
+    if arr_profile_pictures.present? && arr_profile_pictures.length > 12
+      errors.add(:profile_pictures, "Can't have more than 12")
+    end
+  end
+
+  def string_to_arr(profile_pictures)
+    x = profile_pictures[1..-2]
+    x.gsub! '"', ''
+    return x.split(",")
   end
 
   # Functionality used by mapping view in welcome/hello_world

@@ -4,7 +4,7 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer, only: [:show]
 
-  before_action :check_private_event, only: [:show]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule]
 
   def index
     redirect_to "/"
@@ -32,6 +32,11 @@ class TournamentsController < ApplicationController
   end
 
   def create
+    uploaded_profile_picture = Image.store(:profile_picture, params[:images])
+    if uploaded_profile_picture.nil?
+      uploaded_profile_picture = []
+    end
+
     params = tournament_params
     uploaded_logo = Image.store(:logo, params[:logo])
     if uploaded_logo.nil?
@@ -43,31 +48,38 @@ class TournamentsController < ApplicationController
       uploaded_venue_logo = {}
     end
 
-    uploaded_profile_picture = Image.store(:profile_picture, params[:profile_picture])
-    if uploaded_profile_picture.nil?
-      uploaded_profile_picture = {}
-    end
-
     params[:logo] = uploaded_logo["url"]
     params[:venue_logo] = uploaded_logo["url"]
-    params[:profile_pictures] = uploaded_profile_picture["url"]
+    params[:profile_pictures] = uploaded_profile_picture
+
+    if uploaded_profile_picture.length > 0
+      profile_pic_arr = []
+      @profile_pic_public_ids = []
+      uploaded_profile_picture.each do |prof_pic|
+        profile_pic_arr.push(prof_pic['url'])
+        @profile_pic_public_ids.push(prof_pic['public_id'])
+      end
+      params[:profile_pictures] = profile_pic_arr
+    end
 
     if params[:is_private] == "1"
       params[:private_event_password] = Tournament.create_private_event_hash
-    end 
+    end
 
     @tournament = Tournament.new(params)
     @tournament.tickets_left = params[:total_player_tickets].to_i
 
     @tournament.save
     if @tournament.errors.any?
-      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
+      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
+      Image.delete_by_ids @profile_pic_public_ids
       render :new
       return
     end
 
     if !@tournament.people.create({user_id: current_user.id, is_organizer: true})
-      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"],uploaded_profile_picture["public_id"]]
+      Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
+      Image.delete_by_ids @profile_pic_public_ids
       render :new
       return
     end
@@ -77,9 +89,6 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    puts "-----"
-    puts session[:private_event_logged_in]
-    puts "------"
     @id = params[:id]
     @tournament = Tournament.find(params[:id])
     if @tournament.errors.any?
