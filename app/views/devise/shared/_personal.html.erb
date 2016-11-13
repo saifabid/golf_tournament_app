@@ -1,9 +1,9 @@
 <%= form_for(:account, html: {method: :post}) do |f| %>
-  
+
     <div class = "row">
       <%= f.label :profile_picture %>
       <%= f.file_field :profile_pic %>
-      </div>
+    </div>
 
     <h3> Contact Information </h3>
 
@@ -114,4 +114,4 @@
     <div class="actions">
       <%= f.submit "Submit" %>
     </div>
-  <% end %>
+<% end %>

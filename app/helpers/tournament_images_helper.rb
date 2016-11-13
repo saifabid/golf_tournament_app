@@ -1,0 +1,2 @@
+module TournamentImagesHelper
+end

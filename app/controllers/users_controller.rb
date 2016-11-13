@@ -3,20 +3,18 @@ class UsersController < ApplicationController
   end
 
   def new
+    @account = Account.new
   end
 
   def create
-    
     @user = User.find(current_user.id)
     @account = Account.new(image_store)
     @account.user_id = current_user.id
     @user.account_id = @account.id
-    puts '------------------------------------'
-    puts @account.first_name
     @account.save
 
     if @account.errors.any?
-      flash[:alert] = @account.errors.full_messages.to_sentence
+      # flash[:notice] = @account.errors.full_messages.to_sentence
       render :new
     else
       redirect_to @user
@@ -25,9 +23,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(current_user.id)
-    @account = Account.find_by!(user_id: current_user.id)
-    puts '------------------------------------'
-    puts @account.first_name
+    begin
+      @account = Account.find_by!(user_id: current_user.id)
+    rescue
+      # flash[:notice] = 'Please fill out some basic information before attempting to view Account. Mandatory fields: first name and birthdate'
+      redirect_to new_user_url
+    end
   end
 
   def edit
@@ -38,12 +39,10 @@ class UsersController < ApplicationController
   def update
     @user = User.find(current_user.id)
     @account = Account.find_by!(user_id: current_user.id)
-    puts '------------------------------------'
-    puts @account.first_name
     @account.update(image_store)
 
     if @account.errors.any?
-      flash[:notice] = @account.errors.full_messages.to_sentence()
+      # flash[:notice] = @account.errors.full_messages.to_sentence()
       render :new
     else
       redirect_to @user

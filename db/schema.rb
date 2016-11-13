@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.bigint   "transaction_number"
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 10
+    t.datetime "transaction_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
@@ -102,6 +103,14 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.datetime "updated_at",    null: false
     t.string   "description"
     t.index ["tournament_id"], name: "index_tournament_events_on_tournament_id", using: :btree
+  end
+
+  create_table "tournament_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tournament_id"
+    t.string   "image_url"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["tournament_id"], name: "index_tournament_images_on_tournament_id", using: :btree
   end
 
   create_table "tournament_sponsorships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -173,6 +182,7 @@ ActiveRecord::Schema.define(version: 20161113063955) do
   add_foreign_key "people", "ticket_transactions"
   add_foreign_key "ticket_transactions", "users"
   add_foreign_key "tournament_events", "tournaments"
+  add_foreign_key "tournament_images", "tournaments"
   add_foreign_key "tournament_sponsorships", "tournaments"
   add_foreign_key "tournament_tickets", "tournaments"
   add_foreign_key "users", "accounts"

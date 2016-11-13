@@ -83,3 +83,5 @@ gem 'carrierwave'
 gem 'cloudinary'
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
+
+gem 'dropzonejs-rails'
