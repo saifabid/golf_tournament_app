@@ -221,8 +221,9 @@ end
 		@offset = 1
 		@player_offset = 0
     @k = 0
+		@s = 0
 
-		if form_params[:sponsor_level].to_i > 0
+			if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
 			@tournament.people.new(
 				:user_id => current_user.id,
@@ -282,10 +283,34 @@ end
         @offset += 1
         @amount += 100
       end
-		else
+		elsif form_params[:spectator_tickets].to_i > 0
+			if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_spectator = true", current_user.id, @tournament_id.first.id)).exists?
+				@ticket_num = [@transaction_num, @offset]
+				@tournament.people.new(
+						:user_id => current_user.id,
+						:is_spectator => true,
+						:ticket_transaction_id=> transaction_id,
+						:ticket_number => @ticket_num.join.to_i,
+						:ticket_description => 4
+				).save
+				@offset += 1
+				@s = 1
+			end
 		end
 
-		
+		while @s < form_params[:spectator_tickets].to_i
+					@ticket_num = [@transaction_num, @offset]
+					@tournament.people.new(
+							:guest_of => current_user.id,
+							:is_spectator => true,
+							:ticket_transaction_id=> transaction_id,
+							:ticket_number => @ticket_num.join.to_i,
+							:ticket_description => 4
+					).save
+			@offset += 1
+
+			@s += 1
+		end
 
 
 		while @k < form_params[:foursome_tickets].to_i
@@ -335,6 +360,7 @@ end
 
 	def form_params
 		params.permit(
+			:spectator_tickets,
 			:foursome_tickets,
 			:tournament_name,
 			:player_tickets,

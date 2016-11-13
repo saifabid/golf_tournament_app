@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113061430) do
+ActiveRecord::Schema.define(version: 20161113063955) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20161113061430) do
     t.boolean  "is_private"
     t.string   "private_event_password"
     t.integer  "tickets_left"
-    t.integer  "spctator_tickets_left"
+    t.integer  "spectator_tickets_left"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.datetime "start_date"
