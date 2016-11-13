@@ -222,6 +222,7 @@ end
 		@player_offset = 0
     @k = 0
 		@s = 0
+		@sponsor_offset = 0
 
 			if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
@@ -233,6 +234,7 @@ end
 				:ticket_description => form_params[:sponsor_level]
 				).save
 			@offset += 1
+			@sponsor_offset = 1
 		end
 
 		if form_params[:foursome_tickets].to_i > 0
@@ -334,7 +336,7 @@ end
 			
 		end
 
-			@tickets_left = @tournament.tickets_left - (@i - 1 + @s)
+			@tickets_left = @tournament.tickets_left - (@i - 1 + @s) + @sponsor_offset
 
 			while @s < form_params[:spectator_tickets].to_i
 				@ticket_num = [@transaction_num, @offset]
