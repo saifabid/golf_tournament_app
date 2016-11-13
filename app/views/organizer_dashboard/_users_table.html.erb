@@ -1,0 +1,47 @@
+<table class="table table-bordered">
+  <thead>
+      <th>User</th>
+      <th>Contact Email</th>
+      <th>Status</th>
+      <th>Group Number</th>
+      <th> </th>
+      <th> </th>
+  </thead>
+  <tbody>
+   <% users.each do |user|%>
+   <tr>
+      <td>
+        <% if user["is_guest"] == true %>
+          <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+        <% end %>
+        <% if user["is_guest"] == false %>
+          <% if user["account"] %>
+            No Name
+          <% else %>
+          <%= user["account"].first_name %>
+          <% end %>
+        <% end %>
+      </td>
+      <td><%= user["email"] %></td>
+      <td>
+        <% if user["player"].checked_in != true %>
+          false
+          <% else %>
+          true
+        <% end %>
+      </td>
+      <td>
+        <% user["player"].group_number %>
+      </td>
+      <td>
+        <a class="btn-success btn-sm" href="/" data-method="delete">
+        <span class="bold">Send Email</span>
+        </a>
+      </td>
+      <td>
+        <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+      </td>
+   </tr>
+  <% end %>
+</tbody>
+</table>
