@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :charges
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
+  post'organizer_dashboard/:id/player/:player_id/check_in' => 'organizer_dashboard#check_player_in'
 
   get 'signup/:id', to: 'signup#signup_from_tournament'
 
@@ -40,7 +41,7 @@ Rails.application.routes.draw do
   post 'welcome/hello_world'
 
   get "welcome/hello_world" => "welcome#hello_world"
-  
+
   # post 'users/edit' => 'accounts#create'
 
   # get 'users/account'
