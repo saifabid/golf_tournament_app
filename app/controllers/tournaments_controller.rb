@@ -72,14 +72,18 @@ class TournamentsController < ApplicationController
     @tournament.save
     if @tournament.errors.any?
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
-      Image.delete_by_ids @profile_pic_public_ids
+      if @profile_pic_public_ids.length > 0
+        Image.delete_by_ids @profile_pic_public_ids
+      end
       render :new
       return
     end
 
     if !@tournament.people.create({user_id: current_user.id, is_organizer: true})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
-      Image.delete_by_ids @profile_pic_public_ids
+      if @profile_pic_public_ids.length > 0
+        Image.delete_by_ids @profile_pic_public_ids
+      end
       render :new
       return
     end
