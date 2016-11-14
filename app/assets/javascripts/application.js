@@ -23,3 +23,5 @@
 //= require fullcalendar
 
 //= require jquery.countdown
+//= require electric-slide
+//= require jquery.sizes

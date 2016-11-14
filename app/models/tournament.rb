@@ -17,16 +17,17 @@ class Tournament < ApplicationRecord
   end
 
   def no_more_than_12_profile_pictures
-    arr_profile_pictures = string_to_arr(profile_pictures)
+    arr_profile_pictures = Tournament.string_to_arr(profile_pictures)
 
     if arr_profile_pictures.present? && arr_profile_pictures.length > 12
       errors.add(:profile_pictures, "Can't have more than 12")
     end
   end
 
-  def string_to_arr(profile_pictures)
+  def self.string_to_arr(profile_pictures)
     x = profile_pictures[1..-2]
     x.gsub! '"', ''
+    x.gsub! " ", ''
     return x.split(",")
   end
 

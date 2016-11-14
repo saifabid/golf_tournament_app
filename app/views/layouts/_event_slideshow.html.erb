@@ -1,0 +1,16 @@
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    $("#slides").electricSlide();
+  })
+ </script>
+
+ <div id="slides" >
+ <div class ="center-text">
+ 	Check out some photos!
+ </div>
+ <% @slides.each do |slide| %>
+  <div class="slide">
+    <%= image_tag slide, :class => "style_image" %>
+  </div>
+<% end %>
+</div>

@@ -16,6 +16,32 @@
 			float: none;
      	margin: auto;
 		}
+		.style_image {
+			width: 400px;
+			height: 300px;
+		}
+		.slide {
+		  display:none;
+		  width: 200px;
+		  height: 300px;
+		  margin:0 auto;
+		}
+		#slides .slide-header {
+		  display: none
+		}
+		#slides .slide-footer {
+		  margin:0;
+		  width: 200px;
+		}
+		.slide-footer .previous {
+		  width:75px;
+		  float:left;
+		}
+		.slide-footer .next {
+		  width:75px;
+		  float:right;
+		  text-align:right;
+		}
 		</style>
 	</head>
 	<body>
@@ -49,11 +75,10 @@
 				 <%=@tickets_left%> Tickets Remaining
 				 
 				</div>
-
-
-
 				</div>
-
+				<div class="col-md-12">
+				<%= render('layouts/event_slideshow') %>
+				</div>
 				<%= render('layouts/general_map_view') %>
 				<div class="col-md-12">
 					<div class="countdown center-text">
@@ -65,8 +90,6 @@
 				<div class="col-md-12">
 					<%= render('layouts/event_group_view') %>
 				</div>
-				<% else %>
-				
 				<% end %>
 
 				<% if @sponsor_accounts.present?%>

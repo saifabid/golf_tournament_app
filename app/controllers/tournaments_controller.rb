@@ -235,6 +235,10 @@ class TournamentsController < ApplicationController
         @members.push(@people_data)
       end
     end
+
+    # Generate slide show
+    @profile_pictures = Tournament.where(id: params[:id]).first().profile_pictures
+    @slides = Tournament.string_to_arr(@profile_pictures)
   end
 
   def success
