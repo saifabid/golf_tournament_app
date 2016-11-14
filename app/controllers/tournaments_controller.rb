@@ -131,6 +131,15 @@ class TournamentsController < ApplicationController
 
     # Retrieve tickets left
     @tickets_left = @tournament.tickets_left
+    @spectator_tickets_left = @tournament.spectator_tickets_left
+
+    if @tickets_left.nil?
+      @tickets_left = 0
+    end
+
+    if @spectator_tickets_left.nil?
+      @spectator_tickets_left = 0
+    end
 
     # set session for other pages to link back to event page
     session[:tournament_id] = params[:id]
