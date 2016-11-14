@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113063955) do
+ActiveRecord::Schema.define(version: 20161113202044) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.bigint   "transaction_number"
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 10
-    t.datetime "transaction_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
@@ -138,7 +137,7 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.string   "logo"
     t.string   "language"
     t.string   "currency"
-    t.string   "profile_pictures"
+    t.text     "profile_pictures",       limit: 65535
     t.string   "details"
     t.string   "venue_name"
     t.string   "venue_logo"
@@ -146,16 +145,16 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.string   "venue_website"
     t.string   "venue_contact_details"
     t.boolean  "is_private"
-    t.string   "private_event_password"
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.datetime "start_date"
     t.float    "longitude",              limit: 24
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
+    t.string   "private_event_password"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -173,6 +172,8 @@ ActiveRecord::Schema.define(version: 20161113063955) do
     t.datetime "updated_at",                          null: false
     t.integer  "account_id"
     t.boolean  "is_admin"
+    t.string   "provider"
+    t.string   "uid"
     t.index ["account_id"], name: "index_users_on_account_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
