@@ -21,7 +21,7 @@
 //= require gmaps/google
 //= require moment
 //= require fullcalendar
-
+//= require dropzone
 //= require jquery.countdown
 //= require electric-slide
 //= require jquery.sizes

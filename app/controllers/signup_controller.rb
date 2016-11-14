@@ -71,20 +71,24 @@ end
 	end
 
 	def check_number_tickets
-		@sponsor_tickets = 0
-		if params[:sponsor_level].to_i > 0
-			@sponsor_tickets = 1
-		end
 
-		@total_tickets = @sponsor_tickets + params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
-
-    puts params[:tournament_name]
+		@total_tickets =  params[:player_tickets].to_i + 4*params[:foursome_tickets].to_i
 
 		@tournament_id = Tournament.where("tournaments.name LIKE ?", params[:tournament_name])
 
 		@tournament = Tournament.find_by id: @tournament_id.first.id
 
 		if @total_tickets > @tournament.tickets_left.to_i
+			flash[:error] = "You have selected more tickets than what's available"
+			render :new
+			return
+		else
+			flash[:error] = ""
+		end
+
+		@total_spectator_tickets =  params[:spectator_tickets].to_i
+
+		if @total_spectator_tickets > @tournament.spectator_tickets_left.to_i
 			flash[:error] = "You have selected more tickets than what's available"
 			render :new
 			return
@@ -104,7 +108,12 @@ end
     if params[:foursome_tickets] != "" && params[:foursome_tickets].to_i < 0
       flash[:error] = "Negative"
       render :new
-    end
+		end
+
+		if params[:spectator_tickets] != "" && params[:spectator_tickets].to_i < 0
+			flash[:error] = "Negative"
+			render :new
+		end
 
   end
 
@@ -221,8 +230,10 @@ end
 		@offset = 1
 		@player_offset = 0
     @k = 0
+		@s = 0
+		@sponsor_offset = 0
 
-		if form_params[:sponsor_level].to_i > 0
+			if form_params[:sponsor_level].to_i > 0
 			@ticket_num = [@transaction_num, @offset]
 			@tournament.people.new(
 				:user_id => current_user.id,
@@ -232,6 +243,7 @@ end
 				:ticket_description => form_params[:sponsor_level]
 				).save
 			@offset += 1
+			@sponsor_offset = 1
 		end
 
 		if form_params[:foursome_tickets].to_i > 0
@@ -282,11 +294,20 @@ end
         @offset += 1
         @amount += 100
       end
-		else
+		elsif form_params[:spectator_tickets].to_i > 0
+			if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_spectator = true", current_user.id, @tournament_id.first.id)).exists?
+				@ticket_num = [@transaction_num, @offset]
+				@tournament.people.new(
+						:user_id => current_user.id,
+						:is_spectator => true,
+						:ticket_transaction_id=> transaction_id,
+						:ticket_number => @ticket_num.join.to_i,
+						:ticket_description => 4
+				).save
+				@offset += 1
+				@s = 1
+			end
 		end
-
-		
-
 
 		while @k < form_params[:foursome_tickets].to_i
 			@l = @offset
@@ -324,8 +345,29 @@ end
 			
 		end
 
-			@tickets_left = @tournament.tickets_left - (@i - 1)
+			@tickets_left = @tournament.tickets_left - (@i - 1 + @s) + @sponsor_offset
+
+			while @s < form_params[:spectator_tickets].to_i
+				@ticket_num = [@transaction_num, @offset]
+				@tournament.people.new(
+						:guest_of => current_user.id,
+						:is_spectator => true,
+						:ticket_transaction_id=> transaction_id,
+						:ticket_number => @ticket_num.join.to_i,
+						:ticket_description => 4
+				).save
+				@offset += 1
+
+				@s += 1
+			end
+
+			if @tournament.spectator_tickets_left.nil?
+				@spectator_tickets_left = @tournament.total_audience_tickets - @s
+			else
+				@spectator_tickets_left = @tournament.spectator_tickets_left - @s
+			end
 			@tournament.update_column(:tickets_left, @tickets_left)
+			@tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
 			redirect_to controller: 'charges', action: 'new', transaction_id: transaction_id, amount: @amount
 
 		end
@@ -335,6 +377,7 @@ end
 
 	def form_params
 		params.permit(
+			:spectator_tickets,
 			:foursome_tickets,
 			:tournament_name,
 			:player_tickets,
