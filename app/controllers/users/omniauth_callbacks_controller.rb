@@ -31,6 +31,28 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def linkedin
+    @vars = request.env["omniauth.auth"]
+    @user = User.from_omniauth(@vars)
+
+     if @user.persisted?
+      @account = Account.new
+      @account.user_id = @user.id
+      @user.account_id = @account.id
+      @account.first_name = @vars.info.name.partition(' ')[0]
+      @account.last_name = @vars.info.name.partition(' ')[2]
+      @account.profile_pic = @vars.info.image
+      @account.birth = Date.new(2001,2,3)
+      @account.save
+      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+      set_flash_message(:notice, :success, :kind => "linkedin") if is_navigational_format?
+    else
+      session["devise.linkedin_data"] = request.env["omniauth.auth"]
+      redirect_to new_user_registration_url
+    end
+
+  end
+
   def failure
     redirect_to root_path
   end
