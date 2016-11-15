@@ -4,12 +4,16 @@
       <th>Contact Email</th>
       <th>Status</th>
       <th>Group Number</th>
-      <th> </th>
+      <th>Admin Status</th>
       <th> </th>
   </thead>
   <tbody>
    <% users.each do |user|%>
+   <% if user['player'].is_admin == true %>
+   <tr class="info">
+     <% else %>
    <tr>
+   <% end %>
       <td>
         <% if user["is_guest"] == true %>
           <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
@@ -41,6 +45,8 @@
         <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
       </td>
 
+      <!-- Only see the ability to make users admins if organizer  -->
+      <% if current_player.is_organizer == true %>
       <td>
         <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
         <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
@@ -48,7 +54,9 @@
         <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
         <% end %>
       </td>
+      <% end %>
    </tr>
   <% end %>
 </tbody>
 </table>
+<p> Note: Admins Are Highlighted As Blue </p>

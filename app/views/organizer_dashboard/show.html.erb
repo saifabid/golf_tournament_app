@@ -16,7 +16,7 @@
 <h1>Organiser Dashboard</h1>
 <%=render('layouts/event_organizer_header') %>
 
-<%= render "organizer_dashboard/users_table",  users: @all_tournament_playars%>
+<%= render "organizer_dashboard/users_table",  users: @all_tournament_playars, current_player: @current_player %>
 <div class = center-text>
 
     <thead>
