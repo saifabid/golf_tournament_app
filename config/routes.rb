@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
   post'organizer_dashboard/:id/player/:player_id/check_in' => 'organizer_dashboard#check_player_in'
+  post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
+
 
   get 'signup/:id', to: 'signup#signup_from_tournament'
 
