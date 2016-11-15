@@ -1,0 +1,2 @@
+class TournamentFeature < ApplicationRecord
+end
