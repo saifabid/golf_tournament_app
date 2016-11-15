@@ -25,6 +25,18 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def set_player_admin
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"is_admin" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def remove_player_admin
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"is_admin" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def send_player_email
     @player = Person.where("id = ?", params[:player_id])
     message_text = params[:body]

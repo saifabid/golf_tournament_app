@@ -40,6 +40,14 @@
       <td>
         <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
       </td>
+
+      <td>
+        <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
+        <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% else %>
+        <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% end %>
+      </td>
    </tr>
   <% end %>
 </tbody>
