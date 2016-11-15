@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20161113202044) do
     t.string   "logo"
     t.string   "language"
     t.string   "currency"
-    t.text     "profile_pictures",       limit: 65535
+    t.string   "profile_pictures"
     t.string   "details"
     t.string   "venue_name"
     t.string   "venue_logo"
@@ -145,16 +145,16 @@ ActiveRecord::Schema.define(version: 20161113202044) do
     t.string   "venue_website"
     t.string   "venue_contact_details"
     t.boolean  "is_private"
+    t.string   "private_event_password"
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "start_date"
     t.float    "longitude",              limit: 24
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
-    t.string   "private_event_password"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
