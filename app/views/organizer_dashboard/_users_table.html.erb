@@ -39,7 +39,7 @@
       </td>
       <td>
         <%= render "organizer_dashboard/send_email_modal", user: user %>
-        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target="#sendemail" >Send Message</button>
+        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %> >Send Message</button>
       </td>
       <td>
         <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
