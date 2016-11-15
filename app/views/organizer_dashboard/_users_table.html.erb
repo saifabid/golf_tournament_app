@@ -34,9 +34,8 @@
         <% user["player"].group_number %>
       </td>
       <td>
-        <a class="btn-success btn-sm" href="/" data-method="delete">
-        <span class="bold">Send Email</span>
-        </a>
+        <%= render "organizer_dashboard/send_email_modal", user: user %>
+        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target="#sendemail" >Send Message</button>
       </td>
       <td>
         <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>

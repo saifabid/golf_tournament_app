@@ -1,0 +1,20 @@
+<div class="modal fade" id="sendemail" tabindex="-1" role="dialog" aria-labelledby="sendemaillabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="sendemaillabel">New message</h4>
+            </div>
+            <div class="modal-body">
+                <%= bootstrap_form_tag url: "/organizer_dashboard/#{user["player"].tournament_id}/player/#{user["player"].id}/email" do |f| %>
+                <%= f.text_field :recipiant, label: "Recipiant", value: user["email"], readonly: true %>
+                <%= f.text_area :body, label: "Message" %>
+                <%= f.submit value: "Send Message", class: "btn btn-success"%>
+                <% end %>
+
+            </div>
+        </div>
+    </div>
+</div>

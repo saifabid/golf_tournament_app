@@ -25,6 +25,13 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def send_player_email
+    @player = Person.where("id = ?", params[:player_id])
+    message_text = params[:body]
+    # TODO: Call Seyans email save function with params: (params[:recipiant], params[:body])
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def get_tournament_players_list
     @all_tournament_playars = []
     all_persons = Person.where("tournament_id = ? AND is_player = 1", params[:id])
