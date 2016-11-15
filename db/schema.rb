@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113202044) do
+ActiveRecord::Schema.define(version: 20161115051800) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -104,6 +104,15 @@ ActiveRecord::Schema.define(version: 20161113202044) do
     t.index ["tournament_id"], name: "index_tournament_events_on_tournament_id", using: :btree
   end
 
+  create_table "tournament_features", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tournament_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["tournament_id"], name: "index_tournament_features_on_tournament_id", using: :btree
+  end
+
   create_table "tournament_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "tournament_id"
     t.string   "image_url"
@@ -183,6 +192,7 @@ ActiveRecord::Schema.define(version: 20161113202044) do
   add_foreign_key "people", "ticket_transactions"
   add_foreign_key "ticket_transactions", "users"
   add_foreign_key "tournament_events", "tournaments"
+  add_foreign_key "tournament_features", "tournaments"
   add_foreign_key "tournament_images", "tournaments"
   add_foreign_key "tournament_sponsorships", "tournaments"
   add_foreign_key "tournament_tickets", "tournaments"
