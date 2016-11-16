@@ -60,63 +60,21 @@
 		</style>
 	</head>
 	<body>
-		<div class="row">
-			<div class="col-md-6 col-spacing"></div>
-			<div class="col-md-6 col-spacing">
-				<div class="col-md-3 col-spacing">
-					<%= button_to "Contacts", about_contact_path, :method => "get" %>
-				</div>
-				<div class="col-md-3 col-spacing">
-					<button type="button">English/French</button>
-				</div>
-				<div class="col-md-3 col-spacing">
-					<%= button_to "About", about_company_path, :method => "get" %>
-				</div>
-			</div>
-		</div>
 		<div class="row" id="bottom-line">
 			<h1 class="col-md-7 col-spacing ">General Landing Page</h1>
-			<div class="col-md-5 col-spacing">
-				<div class="col-md-4 col-spacing">
-				<%= button_to "Features", about_features_path, :method => "get" %>
-				</div>
-				<div class="col-md-4 col-spacing">
-				<%= button_to "FAQ", about_faq_path, :method => "get" %>
-				</div>
-				<div class="col-md-4 col-spacing">
-				<%= button_to "Partners", about_partners_path, :method => "get" %>
-				</div>
-			</div>
 		</div>
 		<div class="row">
 			<div class="center-block events-view-selector">
 				<%= button_to 'List', {:controller => "welcome", :action => "hello_world", :state => "List"}, :method=>:post %>
 				<%= button_to 'Map', {:controller => "welcome", :action => "hello_world", :state => "Map"}, :method=>:post %>
 			</div>
-			
+			<h4 style="text-align:center;">Tournaments Near Me</h4>
 			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
 
 		</div>
 		<div class="row">
 			<div class="center-block player-signup">
 				<%= button_to 'Signup', {:controller => "signup", :action => "new"}, :method=>:get %>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<div class="footer-view">
-					<%= button_to "Privacy Policy", legal_privacy_path, :method => "get" %>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="footer-view">
-					<%= button_to "Terms of Service", legal_terms_of_service_path, :method => "get" %>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="footer-view">
-					<%= button_to "Site Map", legal_site_map_path, :method => "get" %>
-				</div>
 			</div>
 		</div>
 	</body>
