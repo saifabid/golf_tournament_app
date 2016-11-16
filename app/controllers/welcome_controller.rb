@@ -28,7 +28,10 @@ class WelcomeController < ApplicationController
     @hash = Gmaps4rails.build_markers(@events) do |event, marker|
       marker.lat event.latitude
       marker.lng event.longitude
-      marker.infowindow event.details
+
+      info_link = "<a href=\"/tournaments/#{event.id}\">More details / Sign Up</a>"
+
+      marker.infowindow info_link
     end
     
     #puts MultiGeocoder.geocode('12.215.42.19') 
