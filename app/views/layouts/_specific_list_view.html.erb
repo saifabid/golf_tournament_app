@@ -1,6 +1,6 @@
 <div class="center-block events-container">
      <!-- dropdown form -->
-  <%= form_tag("/", method: "get") do %>
+  <%= form_tag("/tournament_list/list", method: "get") do %>
     <%= hidden_field_tag(:q) %>
     <%= hidden_field_tag(:client_ip) %>
     <%= hidden_field_tag(:client_lat) %>

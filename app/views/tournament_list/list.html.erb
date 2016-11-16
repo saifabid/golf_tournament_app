@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style type="text/css">
+			.col-spacing {
+				padding-bottom: 20px;
+				margin: auto;
+			}
+			#bottom-line {
+	    		border-bottom: solid;
+			}
+			.events-container{
+				margin: auto;
+				width: 70%;
+				text-align:center;
+				border: solid;
+				padding-top:20px;
+				padding-bottom:20px;
+			}
+			.events-view-selector {
+				margin: auto;
+				width: 30%;
+				padding-top:30px;
+				padding-bottom:10px;
+				text-align:center;
+				border: solid;
+			}
+			.content-card {
+		      font-weight: 400;
+		      text-transform: uppercase;
+		      letter-spacing: 0.1em;
+		      margin-bottom: 20px;
+		      text-align: center;
+	    	}
+		    .content-card-title {
+		      border-style: solid;
+		      font-weight: 400;
+		      text-transform: uppercase;
+		      letter-spacing: 0.1em;
+		      width:50%;
+		      margin:0 auto;
+		      text-align: center;
+		      align-self: center;
+		    }
+		</style>
+	</head>
+	<body>
+		<div class="row" id="bottom-line">
+			<h1 class="col-md-7 col-spacing ">Tournament Search Page</h1>
+		</div>
+		<div class="row">
+			<div class="center-block events-view-selector">
+				<%= button_to 'List', {:controller => "tournament_list", :action => "list", :state => "List"}, :method=>:post %>
+				<%= button_to 'Map', {:controller => "tournament_list", :action => "list", :state => "Map"}, :method=>:post %>
+			</div>
+			
+			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/specific_list_view') %>
+		</div>
+	</body>
+</html>

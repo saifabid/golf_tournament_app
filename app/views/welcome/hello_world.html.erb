@@ -68,7 +68,7 @@
 				<%= button_to 'List', {:controller => "welcome", :action => "hello_world", :state => "List"}, :method=>:post %>
 				<%= button_to 'Map', {:controller => "welcome", :action => "hello_world", :state => "Map"}, :method=>:post %>
 			</div>
-			
+			<h4 style="text-align:center;">Tournaments Near Me</h4>
 			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
 
 		</div>
