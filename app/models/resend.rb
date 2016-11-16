@@ -35,7 +35,7 @@ class Resend < ApplicationRecord
     end
   end
 
-  def self.send_email email_to, body, id
+  def self.send_email_with_ticket email_to, body, id
     @player = Person.find(id)
 
     @tournament = Tournament.where(id: @player.tournament_id).first
@@ -100,5 +100,31 @@ class Resend < ApplicationRecord
     puts response.headers
 
   end
+
+  def self.send_email email_to, body, id
+    @player = Person.find(id)
+
+    @tournament = Tournament.where(id: @player.tournament_id).first
+
+    @string = @tournament.name
+
+    @subject = "Message from #{@string}"
+
+    @string.downcase.gsub(/[^a-z0-9]/, '')
+
+    from = Email.new(email: "admin@#{@string}.com")
+    to = Email.new(email: email_to)
+    subject = @subject
+    content = Content.new(type: 'text/plain', value: body)
+    mail = SendGrid::Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: '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')
+    response = sg.client.mail._('send').post(request_body: mail.to_json)
+    puts response.status_code
+    puts response.body
+    puts response.headers
+  end
+
+
 
 end
