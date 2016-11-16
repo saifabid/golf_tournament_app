@@ -40,8 +40,10 @@ class OrganizerDashboardController < ApplicationController
 
   def send_player_email
     @player = Person.where("id = ?", params[:player_id])
+    @id = @player.first.id
     message_text = params[:body]
     # TODO: Call Seyans email save function with params: (params[:recipiant], params[:body])
+    Resend.send_email params[:recipiant], params[:body], @id
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 

@@ -89,3 +89,6 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
 gem 'dropzonejs-rails'
+
+#mail processing
+gem 'sendgrid-ruby'
