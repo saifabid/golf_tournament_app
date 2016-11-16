@@ -73,5 +73,32 @@ class Resend < ApplicationRecord
     puts response.headers
   end
 
+  def self.send_password email_to, t_id
+
+    @tournament = Tournament.find(t_id)
+
+    @string = @tournament.name
+
+    @subject = "Password for #{@string}"
+
+    @password = @tournament.private_event_password
+
+    @body = "The password for #{@string} is #{@password}.\n\nThanks,\nTournament Management"
+
+    @string.downcase.gsub(/[^a-z0-9]/, '')
+
+    from = Email.new(email: "admin@#{@string}.com")
+    to = Email.new(email: email_to)
+    subject = @subject
+    content = Content.new(type: 'text/plain', value: @body)
+    mail = SendGrid::Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: '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')
+    response = sg.client.mail._('send').post(request_body: mail.to_json)
+    puts response.status_code
+    puts response.body
+    puts response.headers
+
+  end
 
 end
