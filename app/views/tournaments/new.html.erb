@@ -12,7 +12,8 @@
     <%= f.file_field :profile_picture, multiple: true, name: "images[]" %>
     <%= f.text_area :details %>
     <%= f.datetime_select :start_date,  {:start_year => Time.now().year, :ampm => true} %>
-    <br>
+      <%= f.check_box :is_private%>
+      <br>
     <h3>Venue Information</h3>
     <%= f.text_field :venue_name %>
     <%= f.file_field :venue_logo %>
@@ -22,9 +23,24 @@
     <br>
     <h3>Ticket Information</h3>
     <%= f.number_field :total_player_tickets%>
-    <%= f.number_field :total_audience_tickets%>
-    <%= f.check_box :is_private%>
+      <%= f.number_field :total_audience_tickets%>
+
+      <%= f.number_field :player_price%>
+      <h4>Sponsor Options</h4>
+
+
+      <%= f.number_field :gold_sponsor_price%>
+      <%= f.text_area :gold_sponsor_desc%>
+      <%= f.number_field :silver_sponsor_price%>
+      <%= f.text_area :silver_sponsor_desc%>
+      <%= f.number_field :bronze_sponsor_price%>
+      <%= f.text_area :bronze_sponsor_desc %>
+
+
     <br>
+
+
+
     <%= f.submit 'Continue', class: "btn-lg btn-success center-block"%>
     <br>
 <% end %>

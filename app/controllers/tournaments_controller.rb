@@ -54,10 +54,10 @@ class TournamentsController < ApplicationController
     params[:logo] = uploaded_logo["url"]
     params[:venue_logo] = uploaded_logo["url"]
     params[:profile_pictures] = uploaded_profile_picture
-
+    @profile_pic_public_ids = []
     if uploaded_profile_picture.length > 0
       profile_pic_arr = []
-      @profile_pic_public_ids = []
+
       uploaded_profile_picture.each do |prof_pic|
         profile_pic_arr.push(prof_pic['url'])
         @profile_pic_public_ids.push(prof_pic['public_id'])
@@ -278,13 +278,21 @@ class TournamentsController < ApplicationController
       :venue_address,
       :venue_website,
       :venue_contact_details,
+
       :is_private,
       :start_date,
       :total_player_tickets,
       :total_audience_tickets,
       :logo,
       :venue_logo,
-      :profile_picture
+      :profile_picture,
+      :player_price,
+      :gold_sponsor_price,
+      :gold_sponsor_desc,
+      :silver_sponsor_price,
+      :silver_sponsor_desc,
+      :bronze_sponsor_price,
+      :bronze_sponsor_desc
     )
   end
 
