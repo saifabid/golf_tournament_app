@@ -12,6 +12,8 @@
   <h2>Tournament Features</h2>
   <h2>Add Feature</h2>
   <%= render 'tournament_features/createfeature'%>
+  <br></br>
+  <%= link_to 'Done', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
 
   <h2> Current Agenda </h2>
   <%=render  'tournament_features/list', tournament_features: @tournament.tournament_features %>
