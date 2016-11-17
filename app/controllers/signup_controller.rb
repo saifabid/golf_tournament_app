@@ -198,10 +198,18 @@ end
 
 	end
 
-
+  # countinue to payment
+	def continue
+		#hardcoded for now
+	amount= 10.00
+	redirect_to controller: 'charges', action: 'new', signup_params:form_params, amount: amount
+	end
 
 	def create
-	    @amount = 0
+
+
+form_params= params[:form_params]
+	    @amount = form_params[:amount]
 
 	    @tournament_id = Tournament.where("tournaments.name LIKE ?", form_params[:tournament_name])
 

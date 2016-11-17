@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :signup, :except => [:show]
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
+  post 'signup/continue'=> 'signup#continue'
   resources :charges
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
