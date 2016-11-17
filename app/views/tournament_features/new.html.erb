@@ -1,0 +1,18 @@
+<div class="events-panel container">
+  <% if flash[:error] %>
+    <br>
+    <div class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      Error: <%= flash[:error] %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Go to Organizer Dashboard', tournament_path(id: params[:tournament_id]), data: { turbolinks: false } %>
+
+  <h2>Tournament Features</h2>
+  <h2>Add Feature</h2>
+  <%= render 'tournament_features/createfeature'%>
+
+  <h2> Current Agenda </h2>
+  <%=render  'tournament_features/list', tournament_features: @tournament.tournament_features %>
+</div>
