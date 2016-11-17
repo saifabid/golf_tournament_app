@@ -24,8 +24,19 @@
     <h3>Ticket Information</h3>
     <%= f.number_field :total_player_tickets%>
     <%= f.number_field :total_audience_tickets%>
-    <%= f.check_box :is_private%>
-    <br>
+
+    <%= f.number_field :player_price%>
+    <%= f.number_field :spectator_price%>
+    <%= f.number_field :foursome_price%>
+    <h4>Sponsor Options</h4>
+
+
+    <%= f.number_field :gold_sponsor_price%>
+    <%= f.text_area :gold_sponsor_desc%>
+    <%= f.number_field :silver_sponsor_price%>
+    <%= f.text_area :silver_sponsor_desc%>
+    <%= f.number_field :bronze_sponsor_price%>
+    <%= f.text_area :bronze_sponsor_desc %>
     <%= f.submit class: "btn-lg btn-success center-block"%>
     <br>
 <% end %>

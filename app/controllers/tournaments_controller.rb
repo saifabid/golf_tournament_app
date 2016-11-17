@@ -292,7 +292,9 @@ class TournamentsController < ApplicationController
       :silver_sponsor_price,
       :silver_sponsor_desc,
       :bronze_sponsor_price,
-      :bronze_sponsor_desc
+      :bronze_sponsor_desc,
+      :spectator_price,
+      :foursome_price
     )
   end
 
