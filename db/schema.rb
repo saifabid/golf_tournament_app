@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116231743) do
+ActiveRecord::Schema.define(version: 20161117002353) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -172,6 +172,8 @@ ActiveRecord::Schema.define(version: 20161116231743) do
     t.decimal  "bronze_sponsor_price",                 precision: 10
     t.text     "bronze_sponsor_desc",    limit: 65535
     t.decimal  "player_price",                         precision: 10
+    t.decimal  "foursome_price",                       precision: 10
+    t.decimal  "spectator_price",                      precision: 10
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
