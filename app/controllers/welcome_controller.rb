@@ -17,7 +17,7 @@ class WelcomeController < ApplicationController
 
     if params[:searchDistance].blank?
       @searchDistanceFlash = ""
-      searchDistance = 20 #20km default value
+      searchDistance = 50 #50km default value
     else
       @searchDistanceFlash = params[:searchDistance]
       searchDistance = params[:searchDistance]
@@ -47,32 +47,12 @@ class WelcomeController < ApplicationController
       marker.lat event.latitude
       marker.lng event.longitude
 
-      info_link = "<a href=\"/tournaments/#{event.id}\">More details / Sign Up</a>"
+      signup_link = "<a href=\"/tournaments/#{event.id}\">More details / Sign Up</a>"
+      window_content = event.name + "<br>"
+      window_content = window_content + signup_link
 
-      marker.infowindow info_link
+      marker.infowindow window_content
     end
-    
-    #puts MultiGeocoder.geocode('12.215.42.19') 
-
-    #doesn't work! IP of service is dead. Need to find alternative
-    #look inside of /config/initializers/geokit_config.rb , setup google api keys???
-
-    #relevant error:
-    #Ip geocoding. address: 12.215.42.19, args []
-    #C:/Ruby23/lib/ruby/gems/2.3.0/gems/geokit-1.10.0/lib/geokit/geocoders.rb:141: wa
-    #rning: constant Geokit::Geocoders::Geocoder::TimeoutError is deprecated
-    #Caught an error during Ip geocoding call: Failed to open TCP connection to api.h
-    #ostip.info:80 (getaddrinfo: No such host is known. )
-    
-    #alternative is to get the geo lat/lng from JS call in frontend
-    
-    # https://github.com/geokit/geokit-rails
-    # Caveat notes that not able to do a where clause, therefore can't get descending locations
-    # Temp fix : Able to view by distance whats around you using the IP
-    # puts('------------')
-    # puts 'client_ip'
-    # puts params[:client_ip]
-    # puts('------------')
 
   	@state = params[:state]
   	if sortType == "1"
@@ -84,8 +64,7 @@ class WelcomeController < ApplicationController
   	elsif sortType == "4"
   		@tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(name: :desc)
     elsif sortType == "5"
-      #TODO: .order(distance: :desc) (unknown column 'distance', add to model???)
-      @tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng])
+      @tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).by_distance(:origin => [clientLat,clientLng])
   	else
       @tournaments = Tournament.where("start_date >= NOW()").where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :asc)
 		end
