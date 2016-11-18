@@ -240,7 +240,6 @@ class SignupController < ApplicationController
   end
 
   def calculate_sponsor_price(tournament, sponsor_level)
-
     case sponsor_level
       when '1' #gold
         price= tournament.gold_sponsor_price
@@ -306,7 +305,8 @@ class SignupController < ApplicationController
 
     rescue Stripe::CardError => e
       flash[:error] = e.message
-      redirect_to controller => 'signup', :action => 'new'
+      render :new
+      return
     end
 
     @transaction_num = [current_user.id, @tournament_id, Time.now.to_i]
