@@ -52,7 +52,7 @@ class SignupController < ApplicationController
     end
     @transaction_num = transaction.transaction_number
     people= Person.where(:ticket_transaction_id => transaction_id)
-    @tickets= people.where('is_guest= 1 OR is_player = 1 OR is_spectator=1 OR is_sponsor')
+    @tickets= people.where('is_guest= 1 OR is_player = 1 OR is_spectator=1 OR is_sponsor=1')
 
   end
 
