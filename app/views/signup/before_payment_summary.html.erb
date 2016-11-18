@@ -1,0 +1,19 @@
+
+<table class="table">
+  <tr><th>Name</th><th>Quantity</th><th>Price(Subtotal)</th><tr>
+  <% @price_lines.each do |p| %>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.quantity %></td>
+        <td><%= p.sub_total %></td>
+
+      </tr>
+  <% end %>
+  <tr>
+    <td></td>
+    <td><b>Total</b></td>
+    <td><%= @total%></td>
+  </tr>
+</table>
+
+

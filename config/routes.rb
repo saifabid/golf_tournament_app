@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   resources :signup, :except => [:show]
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
-  post 'signup/continue'=> 'signup#continue'
+
+  post 'signup/before_payment_summary'=> 'signup#before_payment_summary'
   resources :charges
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
+
+
 
 
   get 'signup/:id', to: 'signup#signup_from_tournament'

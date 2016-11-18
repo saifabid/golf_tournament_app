@@ -33,7 +33,7 @@ begin
      redirect_to new_charge_path,  signup_params:params[:signup_params], amount:params[:amount]
 end
 
-   redirect_to signup_params=params[:signup_params], amount:params[:amount]
+   redirect_to :controller=>'signup', :action=> 'create', :signup_params=>params[:signup_params], :amount=>params[:amount]
 
 end
 end

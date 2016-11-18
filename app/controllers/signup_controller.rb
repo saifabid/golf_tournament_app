@@ -198,22 +198,87 @@ end
 
 	end
 
-  # countinue to payment
-	def continue
-		#hardcoded for now
-	amount= 10.00
-	redirect_to controller: 'charges', action: 'new', signup_params:form_params, amount: amount
+  # gets an array for the
+	def get_price_summary(tournament, num_player, sponsor_level, num_spectator, num_foursome)
+		price_lines=[]
+		total=0
+		#get player total
+		if(num_player>0)
+			player_price= tournament.player_price
+			subtotal= player_price* num_player
+
+			player_price_line=PriceLine.new(num_player, player_price, subtotal, 'Player Tickets(s)')
+			price_lines.push(player_price_line)
+
+			total+= subtotal
+		end
+		if(num_spectator>0)
+			spectator_price= tournament.spectator_price
+			subtotal=spectator_price* num_spectator
+
+			spectator_price_line=PriceLine.new(num_spectator, spectator_price, subtotal, 'Spectator Ticket(s)')
+			price_lines.push(spectator_price_line)
+			total+= subtotal
+		end
+		if(num_foursome>0)
+			foursome_price= tournament.foursome_price
+			subtotal= foursome_price* num_foursome
+
+			foursome_price_line=PriceLine.new(num_foursome, foursome_price, subtotal, 'Foursome Ticket(s)')
+			price_lines.push(foursome_price_line)
+			total+= subtotal
+		end
+		#get sponsor total
+		sponsor_price= calculate_sponsor_price(tournament, sponsor_level)
+		if(sponsor_price>0)
+		sponsor_price_line= PriceLine.new(1, sponsor_price, sponsor_price, 'Sponsor Ticket(s)')
+		price_lines.push(sponsor_price_line)
+			total+= subtotal
+		end
+		return {:total=>total,:price_lines=>price_lines}
+	end
+
+	def calculate_sponsor_price(tournament, sponsor_level)
+
+		 case sponsor_level
+					 when '1' #gold
+						 price= tournament.gold_sponsor_price
+					 when '2' #silver
+						 price= tournament.silver_sponsor_price
+					 when '3' #bronze
+						 price= tournament.bronze_sponsor_price
+					 else
+						 price= 0
+
+		 end
+		 return price
+
+	end
+
+
+	def before_payment_summary
+		@tournament_id= form_params[:tournament_id]
+		tournament= Tournament.find(@tournament_id)
+		# TODO: if not found raise error
+
+		@player_tickets=form_params[:player_tickets]== ''? 0 : form_params[:player_tickets].to_i
+		@foursome_tickets= form_params[:foursome_tickets]== ''? 0: form_params[:foursome_tickets].to_i
+		@spectator_tickets= form_params[:spectator_tickets]==''? 0: form_params[:spectator_tickets].to_i
+		@sponsor_level= form_params[:sponsor_level].to_s
+
+		price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets)
+		@total= price_summary[:total]
+		@price_lines=price_summary[:price_lines]
+
 	end
 
 	def create
 
+	    @amount = 100
 
-form_params= params[:form_params]
-	    @amount = form_params[:amount]
+	    @tournament_id = form_params[:tournament_id]
 
-	    @tournament_id = Tournament.where("tournaments.name LIKE ?", form_params[:tournament_name])
-
-	    @tournament = Tournament.find_by id: @tournament_id.first.id
+	    @tournament = Tournament.find_by id: @tournament_id
 
 	    @transaction_num = [current_user.id, @tournament_id.first.id, Time.now.to_i]
 
@@ -387,9 +452,70 @@ form_params= params[:form_params]
 		params.permit(
 			:spectator_tickets,
 			:foursome_tickets,
-			:tournament_name,
+			:tournament_id,
 			:player_tickets,
 			:sponsor_level
 			)
 	end
 end
+class ChargesController < ApplicationController
+  def new
+    @amount = params[:amount]
+    @amountd = @amount * 0.01
+    @signup_params= params[:signup_params]
+
+  end
+
+  def create
+    # Amount in cents
+    @amount = params[:amount]
+
+    Stripe.api_key = Rails.application.secrets.stripe_secret_key
+
+    # Get the credit card details submitted by the form
+
+    #customer = Stripe::Customer.create(
+    #   :email => params[:stripeEmail],
+    #   :source  => params[:stripeToken]
+    #)
+    begin
+      charge = Stripe::Charge.create(
+          #:customer    => customer.id,
+          :amount      => @amount,
+          :description => 'Rails Stripe customer',
+          :source => params[:stripeToken],
+          :currency    => 'cad'
+      )
+
+
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to new_charge_path,  signup_params:params[:signup_params], amount:params[:amount]
+    end
+
+    redirect_to :controller=>'signup', :action=> 'create', :signup_params=>params[:signup_params], :amount=>params[:amount]
+
+  end
+end
+
+class PriceLine
+	def initialize (quantity, unit_price, sub_total, name)
+		@quantity = quantity
+		@unit_price = unit_price
+		@sub_total = sub_total
+		@name= name
+	end
+	def quantity
+		@quantity
+	end
+	def unit_price
+@unit_price
+	end
+	def sub_total
+@sub_total
+	end
+	def name
+		@name
+	end
+end
+
