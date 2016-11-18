@@ -40,19 +40,15 @@ class Resend < ApplicationRecord
 
     @tournament = Tournament.where(id: @player.tournament_id).first
 
-    @string = @tournament.name
-
     if body == ""
       @body = "Attached is your replacement ticket.\n\nThanks,\nTournament Management"
     else
       @body = body
     end
 
-    @subject = "Replacement ticket for #{@string}"
+    @subject = "Replacement ticket for #{@tournament.name}"
 
-    @string.downcase.gsub(/[^a-z0-9]/, '')
-
-    from = Email.new(email: "admin@#{@string}.com")
+    from = Email.new(email: "admin@golftournamentapp.com")
     to = Email.new(email: email_to)
     subject = @subject
     content = Content.new(type: 'text/plain', value: @body)
@@ -77,17 +73,13 @@ class Resend < ApplicationRecord
 
     @tournament = Tournament.find(t_id)
 
-    @string = @tournament.name
-
-    @subject = "Password for #{@string}"
+    @subject = "Password for #{@tournament.name}"
 
     @password = @tournament.private_event_password
 
     @body = "The password for #{@string} is #{@password}.\n\nThanks,\nTournament Management"
 
-    @string.downcase.gsub(/[^a-z0-9]/, '')
-
-    from = Email.new(email: "admin@#{@string}.com")
+    from = Email.new(email: "admin@golftournamentapp.com")
     to = Email.new(email: email_to)
     subject = @subject
     content = Content.new(type: 'text/plain', value: @body)
@@ -106,16 +98,18 @@ class Resend < ApplicationRecord
 
     @tournament = Tournament.where(id: @player.tournament_id).first
 
-    @string = @tournament.name
+    @subject = "Message from #{@tournament.name}"
 
-    @subject = "Message from #{@string}"
+    if body == ""
+      @body = ""
+    else
+      @body = "The following is a message from the organizer of the tournament named:#{@tournament.name}\n\n#{body}"
+    end
 
-    @string.downcase.gsub(/[^a-z0-9]/, '')
-
-    from = Email.new(email: "admin@#{@string}.com")
+    from = Email.new(email: "admin@golftournamentapp.com")
     to = Email.new(email: email_to)
     subject = @subject
-    content = Content.new(type: 'text/plain', value: body)
+    content = Content.new(type: 'text/plain', value: @body)
     mail = SendGrid::Mail.new(from, subject, to, content)
 
     sg = SendGrid::API.new(api_key: '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')

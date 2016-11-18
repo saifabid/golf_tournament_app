@@ -6,14 +6,15 @@
       Error: <%= flash[:error] %>
     </div>
   <% end %>
-  
+
   <%= link_to 'Go to Organizer Dashboard', tournament_path(id: params[:tournament_id]), data: { turbolinks: false } %>
 
-  <h2>Tournament Agenda</h2>
-  <h2>Create New Event</h2>
-  <%= render 'tournament_events/createevent'%>
+  <h2>Tournament Features</h2>
+  <h2>Add Feature</h2>
+  <%= render 'tournament_features/createfeature'%>
   <br></br>
-  <%= link_to "Continue", new_tournament_tournament_feature_path(Tournament.find(params[:tournament_id])), class: "btn btn-success"  %>
+  <%= link_to 'Done', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
+
   <h2> Current Agenda </h2>
-  <%=render  'tournament_events/list', tournament_events: @tournament.tournament_events %>
+  <%=render  'tournament_features/list', tournament_features: @tournament.tournament_features %>
 </div>

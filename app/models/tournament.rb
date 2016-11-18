@@ -3,6 +3,7 @@ require 'securerandom'
 class Tournament < ApplicationRecord
   attr_accessor  :profile_picture
   has_many :tournament_events, dependent: :destroy
+  has_many :tournament_features, dependent: :destroy
   has_many :tournament_tickets, dependent: :destroy
   has_many :people
 
@@ -37,7 +38,7 @@ class Tournament < ApplicationRecord
   after_validation :geocode
 
   # Functionality used by location sorting view in welcome/hello_world
-  acts_as_mappable :distance_field_name => :venue_address, :lat_column_name => :latitude, :lng_column_name => :longitude
+  acts_as_mappable :distance_field_name => :distance, :lat_column_name => :latitude, :lng_column_name => :longitude
 
   @language_options = [
       ['English', 'english'],

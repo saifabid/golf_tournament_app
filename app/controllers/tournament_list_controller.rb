@@ -14,7 +14,7 @@ class TournamentListController < ApplicationController
 
     if params[:searchDistance].blank?
       @searchDistanceFlash = ""
-      searchDistance = 2000 #2000km default value
+      searchDistance = 8000 #8000km default value
     else
       @searchDistanceFlash = params[:searchDistance]
       searchDistance = params[:searchDistance]
@@ -44,9 +44,11 @@ class TournamentListController < ApplicationController
       marker.lat event.latitude
       marker.lng event.longitude
 
-      info_link = "<a href=\"/tournaments/#{event.id}\">More details / Sign Up</a>"
+      signup_link = "<a href=\"/tournaments/#{event.id}\">More details / Sign Up</a>"
+      window_content = event.name + "<br>"
+      window_content = window_content + signup_link
 
-      marker.infowindow info_link
+      marker.infowindow window_content
     end
 
     @state = params[:state]
@@ -59,8 +61,7 @@ class TournamentListController < ApplicationController
     elsif sortType == "4"
       @tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(name: :desc)
     elsif sortType == "5"
-      #TODO: .order(distance: :desc) (unknown column 'distance', add to model???)
-      @tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng])
+      @tournaments = Tournament.where("start_date >= NOW()").where("start_date >= ?", searchStart).where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).by_distance(:origin => [clientLat,clientLng])
     else
       @tournaments = Tournament.where("start_date >= NOW()").where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :asc)
     end
