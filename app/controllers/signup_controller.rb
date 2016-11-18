@@ -480,6 +480,7 @@ class SignupController < ApplicationController
   def form_params
     params.permit(
         :spectator_tickets,
+        :dinner_tickets,
         :foursome_tickets,
         :tournament_id,
         :player_tickets,
