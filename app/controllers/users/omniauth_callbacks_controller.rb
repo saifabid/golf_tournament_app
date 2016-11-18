@@ -15,35 +15,21 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.from_omniauth(@vars)
 
     if @user.persisted?
-      @account = Account.new
-      @account.user_id = @user.id
-      @user.account_id = @account.id
-      @account.first_name = @vars.info.name.partition(' ')[0]
-      @account.last_name = @vars.info.name.partition(' ')[2]
-      @account.profile_pic = @vars.info.image
-      @account.birth = Date.new(2001,2,3)
-      @account.save
+      fix_account
       sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
-    end
   end
+    end
 
   def linkedin
     @vars = request.env["omniauth.auth"]
     @user = User.from_omniauth(@vars)
 
      if @user.persisted?
-      @account = Account.new
-      @account.user_id = @user.id
-      @user.account_id = @account.id
-      @account.first_name = @vars.info.name.partition(' ')[0]
-      @account.last_name = @vars.info.name.partition(' ')[2]
-      @account.profile_pic = @vars.info.image
-      @account.birth = Date.new(2001,2,3)
-      @account.save
+      fix_account
       sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, :kind => "linkedin") if is_navigational_format?
     else
@@ -67,7 +53,33 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #   super
   # end
 
-  # protected
+  protected
+
+  def fix_account
+    @account = nil
+    begin
+      puts 'Found account'
+      @account = Account.find_by!(user_id: @user.id)
+      @account.first_name = @vars.info.name.partition(' ')[0]
+      @account.last_name = @vars.info.name.partition(' ')[2]
+      @account.profile_pic = @vars.info.image
+      @account.save
+    rescue => error
+      puts '------------------------------------------------------fix_account'
+      puts error
+      puts '------------------------------------------------------'
+    end
+    if @account.nil?
+      puts 'Creating new account'
+      @account = Account.new
+      @account.user_id = @user.id
+      @account.first_name = @vars.info.name.partition(' ')[0]
+      @account.last_name = @vars.info.name.partition(' ')[2]
+      @account.profile_pic = @vars.info.image
+      @account.save
+    end
+  end
+    
 
   # The path used when OmniAuth fails
   # def after_omniauth_failure_path_for(scope)
