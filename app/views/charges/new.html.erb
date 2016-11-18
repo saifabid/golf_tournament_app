@@ -7,14 +7,14 @@
     <% end %>
     <article>
        <label class="amount">
-         <span>Your total is <%= number_to_currency(@amount.to_i * 0.01) %> and id is <%= (@transaction_id) %></span>
+         <span>Your total is <%= number_to_currency(@amount.to_i * 0.01) %></span>
        </label>
     </article>
   </article>
 
-
+    <%= hidden_field :signup_params, :html=>{:value=> @signup_params}  %>
   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="pk_test_htMfuO8velvpUmPu51UcPKPF"
+          data-key="<%=Rails.application.secrets.stripe_publishable_key%>"
           data-description="Tournament Ticket"
           data-amount="<%= @amount %>"
           data-locale="auto"></script>

@@ -2,9 +2,9 @@
 
 <h1>Sign Up For a Tournament</h1>
 
-<%= bootstrap_form_tag url: '/signup', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
+<%= bootstrap_form_tag url: 'before_payment_summary', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
 	<h4>Search for a Tournament</h4>
-	<%= f.collection_select(:tournament_name, Tournament.all, :name, :name) %>
+	<%= f.collection_select :tournament_name, Tournament.all, :id, :name, {}, {:name=> 'tournament_id'} %>
 
 	<h4>Ticket Quantities</h4>
   <% if flash[:error] == "You have selected more tickets than what's available" %>
@@ -28,6 +28,6 @@
 	<% end %>
 
 	<br>
-	<%= f.submit class: "btn-lg btn-success center-block " %>
+	<%= f.submit 'Continue to Payment', class: "btn-lg btn-success center-block " %>
 	
 <% end %>

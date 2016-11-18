@@ -2,9 +2,9 @@
 
 <h1>Signup for <%= @tournament.name %></h1>
 
-<%= bootstrap_form_tag url: '/signup', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
+<%= bootstrap_form_tag url: 'before_payment_summary', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
 
-  <%= f.hidden_field(:tournament_name, :value => @tournament.name) %>
+  <%= f.hidden_field(:tournament_id, :value => @tournament.id) %>
 
 	<h4>Ticket Quantities</h4>
   <%= f.text_field :spectator_tickets %>
