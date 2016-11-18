@@ -1,0 +1,8 @@
+<%= bootstrap_form_for ([@tournament, @tournament.tournament_features.build]) do |f| %>
+    <p>
+      <%= f.text_field :name %>
+      <%= f.text_area :description %>
+    </p>
+
+    <%= f.submit %>
+<% end %>

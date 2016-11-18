@@ -3,6 +3,7 @@ require 'securerandom'
 class Tournament < ApplicationRecord
   attr_accessor  :profile_picture
   has_many :tournament_events, dependent: :destroy
+  has_many :tournament_features, dependent: :destroy
   has_many :tournament_tickets, dependent: :destroy
   has_many :people
 
