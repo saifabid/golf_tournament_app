@@ -9,7 +9,6 @@ class TournamentsController < ApplicationController
   def index
     redirect_to "/"
   end
-
   def check_private_event
     session[:private_event_logged_in] ||= []
     if Tournament.where(id: params[:id]).where(:is_private => 1).exists? and !session[:private_event_logged_in].include? params[:id]
@@ -19,7 +18,6 @@ class TournamentsController < ApplicationController
       return
     end
   end
-
   def check_tournament_organizer
     if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])

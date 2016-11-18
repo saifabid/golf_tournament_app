@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20161117080150) do
     t.bigint   "transaction_number"
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 10
+    t.datetime "transaction_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
@@ -157,18 +158,18 @@ ActiveRecord::Schema.define(version: 20161117080150) do
     t.string   "private_event_password"
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
     t.datetime "start_date"
     t.float    "longitude",              limit: 24
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
-    t.decimal  "gold_sponsor_price",                   precision: 10, default: 1
+    t.decimal  "gold_sponsor_price",                   precision: 10
     t.text     "gold_sponsor_desc",      limit: 65535
-    t.decimal  "silver_sponsor_price",                 precision: 10, default: 1
+    t.decimal  "silver_sponsor_price",                 precision: 10
     t.text     "silver_sponsor_desc",    limit: 65535
-    t.decimal  "bronze_sponsor_price",                 precision: 10, default: 1
+    t.decimal  "bronze_sponsor_price",                 precision: 10
     t.text     "bronze_sponsor_desc",    limit: 65535
     t.decimal  "player_price",                         precision: 10
     t.decimal  "foursome_price",                       precision: 10
