@@ -103,7 +103,7 @@ class Resend < ApplicationRecord
     if body == ""
       @body = ""
     else
-      @body = "The following is a message from the organizer of the tournament named:#{@tournament.name}\n\n#{body}"
+      @body = "The following is a message from the organizer of the tournament named: #{@tournament.name}\n\n#{body}"
     end
 
     from = Email.new(email: "admin@golftournamentapp.com")
