@@ -378,6 +378,7 @@ end
 	def form_params
 		params.permit(
 			:spectator_tickets,
+			:dinner_tickets,
 			:foursome_tickets,
 			:tournament_name,
 			:player_tickets,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117080150) do
+ActiveRecord::Schema.define(version: 20161118005129) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20161117080150) do
     t.boolean  "is_player"
     t.boolean  "is_sponsor"
     t.boolean  "is_spectator"
+    t.boolean  "is_dinner"
     t.bigint   "ticket_number"
     t.integer  "ticket_description"
     t.integer  "guest_of"
@@ -157,6 +158,7 @@ ActiveRecord::Schema.define(version: 20161117080150) do
     t.string   "private_event_password"
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
+    t.integer  "dinner_tickets_left"
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
     t.datetime "start_date"
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(version: 20161117080150) do
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
+    t.integer  "total_dinner_tickets"
     t.decimal  "gold_sponsor_price",                   precision: 10, default: 1
     t.text     "gold_sponsor_desc",      limit: 65535
     t.decimal  "silver_sponsor_price",                 precision: 10, default: 1
