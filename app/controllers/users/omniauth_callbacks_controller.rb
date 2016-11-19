@@ -21,8 +21,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
-  end
     end
+  end
 
   def linkedin
     @vars = request.env["omniauth.auth"]
@@ -36,7 +36,21 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       session["devise.linkedin_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
     end
+  end
 
+  def google_oauth2
+    # You need to implement the method below in your model (e.g. app/models/user.rb)
+    @vars = request.env["omniauth.auth"]
+    @user = User.from_omniauth(@vars)
+
+    if @user.persisted?
+      fix_account
+      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+      set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
+    else
+      session["devise.google_data"] = request.env["omniauth.auth"]
+      redirect_to new_user_registration_url
+    end
   end
 
   def failure

@@ -260,6 +260,15 @@ class TournamentsController < ApplicationController
 
   def update
     @tournament = Tournament.find(params[:id])
+
+    @tickets_left = @tournament.tickets_left + (tournament_params[:total_player_tickets].to_i - @tournament.total_player_tickets)
+    @dinner_tickets_left = @tournament.dinner_tickets_left + (tournament_params[:total_dinner_tickets].to_i - @tournament.total_dinner_tickets)
+    @spectator_tickets_left = @tournament.spectator_tickets_left + (tournament_params[:total_audience_tickets].to_i - @tournament.total_audience_tickets)
+
+    @tournament.update_column(:tickets_left, @tickets_left)
+    @tournament.update_column(:dinner_tickets_left, @dinner_tickets_left)
+    @tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
+
     if @tournament.update_attributes(tournament_params)
       redirect_to @tournament
     else
