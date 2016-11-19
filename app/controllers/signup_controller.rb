@@ -313,6 +313,7 @@ class SignupController < ApplicationController
     @tournament_id = form_params[:tournament_id]
 
     tournament= Tournament.find(@tournament_id)
+    @tournament = tournament
     # TODO: if not found raise error
 
     @player_tickets=form_params[:player_tickets]== '' ? 0 : form_params[:player_tickets].to_i
