@@ -13,14 +13,14 @@
       <tr>
         <td><%= p.name %></td>
         <td><%= p.quantity %></td>
-        <td><%= p.sub_total %></td>
+        <td><%= number_to_currency(p.sub_total) %></td>
 
       </tr>
   <% end %>
   <tr>
     <td></td>
     <td><b>Total</b></td>
-    <td><%= @total %></td>
+    <td><%= number_to_currency(@total) %></td>
   </tr>
 </table>
 <%= form_tag '/signup' do %>

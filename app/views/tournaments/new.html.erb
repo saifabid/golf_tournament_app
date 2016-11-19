@@ -26,18 +26,18 @@
       <%= f.number_field :total_audience_tickets%>
       <%= f.number_field :total_dinner_tickets%>
 
-      <%= f.number_field :player_price%>
-      <%= f.number_field :dinner_price%>
-      <%= f.number_field :spectator_price%>
-      <%= f.number_field :foursome_price%>
+      <%= f.number_field :player_price, :step=>:any%>
+      <%= f.number_field :dinner_price, :step=>:any%>
+      <%= f.number_field :spectator_price, :step=>:any%>
+      <%= f.number_field :foursome_price, :step=>:any%>
       <h4>Sponsor Options</h4>
 
 
-      <%= f.number_field :gold_sponsor_price%>
+      <%= f.number_field :gold_sponsor_price,:step=>:any%>
       <%= f.text_area :gold_sponsor_desc%>
-      <%= f.number_field :silver_sponsor_price%>
+      <%= f.number_field :silver_sponsor_price, :step=>:any%>
       <%= f.text_area :silver_sponsor_desc%>
-      <%= f.number_field :bronze_sponsor_price%>
+      <%= f.number_field :bronze_sponsor_price, :step=>:any%>
       <%= f.text_area :bronze_sponsor_desc %>
 
 
