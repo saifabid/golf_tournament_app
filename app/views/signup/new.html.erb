@@ -4,7 +4,7 @@
 
 <%= bootstrap_form_tag url: 'before_payment_summary', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
 	<h4>Search for a Tournament</h4>
-	<%= f.collection_select :tournament_name, Tournament.all, :id, :name, {}, {:name=> 'tournament_id'} %>
+	<%= f.collection_select :tournament_name, Tournament.where(sprintf("start_date >= %s", Time.now.strftime("'%Y-%m-%d %H:%M:%S'"))), :id, :name, {}, {:name=> 'tournament_id'} %>
 
 	<h4>Ticket Quantities</h4>
   <% if flash[:error] == "You have selected more tickets than what's available" %>
