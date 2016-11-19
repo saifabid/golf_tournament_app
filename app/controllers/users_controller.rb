@@ -51,11 +51,10 @@ class UsersController < ApplicationController
 
   def image_store
     params = account_params
-    profile_picture = Image.store(:profile_pic, params[:profile_pic])
-    if profile_picture.nil?
-      profile_picture = {}
+    if params[:profile_pic]
+      profile_picture = Image.store(:profile_pic, params[:profile_pic])
+      params[:profile_pic] = profile_picture['url']
     end
-    params[:profile_pic] = profile_picture['url']
     return params
   end
 
