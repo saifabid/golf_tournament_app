@@ -77,7 +77,7 @@ class Resend < ApplicationRecord
 
     @password = @tournament.private_event_password
 
-    @body = "The password for #{@string} is #{@password}.\n\nThanks,\nTournament Management"
+    @body = "The password for #{@tournament.name} is #{@password}.\n\nThanks,\nTournament Management"
 
     from = Email.new(email: "admin@golftournamentapp.com")
     to = Email.new(email: email_to)

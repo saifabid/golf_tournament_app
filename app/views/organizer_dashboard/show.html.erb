@@ -16,6 +16,13 @@
 <h1>Organiser Dashboard</h1>
 <%=render('layouts/event_organizer_header') %>
 
+<% if @is_private == true %>
+     <%= render "organizer_dashboard/send_password_modal" %>
+  <div class = center-text>
+    <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendpassword#{params[:id]}" %> >Send Password by Email</button>
+   </div>
+<% end %>
+
 <%= render "organizer_dashboard/users_table",  users: @all_tournament_playars, current_player: @current_player %>
 <div class = center-text>
 

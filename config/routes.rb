@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
-
+  post'organizer_dashboard/sendpassword/:id' => 'organizer_dashboard#send_password'
 
 
 

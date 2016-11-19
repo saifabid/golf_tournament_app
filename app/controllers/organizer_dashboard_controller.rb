@@ -47,6 +47,11 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def send_password
+    Resend.send_password params[:recipiant], params[:id]
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def get_tournament_players_list
     @all_tournament_playars = []
     all_persons = Person.where("tournament_id = ? AND is_player = 1", params[:id])
