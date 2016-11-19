@@ -160,6 +160,11 @@ GEM
       rack (>= 1.0, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-google-oauth2 (0.4.1)
+      jwt (~> 1.5.2)
+      multi_json (~> 1.3)
+      omniauth (>= 1.1.1)
+      omniauth-oauth2 (>= 1.3.1)
     omniauth-linkedin-oauth2 (0.1.5)
       omniauth (~> 1.0)
       omniauth-oauth2
@@ -238,7 +243,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stripe (1.56.1)
+    stripe (1.56.2)
       rest-client (>= 1.4, < 4.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
@@ -300,6 +305,7 @@ DEPENDENCIES
   momentjs-rails
   mysql2 (>= 0.3.18, < 0.5)
   omniauth-facebook
+  omniauth-google-oauth2
   omniauth-linkedin-oauth2
   omniauth-oauth2 (~> 1.3.1)
   paperclip (~> 5.0.0)
