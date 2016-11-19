@@ -38,10 +38,11 @@ gem 'bcrypt', '~> 3.1.11'
 gem 'devise'
 
 gem 'omniauth-oauth2', '~> 1.3.1'
-
-gem "paperclip", "~> 5.0.0"
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin-oauth2'
+gem "omniauth-google-oauth2"
+
+gem "paperclip", "~> 5.0.0"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
