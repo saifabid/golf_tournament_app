@@ -70,6 +70,7 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.new(params)
     @tournament.tickets_left = params[:total_player_tickets].to_i
     @tournament.spectator_tickets_left = params[:total_audience_tickets].to_i
+    @tournament.dinner_tickets_left = params[:total_dinner_tickets].to_i
 
     @tournament.save
     if @tournament.errors.any?
@@ -130,6 +131,7 @@ class TournamentsController < ApplicationController
     # Retrieve tickets left
     @tickets_left = @tournament.tickets_left
     @spectator_tickets_left = @tournament.spectator_tickets_left
+    @dinner_tickets_left = @tournament.dinner_tickets_left
 
     if @tickets_left.nil?
       @tickets_left = 0
@@ -281,10 +283,12 @@ class TournamentsController < ApplicationController
       :start_date,
       :total_player_tickets,
       :total_audience_tickets,
+      :total_dinner_tickets,
       :logo,
       :venue_logo,
       :profile_picture,
       :player_price,
+      :dinner_price,
       :gold_sponsor_price,
       :gold_sponsor_desc,
       :silver_sponsor_price,

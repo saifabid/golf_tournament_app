@@ -8,8 +8,8 @@ require 'barby/outputter/png_outputter'
 class SignupController < ApplicationController
   helper_method :assigngroup, :assignfoursome
   before_action :check_user_auth
-  before_action :check_number_tickets, only: [:create]
-  before_action :check_positive_amounts, only: [:create]
+  before_action :check_number_tickets, only: [:before_payment_summary]
+  before_action :check_positive_amounts, only: [:before_payment_summary]
 
   #TODO: place in helper class
   def generate_barcode_img(numtoCode)
@@ -52,7 +52,7 @@ class SignupController < ApplicationController
     end
     @transaction_num = transaction.transaction_number
     people= Person.where(:ticket_transaction_id => transaction_id)
-    @tickets= people.where('is_guest= 1 OR is_player = 1 OR is_spectator=1 OR is_sponsor=1')
+    @tickets= people.where('is_guest= 1 OR is_player = 1 OR is_spectator=1 OR is_sponsor=1 OR is_dinner=1')
 
   end
 
@@ -89,6 +89,16 @@ class SignupController < ApplicationController
 
     @total_spectator_tickets = params[:spectator_tickets].to_i
 
+    if @total_spectator_tickets > @tournament.tickets_left.to_i * 4
+      flash[:error] = "You have selected more tickets than what's available"
+      render :new
+      return
+    else
+      flash[:error] = ""
+    end
+
+    @total_foursome_tickets = params[:foursome_tickets].to_i
+
     if @total_spectator_tickets > @tournament.spectator_tickets_left.to_i
       flash[:error] = "You have selected more tickets than what's available"
       render :new
@@ -97,6 +107,15 @@ class SignupController < ApplicationController
       flash[:error] = ""
     end
 
+    @total_dinner_tickets = params[:dinner_tickets].to_i
+
+    if @total_dinner_tickets > @tournament.dinner_tickets_left.to_i
+      flash[:error] = "You have selected more tickets than what's available"
+      render :new
+      return
+    else
+      flash[:error] = ""
+    end
   end
 
   def check_positive_amounts
@@ -112,6 +131,11 @@ class SignupController < ApplicationController
     end
 
     if params[:spectator_tickets] != "" && params[:spectator_tickets].to_i < 0
+      flash[:error] = "Negative"
+      render :new
+    end
+
+    if params[:dinner_tickets] != "" && params[:dinner_tickets].to_i < 0
       flash[:error] = "Negative"
       render :new
     end
@@ -200,7 +224,7 @@ class SignupController < ApplicationController
   end
 
   # gets an array for the
-  def get_price_summary(tournament, num_player, sponsor_level, num_spectator, num_foursome)
+  def get_price_summary(tournament, num_player, sponsor_level, num_spectator, num_foursome, num_dinner)
     price_lines=[]
     total=0
     #get player total
@@ -227,6 +251,14 @@ class SignupController < ApplicationController
 
       foursome_price_line=PriceLine.new(num_foursome, foursome_price, subtotal, 'Foursome Ticket(s)')
       price_lines.push(foursome_price_line)
+      total+= subtotal
+    end
+    if (num_dinner>0)
+      dinner_price = tournament.dinner_price
+      subtotal= dinner_price* num_dinner
+
+      dinner_price_line=PriceLine.new(num_dinner, dinner_price, subtotal, 'Dinner Ticket(s)')
+      price_lines.push(dinner_price_line)
       total+= subtotal
     end
     #get sponsor total
@@ -264,9 +296,10 @@ class SignupController < ApplicationController
     @player_tickets=form_params[:player_tickets]== '' ? 0 : form_params[:player_tickets].to_i
     @foursome_tickets= form_params[:foursome_tickets]== '' ? 0 : form_params[:foursome_tickets].to_i
     @spectator_tickets= form_params[:spectator_tickets]=='' ? 0 : form_params[:spectator_tickets].to_i
+    @dinner_tickets= form_params[:dinner_tickets]=='' ? 0 : form_params[:dinner_tickets].to_i
     @sponsor_level= form_params[:sponsor_level].to_s
 
-    price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets)
+    price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets, @dinner_tickets)
     @total= price_summary[:total]
     @price_lines=price_summary[:price_lines]
 
@@ -285,9 +318,10 @@ class SignupController < ApplicationController
     @player_tickets=form_params[:player_tickets]== '' ? 0 : form_params[:player_tickets].to_i
     @foursome_tickets= form_params[:foursome_tickets]== '' ? 0 : form_params[:foursome_tickets].to_i
     @spectator_tickets= form_params[:spectator_tickets]=='' ? 0 : form_params[:spectator_tickets].to_i
+    @dinner_tickets= form_params[:dinner_tickets]=='' ? 0 : form_params[:dinner_tickets].to_i
     @sponsor_level= form_params[:sponsor_level].to_s
 
-    price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets)
+    price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets, @dinner_tickets)
 
     @total= price_summary[:total]
     @price_lines=price_summary[:price_lines]
@@ -329,10 +363,19 @@ class SignupController < ApplicationController
         form_params[:foursome_tickets] = 0.to_s
       end
 
+      if form_params[:spectator_tickets] == ''
+        form_params[:spectator_tickets] = 0.to_s
+      end
+
+      if form_params[:dinner_tickets] == ''
+        form_params[:dinner_tickets] = 0.to_s
+      end
+
       @offset = 1
       @player_offset = 0
       @k = 0
       @s = 0
+      @d = 0
       @sponsor_offset = 0
 
       if form_params[:sponsor_level].to_i > 0
@@ -409,6 +452,19 @@ class SignupController < ApplicationController
           @offset += 1
           @s = 1
         end
+      elsif form_params[:dinner_tickets].to_i > 0
+      if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_dinner = true", current_user.id, @tournament_id)).exists?
+        @ticket_num = [@transaction_num, @offset]
+        @tournament.people.new(
+            :user_id => current_user.id,
+            :is_dinner => true,
+            :ticket_transaction_id => transaction_id,
+            :ticket_number => @ticket_num.join.to_i,
+            :ticket_description => 4
+        ).save
+        @offset += 1
+        @d = 1
+      end
       end
 
       while @k < form_params[:foursome_tickets].to_i
@@ -463,13 +519,37 @@ class SignupController < ApplicationController
         @s += 1
       end
 
+
+
+      while @d < form_params[:dinner_tickets].to_i
+        @ticket_num = [@transaction_num, @offset]
+        @tournament.people.new(
+            :guest_of => current_user.id,
+            :is_dinner => true,
+            :ticket_transaction_id => transaction_id,
+            :ticket_number => @ticket_num.join.to_i,
+            :ticket_description => 4
+        ).save
+        @offset += 1
+
+        @d += 1
+      end
+
       if @tournament.spectator_tickets_left.nil?
         @spectator_tickets_left = @tournament.total_audience_tickets - @s
       else
         @spectator_tickets_left = @tournament.spectator_tickets_left - @s
       end
+
+      if @tournament.dinner_tickets_left.nil?
+        @dinner_tickets_left = @tournament.total_dinner_tickets - @d
+      else
+        @dinner_tickets_left = @tournament.dinner_tickets_left - @d
+      end
+
       @tournament.update_column(:tickets_left, @tickets_left)
       @tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
+      @tournament.update_column(:dinner_tickets_left, @dinner_tickets_left)
       redirect_to controller: 'signup', action: 'signup_summary', transaction_id: transaction_id
 
     end
