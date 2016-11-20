@@ -12,6 +12,9 @@
     <%= f.file_field :profile_picture, multiple: true, name: "images[]" %>
     <%= f.text_area :details %>
     <%= f.datetime_select :start_date,  {:start_year => Time.now().year, :ampm => true} %>
+    <div class="alert alert-warning" id="is_private_warning" style="display: none">
+      <strong>Warning!</strong> Private events can not be made public.
+    </div>
       <%= f.check_box :is_private%>
       <br>
     <h3>Venue Information</h3>
@@ -110,6 +113,20 @@
       });
     }
   }
+
+  // Hide/Show warning from checking off private event field
+  
+  $("#tournament_is_private").click(function() {
+    console.log('we in here?')
+    if ($(this).is(":checked")) {
+      console.log('show')
+      $("#is_private_warning").show()
+    } else {
+      console.log('hide')
+      $("#is_private_warning").hide()
+    }
+  })
+  
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJsI21_UkxTLQaDzxH0pev5nBdpErs-0k&libraries=places&callback=initAutocomplete"
         async defer></script>
