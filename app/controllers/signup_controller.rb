@@ -424,6 +424,7 @@ class SignupController < ApplicationController
             @tournament.people.new(
                 :guest_of => current_user.id,
                 :is_guest => true,
+                :is_player => true,
                 :ticket_transaction_id => transaction_id,
                 :ticket_number => @ticket_num.join.to_i,
                 :ticket_description => 0
