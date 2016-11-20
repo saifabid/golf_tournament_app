@@ -1,0 +1,13 @@
+<table class="table">
+<tr><th> Feature</th>
+  <th>Feature Description</th>
+  <th></th></tr>
+<% @features.each do|e|%>
+    <% if e.name %>
+    <tr>
+      <td><%=e.name%></td>
+      <td><%=e.description%></td>
+    </tr>
+    <% end %>
+  <% end %>
+ </table>
