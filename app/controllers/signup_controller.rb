@@ -226,6 +226,7 @@ class SignupController < ApplicationController
   # gets an array for the
   def get_price_summary(tournament, num_player, sponsor_level, num_spectator, num_foursome, num_dinner)
     price_lines=[]
+
     total=0
     #get player total
     if (num_player>0)
@@ -262,36 +263,44 @@ class SignupController < ApplicationController
       total+= subtotal
     end
     #get sponsor total
-    sponsor_price= calculate_sponsor_price(tournament, sponsor_level)
+    sponsor_info= get_sponsor_info(tournament, sponsor_level)
+    sponsor_text= sponsor_info[:text]
+    sponsor_price= sponsor_info[:price]
     if (sponsor_price>0)
-      sponsor_price_line= PriceLine.new(1, sponsor_price, sponsor_price, 'Sponsor Ticket(s)')
+      sponsor_price_line= PriceLine.new(1, sponsor_price, sponsor_price, "Sponsor Ticket(s) (#{sponsor_text})")
       price_lines.push(sponsor_price_line)
       total+= sponsor_price
     end
     return {:total => total, :price_lines => price_lines}
   end
 
-  def calculate_sponsor_price(tournament, sponsor_level)
+  def get_sponsor_info(tournament, sponsor_level)
     case sponsor_level
       when '1' #gold
         price= tournament.gold_sponsor_price
+        text= 'Gold'
       when '2' #silver
         price= tournament.silver_sponsor_price
+        text= 'Silver'
       when '3' #bronze
         price= tournament.bronze_sponsor_price
+        text= 'Bronze'
       else
         price= 0
+        text= 'Invalid Sponsor level'
 
     end
-    return price
+    return {:price=> price, :text=> text}
 
   end
 
 
   def before_payment_summary
     @tournament_id= form_params[:tournament_id]
+    
     tournament= Tournament.find(@tournament_id)
     # TODO: if not found raise error
+    @currency= tournament.currency==nil? ? 'cad': tournament.currency
 
     @player_tickets=form_params[:player_tickets]== '' ? 0 : form_params[:player_tickets].to_i
     @foursome_tickets= form_params[:foursome_tickets]== '' ? 0 : form_params[:foursome_tickets].to_i
@@ -316,6 +325,9 @@ class SignupController < ApplicationController
     @tournament = tournament
     # TODO: if not found raise error
 
+
+    @transaction_num = [current_user.id, @tournament_id, Time.now.to_i]
+
     @player_tickets=form_params[:player_tickets]== '' ? 0 : form_params[:player_tickets].to_i
     @foursome_tickets= form_params[:foursome_tickets]== '' ? 0 : form_params[:foursome_tickets].to_i
     @spectator_tickets= form_params[:spectator_tickets]=='' ? 0 : form_params[:spectator_tickets].to_i
@@ -334,9 +346,9 @@ class SignupController < ApplicationController
     begin
       charge = Stripe::Charge.create(
           :amount => @total_cents.floor,
-          :description => 'Rails Stripe customer',
+          :description => "Golf Tournament Signup Transaction Num:#{@transaction_num}",
           :source => params[:stripeToken],
-          :currency => 'cad'
+          :currency => tournament.currency==nil? ? 'cad' : tournament.currency
       )
 
 
@@ -345,8 +357,6 @@ class SignupController < ApplicationController
       render :new
       return
     end
-
-    @transaction_num = [current_user.id, @tournament_id, Time.now.to_i]
 
     TicketTransaction.transaction do
       transaction= TicketTransaction.new(
@@ -578,6 +588,7 @@ class PriceLine
     @unit_price = unit_price
     @sub_total = sub_total
     @name= name
+
   end
 
   def quantity
@@ -591,6 +602,8 @@ class PriceLine
   def sub_total
     @sub_total
   end
+
+
 
   def name
     @name
