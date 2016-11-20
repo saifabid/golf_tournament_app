@@ -90,6 +90,8 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/venue_information', to: 'tournaments#venue_information'
 
+  get 'tournaments/:id/features', to: 'tournaments#features'
+
   get 'dashboard/index'
 
   get 'charges/new'
