@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'tournament_list/list'
   post 'tournament_list/list'
 
-  devise_for :users, :controllers => { :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :registrations => "users/registrations", :sessions => "users/sessions", :omniauth_callbacks => "users/omniauth_callbacks" }
 
   resources :users
   post 'users/new' => "users#create"
