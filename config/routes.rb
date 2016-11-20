@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
   post'organizer_dashboard/sendpassword/:id' => 'organizer_dashboard#send_password'
 
-
+  post'/tournaments/sponsorshipopportunites/:id' => 'tournaments#sponsor_signup'
 
   get 'signup/:id', to: 'signup#signup_from_tournament'
 

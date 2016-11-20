@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119040001) do
+ActiveRecord::Schema.define(version: 20161120020838) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 20161119040001) do
     t.bigint   "transaction_number"
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 10
-    t.datetime "transaction_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
@@ -160,25 +159,26 @@ ActiveRecord::Schema.define(version: 20161119040001) do
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
     t.integer  "dinner_tickets_left"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "created_at",                                                                    null: false
+    t.datetime "updated_at",                                                                    null: false
     t.datetime "start_date"
     t.float    "longitude",              limit: 24
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
     t.integer  "total_dinner_tickets"
-    t.decimal  "gold_sponsor_price",                   precision: 16, scale: 2
+    t.decimal  "gold_sponsor_price",                   precision: 16, scale: 2, default: "1.0"
     t.text     "gold_sponsor_desc",      limit: 65535
-    t.decimal  "silver_sponsor_price",                 precision: 16, scale: 2
+    t.decimal  "silver_sponsor_price",                 precision: 16, scale: 2, default: "1.0"
     t.text     "silver_sponsor_desc",    limit: 65535
-    t.decimal  "bronze_sponsor_price",                 precision: 16, scale: 2
+    t.decimal  "bronze_sponsor_price",                 precision: 16, scale: 2, default: "1.0"
     t.text     "bronze_sponsor_desc",    limit: 65535
     t.decimal  "player_price",                         precision: 16, scale: 2
     t.decimal  "foursome_price",                       precision: 16, scale: 2
     t.decimal  "spectator_price",                      precision: 16, scale: 2
     t.decimal  "dinner_price",                         precision: 16, scale: 2
     t.decimal  "distance",                             precision: 10
+    t.integer  "num_foursomes"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

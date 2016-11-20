@@ -231,6 +231,9 @@ GEM
       tilt (>= 1.1, < 3)
     sendgrid-ruby (4.0.6)
       ruby_http_client (~> 3.0.0)
+    shareable (1.1.4)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     spring (2.0.0)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -316,6 +319,7 @@ DEPENDENCIES
   rubyzip
   sass-rails (~> 5.0)
   sendgrid-ruby
+  shareable
   spring
   spring-watcher-listen (~> 2.0.0)
   stripe

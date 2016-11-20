@@ -87,6 +87,12 @@
 				<%= render('layouts/event_slideshow') %>
 				</div>
 				<%= render('layouts/general_map_view') %>
+        <div class="col-md-12">
+          <%= render "tournaments/sponsor_opportunities_modal" %>
+          <div class="center-text">
+            <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sponsordetails#{params[:id]}" %> >Interested in Sponsoring this Tournament?</button>
+          </div>
+        </div>
 				<div class="col-md-12">
 					<div class="countdown center-text">
 						<div id="countdown"></div>
@@ -140,8 +146,17 @@
 				<% if @show_signup_button and not @buy_additional_tickets%>
 				<%= button_to "Are you someone's Guest or a Spectator?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
 				<% end %>
-			
+				<%= render_shareable %>
+				
+				<a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Facebook</a>
 			</div>
 		</div>
 	</body>
 </html>
+<script>
+    function fbShare(url, title, descr, image, winWidth, winHeight) {
+        var winTop = (screen.height / 2) - (winHeight / 2);
+        var winLeft = (screen.width / 2) - (winWidth / 2);
+        window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+    }
+</script>

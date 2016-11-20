@@ -1,0 +1,24 @@
+<div class="modal fade" id=<%= "sponsordetails#{params[:id]}" %> tabindex="-1" role="dialog" aria-labelledby="sendemaillabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="sendemaillabel">Sponsorship Opportunites for <%=@tournament.name%></h4>
+            </div>
+            <div class="modal-body">
+                <%= bootstrap_form_tag url: "/tournaments/sponsorshipopportunites/#{params[:id]}" do |f| %>
+                <h5>Gold Sponsor - $<%=number_with_precision(@tournament.gold_sponsor_price, :precision => 2)%></h5>
+                  <p> <%=@tournament.gold_sponsor_desc%></p>
+                <h5>Silver Sponsor Perks - $<%=number_with_precision(@tournament.silver_sponsor_price, :precision => 2)%></h5>
+                  <p> <%=@tournament.silver_sponsor_desc%></p>
+                <h5>Bronze Sponsor Perks - $<%=number_with_precision(@tournament.bronze_sponsor_price, :precision => 2)%></h5>
+                  <p> <%=@tournament.bronze_sponsor_desc%></p>
+                <%= f.submit value: "Interested? Sign up here!", class: "btn btn-success"%>
+                <% end %>
+
+            </div>
+        </div>
+    </div>
+</div>
