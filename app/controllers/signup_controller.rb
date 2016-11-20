@@ -563,6 +563,7 @@ class SignupController < ApplicationController
       @tournament.update_column(:tickets_left, @tickets_left)
       @tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
       @tournament.update_column(:dinner_tickets_left, @dinner_tickets_left)
+      @tournament.update_column(:num_foursomes, @tournament.num_foursomes + 1)
       redirect_to controller: 'signup', action: 'signup_summary', transaction_id: transaction_id
 
     end
