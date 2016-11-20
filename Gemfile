@@ -41,7 +41,7 @@ gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin-oauth2'
 gem "omniauth-google-oauth2"
-
+gem 'shareable'
 gem "paperclip", "~> 5.0.0"
 
 # Use Capistrano for deployment
