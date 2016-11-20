@@ -131,13 +131,13 @@
 				 		<% elsif @buy_additional_tickets %>
 				 		<%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
 				 	<%end%>
-				 	<% if @show_signup_button and not @no_group_need_to_buy_tickets %>
+				 	<% if @show_signup_button and not @no_group_need_to_buy_tickets and not @buy_additional_tickets%>
 				 		<%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
 				 	<% end %>
 				<%end%>
 
-				<% if @show_signup_button %>
-				<%= button_to "Are you someone's Guest?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
+				<% if @show_signup_button and not @buy_additional_tickets%>
+				<%= button_to "Are you someone's Guest or a Spectator?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
 				<% end %>
 			
 			</div>

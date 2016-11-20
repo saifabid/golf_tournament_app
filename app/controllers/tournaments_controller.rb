@@ -173,9 +173,10 @@ class TournamentsController < ApplicationController
         @user_tournament = @people_for_tournament
           .where(user_id: current_user.id)
         @is_signed_up = @user_tournament.where(is_player: 1).exists?
+        @is_spectator = @user_tournament.where(is_spectator: 1).exists?
 
         # If already part of group, show group
-        if @is_signed_up
+        if @is_signed_up || @is_spectator
           @buy_additional_tickets = true
         else
           # not part of any golf group
@@ -193,6 +194,11 @@ class TournamentsController < ApplicationController
         @show_signup_button = false
         @is_valid_guest = params[:is_valid_guest] 
       end
+
+      if params[:is_valid_spectator]
+        @buy_additional_tickets = true
+      end
+
     end
 
     if @is_signed_up or @is_valid_guest
@@ -207,7 +213,8 @@ class TournamentsController < ApplicationController
           .exists?
       elsif session[:guest_ticket_number] and session[:purchaser_email]
         # Guest user
-        @purchaser_id = User.where(email: session[:purchaser_email]).first().id
+        @purchaser = User.where(email: session[:purchaser_email]).first()
+        @purchaser_id = @purchaser.id
         @checked_in = Person.where(guest_of: @purchaser_id)
           .where(ticket_number: session[:guest_ticket_number])
           .where(checked_in: 1)
@@ -252,6 +259,7 @@ class TournamentsController < ApplicationController
     # Generate slide show
     @profile_pictures = Tournament.where(id: params[:id]).first().profile_pictures
     @slides = Tournament.string_to_arr(@profile_pictures)
+
   end
 
   def success
@@ -364,8 +372,23 @@ class TournamentsController < ApplicationController
     @id = params[:id]
     if params[:purchaser_email] and params[:ticket_number]
       @id = params[:tournament_id]
+
       @is_valid_guest = Person.where(tournament_id: params[:tournament_id])
-        .where(ticket_number: params[:ticket_number]).exists?
+        .where(ticket_number: params[:ticket_number]).where(is_guest: 1).exists?
+      if @is_valid_guest
+        @guest_of = Person.where(tournament_id: params[:tournament_id])
+          .where(ticket_number: params[:ticket_number]).where(is_guest: 1).first().guest_of
+        @is_valid_guest = (params[:purchaser_email] == User.where(id: @guest_of).first().email)
+      end
+
+      @is_valid_spectator = Person.where(tournament_id: params[:tournament_id])
+        .where(ticket_number: params[:ticket_number]).where(is_spectator: 1).exists?
+      if @is_valid_spectator
+        @guest_of = Person.where(tournament_id: params[:tournament_id])
+          .where(ticket_number: params[:ticket_number]).where(is_spectator: 1).first().guest_of
+        @is_valid_spectator = (params[:purchaser_email] == User.where(id: @guest_of).first().email)
+      end
+
       if @is_valid_guest
         @guest = Person.where(tournament_id: params[:tournament_id])
         .where(ticket_number: params[:ticket_number])
@@ -379,6 +402,11 @@ class TournamentsController < ApplicationController
           id: params[:tournament_id],
           is_valid_guest: true,
           group_number: @group_number
+      elsif @is_valid_spectator
+        redirect_to controller: 'tournaments',
+          action: 'show',
+          id: params[:tournament_id],
+          is_valid_spectator: true
       else
         redirect_to '/tournaments/' + @id + '/guest_login_fail'
       end
