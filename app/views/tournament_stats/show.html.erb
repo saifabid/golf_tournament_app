@@ -2,21 +2,25 @@
 
 	Checked in: <%= @num_checked_in %>
 	<BR/> <BR/>
-	Player tickets left: <%= @player_tickets_left %>
+	Player tickets sold: <%= @player_tickets_sold %>
 	<BR/> <BR/>
-	Spectator tickets left: <%= @spectator_tickets_left %>
+	Foursomes sold: <%= @tournament.num_foursomes %>
 	<BR/> <BR/>
-	Dinner tickets left: <%= @dinner_tickets_left %>
+	Spectator tickets sold: <%= @spectator_tickets_sold %>
 	<BR/> <BR/>
-	Player tickets left: <%= @player_tickets_left %>
+	Dinner tickets sold: <%= @dinner_tickets_sold %>
+	<BR/> <BR/>
+	Player tickets sold: <%= @player_tickets_sold %>
 	<BR/> <BR/>
 	Current revenue from selling player tickets: <%= @revenue_players %>
+	<BR/> <BR/>
+	Current revenue from selling foursome tickets: <%= @revenue_foursomes %>
 	<BR/> <BR/>
 	Current revenue from selling spectator tickets: <%= @revenue_spectators %>
 	<BR/> <BR/>
 	Current revenue from selling dinner tickets: <%= @revenue_dinner %>
 	<BR/> <BR/>
-	Current revenue from selling sponsor tickets: <%= @revenue_sponsors %>
+	Number of sponsors: <%= @num_sponsors %>
 	<BR/> <BR/>
 	Total current revenue: <%= @revenue %>
 	<BR/> <BR/>
