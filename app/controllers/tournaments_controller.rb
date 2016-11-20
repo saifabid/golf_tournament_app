@@ -32,6 +32,10 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.new
   end
 
+  def sponsor_signup
+    redirect_to sprintf("/signup/%s", params[:id])
+  end
+
   def create
     uploaded_profile_picture = Image.store(:profile_picture, params[:images])
     if uploaded_profile_picture.nil?
