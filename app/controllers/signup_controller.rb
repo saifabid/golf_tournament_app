@@ -486,6 +486,7 @@ class SignupController < ApplicationController
           @ticket_num = [@transaction_num, @l]
           @tournament.people.new(
               :guest_of => current_user.id,
+              :is_player => true,
               :is_guest => true,
               :ticket_transaction_id => transaction_id,
               :ticket_number => @ticket_num.join.to_i,
@@ -506,6 +507,7 @@ class SignupController < ApplicationController
         @ticket_num = [@transaction_num, @i]
         @tournament.people.new(
             :guest_of => current_user.id,
+            :is_player => true,
             :is_guest => true,
             :ticket_transaction_id => transaction_id,
             :ticket_number => @ticket_num.join.to_i,
@@ -523,6 +525,7 @@ class SignupController < ApplicationController
         @tournament.people.new(
             :guest_of => current_user.id,
             :is_spectator => true,
+            :is_guest => true,
             :ticket_transaction_id => transaction_id,
             :ticket_number => @ticket_num.join.to_i,
             :ticket_description => 4
@@ -539,6 +542,7 @@ class SignupController < ApplicationController
         @tournament.people.new(
             :guest_of => current_user.id,
             :is_dinner => true,
+            :is_guest => true,
             :ticket_transaction_id => transaction_id,
             :ticket_number => @ticket_num.join.to_i,
             :ticket_description => 4
