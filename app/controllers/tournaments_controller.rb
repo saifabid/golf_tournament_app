@@ -4,7 +4,7 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer, only: [:show]
 
-  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information]
 
   def index
     redirect_to "/"
@@ -434,6 +434,10 @@ class TournamentsController < ApplicationController
 
   def private_event_login_fail
     @id = params[:id]
+  end
+
+  def venue_information
+    @venue = Tournament.where(id: params[:id]).first()
   end
 
   def schedule
