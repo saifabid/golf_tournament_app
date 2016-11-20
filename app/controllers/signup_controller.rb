@@ -266,7 +266,7 @@ class SignupController < ApplicationController
     if (sponsor_price>0)
       sponsor_price_line= PriceLine.new(1, sponsor_price, sponsor_price, 'Sponsor Ticket(s)')
       price_lines.push(sponsor_price_line)
-      total+= subtotal
+      total+= sponsor_price
     end
     return {:total => total, :price_lines => price_lines}
   end
