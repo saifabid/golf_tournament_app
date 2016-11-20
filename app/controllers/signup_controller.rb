@@ -327,11 +327,13 @@ class SignupController < ApplicationController
     @total= price_summary[:total]
     @price_lines=price_summary[:price_lines]
 
+    @total_cents = @total * 100
+
 
     #process payments using stripe
     begin
       charge = Stripe::Charge.create(
-          :amount => @total* 100,
+          :amount => @total_cents.floor,
           :description => 'Rails Stripe customer',
           :source => params[:stripeToken],
           :currency => 'cad'
@@ -504,7 +506,7 @@ class SignupController < ApplicationController
 
       end
 
-      @tickets_left = @tournament.tickets_left - (@i - 1 + @s) + @sponsor_offset
+      @tickets_left = @tournament.tickets_left - (params[:player_tickets].to_i + params[:foursome_tickets].to_i * 4)
 
       while @s < form_params[:spectator_tickets].to_i
         @ticket_num = [@transaction_num, @offset]
