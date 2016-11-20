@@ -10,7 +10,6 @@
         left: 'prev,next',
         center: 'title'
       },
-
       eventSources: [
         {
           url: 'participatingtournaments_feed',
@@ -21,8 +20,14 @@
           url: 'createdtournaments_feed',
           color: 'green',
           textColor: 'white'
+        },
+        {
+          url: 'spectatortournaments_feed',
+          color: 'purple',
+          textColor: 'white'
         }
       ]
+
     });
   });
 </script>
@@ -41,7 +46,12 @@
 
         <%= render 'dashboard/tournamentlist', title: "Tournaments I've Created", tournaments: @createdtournaments %>
       </div>
+      <div class="myspectatortournaments-panel">
+
+        <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Spectating", tournaments: @spectatortournaments %>
+      </div>
 
     </div>
   </div>
-  <div>
+  </div>
+

@@ -94,10 +94,12 @@ Rails.application.routes.draw do
 
   get 'dashboard/index'
 
-  get 'charges/new'
-
   get 'dashboard/participatingtournaments_feed'
   get 'dashboard/createdtournaments_feed'
+  get 'dashboard/spectatortournaments_feed'
+  get 'charges/new'
+
+
 
   root to: 'welcome#hello_world'
 
