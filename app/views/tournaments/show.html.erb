@@ -63,11 +63,16 @@
 			<div class="col-md-9">
 				<div class="center-text">
 				<% if @tournament.logo.present? %>
-				 	<img src=<%= @tournament.logo %> >	
+				 	<img src=<%= @tournament.logo %> class="style_image" >	
 				<% end %>
 				<div class="logo">
 				 	<%=@tournament.name%>
 				</div>
+				<% if @tournament.details.present? %>
+				<div class="logo">
+				 	<%=@tournament.details%>
+				</div>
+				<% end %>
 				<div>
 					Start Time : <%=@date%>
 				</div>
