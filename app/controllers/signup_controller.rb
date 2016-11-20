@@ -63,8 +63,8 @@ class SignupController < ApplicationController
   end
 
   def signup_from_tournament
-    @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
-    params[:tournament_name] = @tournament.name
+    @tournament = Tournament.find(params[:id])
+
   end
 
   def index
