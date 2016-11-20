@@ -63,8 +63,8 @@ class SignupController < ApplicationController
   end
 
   def signup_from_tournament
-    @tournament = Tournament.where("tournaments.id LIKE ?", params[:id]).first
-    params[:tournament_name] = @tournament.name
+    @tournament = Tournament.find(params[:id])
+
   end
 
   def index
@@ -266,7 +266,7 @@ class SignupController < ApplicationController
     if (sponsor_price>0)
       sponsor_price_line= PriceLine.new(1, sponsor_price, sponsor_price, 'Sponsor Ticket(s)')
       price_lines.push(sponsor_price_line)
-      total+= subtotal
+      total+= sponsor_price
     end
     return {:total => total, :price_lines => price_lines}
   end
