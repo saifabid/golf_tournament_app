@@ -26,6 +26,12 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def check_player_out
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"checked_in" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def set_player_admin
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"is_admin" => true})

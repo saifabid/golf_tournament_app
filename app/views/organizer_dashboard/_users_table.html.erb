@@ -49,7 +49,11 @@
       </td>
       
       <td>
-        <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% if user["player"].checked_in == true %>
+          <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% else %>
+          <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% end %>
       </td>
 
       <!-- Only see the ability to make users admins if organizer  -->
