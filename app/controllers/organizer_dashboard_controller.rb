@@ -76,7 +76,7 @@ class OrganizerDashboardController < ApplicationController
     all_parent_players = all_persons.select{|person| person.user_id > 0 && person.is_player == true}
     all_parent_players.each do |parent_player|
       if parent_player.user_id.to_i != 0 then
-        account = Account.where("user_id = ?", parent_player.user_id)
+        account = Account.where("user_id = ?", parent_player.user_id).first
         user = User.where("id = ?", parent_player.user_id).first
         ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player]
         @all_tournament_playars.append(ac)

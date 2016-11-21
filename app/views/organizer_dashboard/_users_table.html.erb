@@ -20,10 +20,10 @@
           <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
         <% end %>
         <% if user["is_guest"] == false %>
-          <% if user["account"] %>
+          <% if user["account"] == nil %>
             No Name
           <% else %>
-          <%= user["account"].first_name %>
+          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
           <% end %>
         <% end %>
       </td>
