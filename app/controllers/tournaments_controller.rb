@@ -122,7 +122,15 @@ class TournamentsController < ApplicationController
 
     #1.
     @sponsors_for_tournament = Person.where(tournament_id: params[:id]).where(:is_sponsor => 1);
-    @sponsor_accounts = Account.find(@sponsors_for_tournament.map(&:user_id).uniq)
+    #@sponsor_accounts = Account.find(@sponsors_for_tournament.map(&:user_id).uniq)
+
+    arr = Array.new
+
+    @sponsors_for_tournament.each do |sponsor|
+      arr.push(sponsor.user_id)
+    end
+
+    @sponsor_accounts = Account.where(:user_id => arr)
 
 
     # Countdown Timer
