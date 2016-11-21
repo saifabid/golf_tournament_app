@@ -4,7 +4,7 @@
       <th>Contact Email</th>
       <th>Status</th>
       <th>Group Number</th>
-      <th>Admin Status</th>
+      <th> </th>
       <th> </th>
   </thead>
   <tbody>
@@ -35,7 +35,7 @@
         <% end %>
       </td>
       <td>
-        <% user["player"].group_number %>
+        <%= user["player"].group_number %>
       </td>
       <td>
         <%= render "organizer_dashboard/send_email_modal", user: user %>
