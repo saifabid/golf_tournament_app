@@ -47,6 +47,15 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def send_player_email_ticket
+    @player = Person.where("id = ?", params[:player_id])
+    @id = @player.first.id
+    message_text = params[:body]
+    # TODO: Call Seyans email save function with params: (params[:recipiant], params[:body])
+    Resend.send_email_with_ticket params[:recipiant], message_text, @id
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def send_password
     Resend.send_password params[:recipiant], params[:id]
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
