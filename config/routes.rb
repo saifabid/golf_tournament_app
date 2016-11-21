@@ -97,6 +97,7 @@ Rails.application.routes.draw do
   get 'dashboard/participatingtournaments_feed'
   get 'dashboard/createdtournaments_feed'
   get 'dashboard/spectatortournaments_feed'
+  get 'dashboard/sponsoredtournaments_feed'
   get 'charges/new'
 
 

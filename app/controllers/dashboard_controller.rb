@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @participatingtournaments= getpartipatingtournaments
     @createdtournaments= getcreatedtournaments
     @spectatortournaments= getspectatortournments
+    @sponsoredtournaments= getsponsoredtournaments
   end
 
   # returns json feed of participating tournaments
@@ -30,23 +31,34 @@ class DashboardController < ApplicationController
     end
     render :json=> tournamentslist.to_json
   end
+  def sponsoredtournaments_feed
+    tournaments= getsponsoredtournaments
+    tournamentslist= tournaments.map do|t|
+      {:title=> t.name, :start=> t.start_date}
+    end
+    render :json=> tournamentslist.to_json
+  end
+
+
 
   private
   def getpartipatingtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>nil} )
+    return Tournament.joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>nil} ).uniq(:tournament_id).order("people.created_at DESC")
 
   end
   def getcreatedtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_organizer=> 1})
+    return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_organizer=> 1}).uniq(:tournament_id).order("people.created_at DESC")
   end
 
   def getspectatortournments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people=> {:user_id=>userid, :is_spectator=> 1, :is_guest=> nil})
+    return Tournament.joins(:people).where(:people=> {:user_id=>userid, :is_spectator=> 1, :is_guest=> nil}).uniq(:tournament_id).order("people.created_at DESC")
   end
-
-
+  def getsponsoredtournaments
+    userid= current_user.id
+    return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_sponsor=> 1}).uniq(:tournament_id).order("people.created_at DESC")
+  end
 
 end

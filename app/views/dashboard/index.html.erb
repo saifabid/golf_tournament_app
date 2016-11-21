@@ -25,6 +25,11 @@
           url: 'spectatortournaments_feed',
           color: 'purple',
           textColor: 'white'
+        },
+        {
+          url:'sponsoredtournaments_feed',
+          color: 'orange',
+          textcolor: 'white'
         }
       ]
 
@@ -49,6 +54,10 @@
       <div class="myspectatortournaments-panel">
 
         <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Spectating", tournaments: @spectatortournaments %>
+      </div>
+      <div class="mysponsoredtournaments-panel">
+
+        <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Sponsoring", tournaments: @sponsoredtournaments  %>
       </div>
 
     </div>
