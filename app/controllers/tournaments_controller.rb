@@ -235,7 +235,7 @@ class TournamentsController < ApplicationController
 
       # Generate checked_in table
       @people_for_tournament = Person.where(tournament_id: params[:id])
-        .where("is_guest = 1 OR is_player = 1")
+        .where("(is_guest = 1 AND is_player = 1) OR is_player = 1")
         .order("group_number asc")
       @account = Account.all
       @members = Array.new
