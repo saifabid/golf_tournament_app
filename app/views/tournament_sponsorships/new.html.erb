@@ -1,0 +1,36 @@
+<div class="container">
+    <h1> Already Know A Sponsor? Add Them For Free Here </h1>
+    <%= bootstrap_form_for @tournament_sponsor, url: "/tournaments/#{@tournament_id}/tournament_sponsorships" do |f| %>
+    <p>
+    <%= f.form_group :sponsor_type, label: { text: "Sponsor Level" } do %>
+	  <%= f.radio_button :sponsor_type, 1, label: "Gold" %>
+	  <%= f.radio_button :sponsor_type, 2, label: "Silver" %>
+	  <%= f.radio_button :sponsor_type, 3, label: "Bronze" %>
+      <% end %>
+    </p>
+    <div class="row">
+      <div class="col-sm-4">
+        <%= f.text_field :company_name %>
+      </div> 
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+          <%= f.file_field :company_logo %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+      <%= f.submit class: "btn btn-success" %> 
+      </div>
+    </div><br/>
+
+    <div class="row">
+      <div class="col-sm-4">
+      <%= link_to 'Skip and Complete Setup', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn-sm btn-danger"%>
+      </div>
+    </div>
+    <br/>
+    <% end %>
+</div>
