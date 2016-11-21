@@ -2,9 +2,9 @@ class TournamentsController < ApplicationController
   before_action only: [:new, :update, :destroy, :edit, :create] do
     check_user_auth('Please login before creating a new tournament')
   end
-  before_action :check_tournament_organizer, only: [:show]
+  before_action :check_tournament_organizer_or_admin, only: [:show]
 
-  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features]
 
   def index
     redirect_to "/"
@@ -18,8 +18,8 @@ class TournamentsController < ApplicationController
       return
     end
   end
-  def check_tournament_organizer
-    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
+  def check_tournament_organizer_or_admin
+    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])
       return
     end
@@ -122,7 +122,15 @@ class TournamentsController < ApplicationController
 
     #1.
     @sponsors_for_tournament = Person.where(tournament_id: params[:id]).where(:is_sponsor => 1);
-    @sponsor_accounts = Account.find(@sponsors_for_tournament.map(&:user_id).uniq)
+    #@sponsor_accounts = Account.find(@sponsors_for_tournament.map(&:user_id).uniq)
+
+    arr = Array.new
+
+    @sponsors_for_tournament.each do |sponsor|
+      arr.push(sponsor.user_id)
+    end
+
+    @sponsor_accounts = Account.where(:user_id => arr)
 
 
     # Countdown Timer
@@ -227,7 +235,7 @@ class TournamentsController < ApplicationController
 
       # Generate checked_in table
       @people_for_tournament = Person.where(tournament_id: params[:id])
-        .where("is_guest = 1 OR is_player = 1")
+        .where("(is_guest = 1 AND is_player = 1) OR is_player = 1")
         .order("group_number asc")
       @account = Account.all
       @members = Array.new
@@ -438,6 +446,19 @@ class TournamentsController < ApplicationController
 
   def private_event_login_fail
     @id = params[:id]
+  end
+
+  def venue_information
+    @venue = Tournament.where(id: params[:id]).first()
+  end
+
+  def features
+    @has_features = TournamentFeature.where(tournament_id: params[:id]).exists?
+    if @has_features
+      @features = TournamentFeature.where(tournament_id: params[:id])
+    else
+      redirect_to '/tournaments/' + params[:id]
+    end
   end
 
   def schedule

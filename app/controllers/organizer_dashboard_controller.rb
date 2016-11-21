@@ -26,6 +26,12 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def check_player_out
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"checked_in" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def set_player_admin
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"is_admin" => true})
@@ -47,6 +53,15 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def send_player_email_ticket
+    @player = Person.where("id = ?", params[:player_id])
+    @id = @player.first.id
+    message_text = params[:body]
+    # TODO: Call Seyans email save function with params: (params[:recipiant], params[:body])
+    Resend.send_email_with_ticket params[:recipiant], message_text, @id
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def send_password
     Resend.send_password params[:recipiant], params[:id]
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
@@ -61,7 +76,7 @@ class OrganizerDashboardController < ApplicationController
     all_parent_players = all_persons.select{|person| person.user_id > 0 && person.is_player == true}
     all_parent_players.each do |parent_player|
       if parent_player.user_id.to_i != 0 then
-        account = Account.where("user_id = ?", parent_player.user_id)
+        account = Account.where("user_id = ?", parent_player.user_id).first
         user = User.where("id = ?", parent_player.user_id).first
         ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player]
         @all_tournament_playars.append(ac)

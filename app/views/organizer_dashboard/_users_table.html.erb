@@ -4,7 +4,8 @@
       <th>Contact Email</th>
       <th>Status</th>
       <th>Group Number</th>
-      <th>Admin Status</th>
+      <th> </th>
+      <th> </th>
       <th> </th>
   </thead>
   <tbody>
@@ -19,10 +20,10 @@
           <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
         <% end %>
         <% if user["is_guest"] == false %>
-          <% if user["account"] %>
+          <% if user["account"] == nil %>
             No Name
           <% else %>
-          <%= user["account"].first_name %>
+          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
           <% end %>
         <% end %>
       </td>
@@ -35,14 +36,24 @@
         <% end %>
       </td>
       <td>
-        <% user["player"].group_number %>
+        <%= user["player"].group_number %>
       </td>
       <td>
         <%= render "organizer_dashboard/send_email_modal", user: user %>
         <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %> >Send Message</button>
       </td>
+
       <td>
-        <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <%= render "organizer_dashboard/send_ticket_modal", user: user %>
+        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %> >Resend Ticket</button>
+      </td>
+      
+      <td>
+        <% if user["player"].checked_in == true %>
+          <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% else %>
+          <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% end %>
       </td>
 
       <!-- Only see the ability to make users admins if organizer  -->

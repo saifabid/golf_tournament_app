@@ -6,15 +6,19 @@
 
   <ul class="nav navbar-nav">
       <%= nav_link 'Home', root_path %>
+    <%= nav_link 'Tournaments', tournament_list_list_path%>
+    <% if user_signed_in? %>
       <%= nav_link 'Dashboard', dashboard_index_path%>
-      <%= nav_link 'Tournaments', tournament_list_list_path%>
+        <%= nav_link 'Create Tournament', new_tournament_path %>
+        <% end %>
   </ul>
   
    <ul class="nav navbar-nav navbar-right">
 
    <% if user_signed_in? %>
     <li><a href="/users/account">My Account</a></li>
-    <li><a href="/tournaments/new">Create Tournament</a></li>
+    <li><%= nav_link 'My Orders', '/dashboard/my_orders' %>
+
     <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %> </li>
 
     <% else %>

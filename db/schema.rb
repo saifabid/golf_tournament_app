@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119040001) do
+ActiveRecord::Schema.define(version: 20161121040055) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -88,10 +88,11 @@ ActiveRecord::Schema.define(version: 20161119040001) do
   create_table "ticket_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "transaction_number"
     t.integer  "user_id"
-    t.decimal  "amount_paid",        precision: 10
+    t.decimal  "amount_paid",        precision: 16, scale: 2
     t.datetime "transaction_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.string   "currency",                                    default: "cad", null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
   end
 
@@ -130,6 +131,8 @@ ActiveRecord::Schema.define(version: 20161119040001) do
     t.integer  "tournament_id"
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.string   "company_logo"
+    t.string   "company_name"
     t.index ["tournament_id"], name: "index_tournament_sponsorships_on_tournament_id", using: :btree
   end
 
@@ -179,6 +182,7 @@ ActiveRecord::Schema.define(version: 20161119040001) do
     t.decimal  "spectator_price",                      precision: 16, scale: 2
     t.decimal  "dinner_price",                         precision: 16, scale: 2
     t.decimal  "distance",                             precision: 10
+    t.integer  "num_foursomes"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

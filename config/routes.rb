@@ -25,9 +25,12 @@ Rails.application.routes.draw do
   get 'signup/signup_summary/:transaction_id'=> 'signup#signup_summary'
   resources :organizer_dashboard
   post'organizer_dashboard/:id/player/:player_id/check_in' => 'organizer_dashboard#check_player_in'
+  post'organizer_dashboard/:id/player/:player_id/check_out' => 'organizer_dashboard#check_player_out'
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
+  post'organizer_dashboard/:id/player/:player_id/ticket' => 'organizer_dashboard#send_player_email_ticket'
+
   post'organizer_dashboard/sendpassword/:id' => 'organizer_dashboard#send_password'
 
   post'/tournaments/sponsorshipopportunites/:id' => 'tournaments#sponsor_signup'
@@ -88,12 +91,19 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/schedule', to: 'tournaments#schedule'
 
-  get 'dashboard/index'
+  get 'tournaments/:id/venue_information', to: 'tournaments#venue_information'
 
-  get 'charges/new'
+  get 'tournaments/:id/features', to: 'tournaments#features'
+
+  get 'dashboard/index'
 
   get 'dashboard/participatingtournaments_feed'
   get 'dashboard/createdtournaments_feed'
+  get 'dashboard/spectatortournaments_feed'
+  get 'dashboard/sponsoredtournaments_feed'
+  get 'charges/new'
+  get 'dashboard/my_orders'
+
 
   root to: 'welcome#hello_world'
 
