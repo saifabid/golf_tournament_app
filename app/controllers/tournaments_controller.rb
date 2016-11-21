@@ -2,7 +2,7 @@ class TournamentsController < ApplicationController
   before_action only: [:new, :update, :destroy, :edit, :create] do
     check_user_auth('Please login before creating a new tournament')
   end
-  before_action :check_tournament_organizer, only: [:show]
+  before_action :check_tournament_organizer_or_admin, only: [:show]
 
   before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features]
 
@@ -18,8 +18,8 @@ class TournamentsController < ApplicationController
       return
     end
   end
-  def check_tournament_organizer
-    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).exists?
+  def check_tournament_organizer_or_admin
+    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])
       return
     end
