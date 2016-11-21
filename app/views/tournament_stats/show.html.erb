@@ -2,6 +2,10 @@
 
 	Checked in: <%= @num_checked_in %>
 	<BR/> <BR/>
+	Number of guests (of users) at this event: <%= @num_guests %>
+	<BR/> <BR/>
+	Number of sponsors: <%= @num_sponsors %>
+	<BR/> <BR/>
 	Player tickets sold: <%= @player_tickets_sold %>
 	<BR/> <BR/>
 	Foursomes sold: <%= @tournament.num_foursomes %>
@@ -12,27 +16,24 @@
 	<BR/> <BR/>
 	Player tickets sold: <%= @player_tickets_sold %>
 	<BR/> <BR/>
-	Current revenue from selling player tickets: <%= @revenue_players %>
+	Current revenue from selling player tickets: $<%= @revenue_players %>
 	<BR/> <BR/>
-	Current revenue from selling foursome tickets: <%= @revenue_foursomes %>
+	Current revenue from selling foursome tickets: $<%= @revenue_foursomes %>
 	<BR/> <BR/>
-	Current revenue from selling spectator tickets: <%= @revenue_spectators %>
+	Current revenue from selling spectator tickets: $<%= @revenue_spectators %>
 	<BR/> <BR/>
-	Current revenue from selling dinner tickets: <%= @revenue_dinner %>
+	Current revenue from selling dinner tickets: $<%= @revenue_dinner %>
 	<BR/> <BR/>
-	Number of sponsors: <%= @num_sponsors %>
+	Potential revenue from selling player tickets: $<%= @potential_revenue_players %>
 	<BR/> <BR/>
-	Total current revenue: <%= @revenue %>
+	Potential revenue from selling spectator tickets: $<%= @potential_revenue_spectators %>
 	<BR/> <BR/>
-	Potential revenue from selling player tickets: <%= @potential_revenue_players %>
+	Potential revenue from selling dinner tickets: $<%= @potential_revenue_dinner %>
 	<BR/> <BR/>
-	Potential revenue from selling spectator tickets: <%= @potential_revenue_spectators %>
+	Total potential revenue: $<%= @potential_revenue %>
 	<BR/> <BR/>
-	Potential revenue from selling dinner tickets: <%= @potential_revenue_dinner %>
+	Total current revenue: $<%= @revenue %>
 	<BR/> <BR/>
-	Total potential revenue: <%= @potential_revenue %>
+	Current cost ($2.50 per player signed up): $<%= @cost %>
 	<BR/> <BR/>
-	Current cost ($2.50 per player signed up): <%= @cost %>
-	<BR/> <BR/>
-	Number of guests (of users) at this event: <%= @num_guests %>
-	<BR/> <BR/>
+	Net: $<%= @net %>
