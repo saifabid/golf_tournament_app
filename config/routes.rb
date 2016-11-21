@@ -102,7 +102,7 @@ Rails.application.routes.draw do
   get 'dashboard/spectatortournaments_feed'
   get 'dashboard/sponsoredtournaments_feed'
   get 'charges/new'
-
+  get 'dashboard/my_orders'
 
 
   root to: 'welcome#hello_world'

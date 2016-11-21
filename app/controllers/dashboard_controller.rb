@@ -6,7 +6,9 @@ class DashboardController < ApplicationController
     @spectatortournaments= getspectatortournments
     @sponsoredtournaments= getsponsoredtournaments
   end
-
+  def my_orders
+    @orders= TicketTransaction.where(:user_id=>current_user.id).order("created_at DESC")
+  end
   # returns json feed of participating tournaments
   def participatingtournaments_feed
     tournaments= getpartipatingtournaments

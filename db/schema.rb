@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121022657) do
+ActiveRecord::Schema.define(version: 20161121032403) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -88,10 +88,11 @@ ActiveRecord::Schema.define(version: 20161121022657) do
   create_table "ticket_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "transaction_number"
     t.integer  "user_id"
-    t.decimal  "amount_paid",        precision: 10
+    t.decimal  "amount_paid",        precision: 16, scale: 2
     t.datetime "transaction_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.string   "currency",                                    default: "cad", null: false
     t.index ["user_id"], name: "index_ticket_transactions_on_user_id", using: :btree
   end
 

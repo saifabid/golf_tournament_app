@@ -11,6 +11,8 @@ class SignupController < ApplicationController
   before_action :check_number_tickets, only: [:before_payment_summary]
   before_action :check_positive_amounts, only: [:before_payment_summary]
 
+
+
   #TODO: place in helper class
   def generate_barcode_img(numtoCode)
     barcode = Barby::Code128B.new(numtoCode)
@@ -340,15 +342,15 @@ class SignupController < ApplicationController
     @price_lines=price_summary[:price_lines]
 
     @total_cents = @total * 100
-
+    currency=tournament.currency==nil? ? 'cad' : tournament.currency
 
     #process payments using stripe
     begin
       charge = Stripe::Charge.create(
           :amount => @total_cents.floor,
-          :description => "Golf Tournament Signup Transaction Num:#{@transaction_num}",
+          :description => "Golf Tournament Signup Transaction Num:#{@transaction_num.join.to_i}",
           :source => params[:stripeToken],
-          :currency => tournament.currency==nil? ? 'cad' : tournament.currency
+          :currency => currency
       )
 
 
@@ -362,8 +364,7 @@ class SignupController < ApplicationController
       transaction= TicketTransaction.new(
           :transaction_number => @transaction_num.join.to_i,
           :user_id => current_user.id,
-
-
+          :currency=> currency,
           :amount_paid => @total
       )
       transaction.save
