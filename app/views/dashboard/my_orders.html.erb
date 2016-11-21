@@ -1,0 +1,16 @@
+<h2>My Orders</h2>
+<table class="table">
+  <tr>
+    <th>Transaction Number</th>
+    <th>Price Paid</th>
+    <th>Order Date</th>
+  <tr>
+    <% @orders.each do |o| %>
+      <tr>
+        <td><%= link_to o.transaction_number, { :action =>'signup_summary', :controller=> 'signup', :transaction_id=> o.id} %></td>
+        <td><%= "#{number_to_currency(o.amount_paid)} #{o.currency}"   %></td>
+        <td><%= o.created_at %></td>
+      </tr>
+  <% end %>
+
+</table>
