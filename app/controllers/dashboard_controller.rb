@@ -46,21 +46,21 @@ class DashboardController < ApplicationController
   private
   def getpartipatingtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>nil} ).uniq(:tournament_id).order("people.created_at DESC")
+    return Tournament.select('tournaments.*, people.created_at').joins(:people).where(:people => {:user_id=> userid, :is_player=>1, :is_guest=>nil} ).distinct(:id).order("people.created_at DESC")
 
   end
   def getcreatedtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_organizer=> 1}).uniq(:tournament_id).order("people.created_at DESC")
+    return Tournament.select('tournaments.*, people.created_at').joins(:people).where(:people=> {:user_id=> userid, :is_organizer=> 1}).distinct(:id).order("people.created_at DESC")
   end
 
   def getspectatortournments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people=> {:user_id=>userid, :is_spectator=> 1, :is_guest=> nil}).uniq(:tournament_id).order("people.created_at DESC")
+    return Tournament.select('tournaments.*, people.created_at').joins(:people).where(:people=> {:user_id=>userid, :is_spectator=> 1, :is_guest=> nil}).distinct(:id).order("people.created_at DESC")
   end
   def getsponsoredtournaments
     userid= current_user.id
-    return Tournament.joins(:people).where(:people=> {:user_id=> userid, :is_sponsor=> 1}).uniq(:tournament_id).order("people.created_at DESC")
+    return Tournament.select('tournaments.*, people.created_at').joins(:people).where(:people=> {:user_id=> userid, :is_sponsor=> 1}).distinct(:id).order("people.created_at DESC")
   end
 
 end
