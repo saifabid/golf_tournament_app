@@ -16,18 +16,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def edit
     @user = User.find(current_user.id)
     @account = Account.find_by!(user_id: current_user.id)
-    # super
+    super
   end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    @user = User.find(current_user.id)
+    @account = Account.find_by!(user_id: current_user.id)
+    super
+  end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    @account = Account.find_by!(user_id: current_user.id)
+    @account.destroy
+    super
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign

@@ -10,8 +10,11 @@ class UsersController < ApplicationController
     @user = User.find(current_user.id)
     @account = Account.new(image_store)
     @account.user_id = current_user.id
-    @user.account_id = @account.id
     @account.save
+    
+    @user.account_id = @account.id
+    @user.is_admin = false
+    @user.save
 
     if @account.errors.any?
       # flash[:notice] = @account.errors.full_messages.to_sentence
@@ -25,6 +28,7 @@ class UsersController < ApplicationController
     @user = User.find(current_user.id)
     begin
       @account = Account.find_by!(user_id: current_user.id)
+      puts @account.id
     rescue
       # flash[:notice] = 'Please fill out some basic information before attempting to view Account. Mandatory fields: first name and birthdate'
       redirect_to new_user_url
