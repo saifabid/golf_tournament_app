@@ -147,9 +147,9 @@
 				<% if @show_signup_button and not @buy_additional_tickets%>
 				<%= button_to "Are you someone's Guest or a Spectator?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
 				<% end %>
-				<%= render_shareable %>
+				<%= render_shareable :buttons=> ['twitter', 'linkedin']%>
 				
-				<a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Facebook</a>
+				<a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share on Facebook</a>
 			</div>
 		</div>
 	</body>
