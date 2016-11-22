@@ -11,7 +11,7 @@ class OrganizerDashboardController < ApplicationController
 
   def show
     @tournament = Tournament.where("id = ?", params[:id]).first
-    @all_tournament_playars = get_tournament_players_list
+    @all_tournament_players = get_tournament_players_list
     @current_player = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
     @is_private = false
     if Tournament.where(id: params[:id]).where(:is_private => 1).exists? then
@@ -67,30 +67,4 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
-  def get_tournament_players_list
-    @all_tournament_playars = []
-    all_persons = Person.where("tournament_id = ? AND is_player = 1", params[:id])
-    # For each person thats part of a tournament we need to get their user information
-    # And if they are a guest, we need to get their parent's information
-    all_guests = all_persons.select{|person| person.is_guest == true}
-    all_parent_players = all_persons.select{|person| person.user_id != nil && person.is_player == true}
-    all_parent_players.each do |parent_player|
-      if parent_player.user_id.to_i != 0 then
-        account = Account.where("user_id = ?", parent_player.user_id).first
-        user = User.where("id = ?", parent_player.user_id).first
-        ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player]
-        @all_tournament_playars.append(ac)
-        all_guests.each do |guest_player|
-          if guest_player.guest_of == parent_player.user_id then
-            ac["is_guest"] = true
-            ac["guest_number"] = ac["guest_number"] + 1
-            ac["player"] = guest_player
-            @all_tournament_playars.append(ac)
-          end
-        end
-      end
-    end
-
-    return @all_tournament_playars
-  end
 end

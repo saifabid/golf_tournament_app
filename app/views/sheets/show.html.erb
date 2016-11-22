@@ -1,0 +1,34 @@
+<table class="table table-bordered">
+  <thead>
+      <th>User</th>
+      <th>Group Number</th>
+  </thead>
+  <tbody>
+   <% @all_tournament_players.each do |user|%>
+   <% if user['player'].is_admin == true %>
+   <tr class="info">
+     <% else %>
+   <tr>
+   <% end %>
+      <td>
+        <% if user["is_guest"] == true %>
+          <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+        <% end %>
+        <% if user["is_guest"] == false %>
+          <% if user["account"] == nil %>
+            No Name
+          <% else %>
+          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+          <% end %>
+        <% end %>
+      </td>
+      
+      <td>
+        <%= user["player"].group_number %>
+      </td>
+
+   </tr>
+  <% end %>
+</tbody>
+</table>
+<p> Note: Admins Are Highlighted As Blue </p>

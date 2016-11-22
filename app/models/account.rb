@@ -6,7 +6,7 @@ class Account < ApplicationRecord
 
   name_regexp = /\A[a-z\s.-]*\z/i
   number_regexp = /\A\+?\d{,3}\s*\(?\s*\d{3}\)?\s*-?\s*\d{3}\s*-?\s*\d{4}\s*\z/
-  adr_regexp = /\A[a-z-.',\d\s]*\z/i
+  adr_regexp = /\A[a-z\-.',\d\s]*\z/i
   code_regexp = /\A[a-z\d\s]*\z/i
 
   validates_format_of :first_name, :with => name_regexp, message: "Letters, spaces, dots, and dashes only"
