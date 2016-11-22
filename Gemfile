@@ -93,3 +93,5 @@ gem 'dropzonejs-rails'
 
 #mail processing
 gem 'sendgrid-ruby'
+
+gem 'rails_admin'

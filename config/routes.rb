@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  mount RailsAdmin::Engine => '/db_admin', as: 'rails_admin'
   get 'tournament_list/list'
   post 'tournament_list/list'
 
