@@ -4,28 +4,33 @@
       <a class="navbar-brand" href="/">Golf Tournament App</a>
     </div>
 
-  <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
       <%= nav_link 'Home', root_path %>
-    <%= nav_link 'Tournaments', tournament_list_list_path%>
-    <% if user_signed_in? %>
-      <%= nav_link 'Dashboard', dashboard_index_path%>
-        <%= nav_link 'Create Tournament', new_tournament_path %>
-        <% end %>
-  </ul>
-  
-   <ul class="nav navbar-nav navbar-right">
+      <%= nav_link 'Tournaments', tournament_list_list_path %>
+      <% if user_signed_in? %>
+          <%= nav_link 'Dashboard', dashboard_index_path %>
+          <%= nav_link 'Create Tournament', new_tournament_path %>
+          <% if current_user.is_admin? %>
+              <%= nav_link 'Db Administration', rails_admin_path %>
+          <% end %>
+      <% end %>
 
-   <% if user_signed_in? %>
-    <li><a href="/users/account">My Account</a></li>
-    <li><%= nav_link 'My Orders', '/dashboard/my_orders' %>
-
-    <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %> </li>
-
-    <% else %>
-      <li><a href="/users/sign_in/">Login/Register</a></li>
-    <% end %>
-    
     </ul>
- 
+
+    <ul class="nav navbar-nav navbar-right">
+
+      <% if user_signed_in? %>
+          <li><a href="/users/account">My Account</a></li>
+          <li><%= nav_link 'My Orders', '/dashboard/my_orders' %>
+
+          <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %> </li>
+
+      <% else %>
+          <li><a href="/users/sign_in/">Login/Register</a></li>
+
+      <% end %>
+
+    </ul>
+
   </div>
 </nav>
