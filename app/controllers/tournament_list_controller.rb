@@ -66,5 +66,9 @@ class TournamentListController < ApplicationController
       @tournaments = Tournament.where("start_date >= NOW()").where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :asc)
     end
 
+    #differentiates between the home page and search page
+    @form_url = '/tournament_list/list'
+    
+
   end
 end

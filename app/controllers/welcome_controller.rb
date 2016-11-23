@@ -69,5 +69,8 @@ class WelcomeController < ApplicationController
       @tournaments = Tournament.where("start_date >= NOW()").where("name LIKE ?", @searchTitle).where("is_private = '0'").within(searchDistance, :origin => [clientLat,clientLng]).order(start_date: :asc)
 		end
 
+
+    @form_url = '/'
+
   end
 end

@@ -1,6 +1,6 @@
 <div class="center-block events-container">
      <!-- dropdown form -->
-  <%= form_tag("/", method: "get") do %>
+  <%= form_tag(@form_url, method: "get") do %>
     <%= hidden_field_tag(:q) %>
     <%= hidden_field_tag(:client_ip) %>
     <%= hidden_field_tag(:client_lat) %>
@@ -47,6 +47,21 @@
       getIP()
     </script>
 
+    <script type="text/javascript">
+      function toggle_visibility(id, hide_id) {
+         var e = document.getElementById(id);
+         if(e.style.display == 'block')
+            e.style.display = 'none';
+         else
+            e.style.display = 'block';
+
+         var h = document.getElementById(hide_id);
+
+         //change text value
+         h.innerHTML = (h.innerHTML.toUpperCase() == 'SHOW DETAILS') ? 'Hide Details' : 'Show Details' ;
+      }
+    </script>
+
   <% end %>
   
       <% @tournaments.each do |tournament| %>
@@ -60,7 +75,13 @@
         <%= link_to tournament.name, tournament_path(tournament), data: { turbolinks: false } %>
         </td>
         <br />
-        <td><%= tournament.details %></td>
+        <% if !tournament.details.blank? %>
+          <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
+          <div id="details-<%=tournament.id%>" style="display:none">
+              <td><%= tournament.details %></td>
+          </div>
+        <% else %>
+        <% end %>
       </div>
     </tr>
   <% end %>

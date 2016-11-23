@@ -54,7 +54,7 @@
 				<%= button_to 'Map', {:controller => "tournament_list", :action => "list", :state => "Map"}, :method=>:post %>
 			</div>
 			
-			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/specific_list_view') %>
+			<%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
 		</div>
 	</body>
 </html>
