@@ -1,34 +1,39 @@
-<table class="table table-bordered">
-  <thead>
-      <th>User</th>
-      <th>Group Number</th>
-  </thead>
-  <tbody>
-   <% @all_tournament_players.each do |user|%>
-   <% if user['player'].is_admin == true %>
-   <tr class="info">
-     <% else %>
-   <tr>
-   <% end %>
-      <td>
-        <% if user["is_guest"] == true %>
-          <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
-        <% end %>
-        <% if user["is_guest"] == false %>
-          <% if user["account"] == nil %>
-            No Name
-          <% else %>
-          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
-          <% end %>
-        <% end %>
-      </td>
-      
-      <td>
-        <%= user["player"].group_number %>
-      </td>
+<div class="row" style="border-bottom-style: solid;">
+	<div class="col-md-2 col-spacing">
+		<%= button_to 'Edit sheet', {:controller => "sheets", :action => "edit"}, :method=>:get %>
+	</div>
+</div>
 
-   </tr>
-  <% end %>
-</tbody>
+<% for key in @group_numbers %>
+<table class="table table-bordered">
+
+	  <thead>
+	      <th>Group <%= key[0] %> | Time: <%= key[1][0] =%> - <%= key[1][1] =%> </th>
+	  </thead>
+	  <tbody>
+
+	   <% @all_tournament_players.each do |user|%>
+	      	<% if user["player"].group_number == key[0] %>
+		      <tr>
+
+		      	<td>
+		        <% if user["is_guest"] == true %>
+		          <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+		        <% end %>
+		        <% if user["is_guest"] == false %>
+		          <% if user["account"] == nil %>
+		            No Name
+		          <% else %>
+		          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+		          <% end %>
+		        <% end %>
+		        </td>
+
+	      	  </tr>
+	        <% end %>
+	        
+	  <% end %>
+
+	</tbody>
 </table>
-<p> Note: Admins Are Highlighted As Blue </p>
+<% end %>

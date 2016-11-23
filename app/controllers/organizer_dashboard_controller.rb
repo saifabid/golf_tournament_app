@@ -2,13 +2,6 @@ class OrganizerDashboardController < ApplicationController
 
   before_action :check_tournament_organizer_or_admin, only: [:show]
 
-  def check_tournament_organizer_or_admin
-    if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
-      redirect_to sprintf("/tournaments/%s", params[:id])
-      return
-    end
-  end
-
   def show
     @tournament = Tournament.where("id = ?", params[:id]).first
     @all_tournament_players = get_tournament_players_list

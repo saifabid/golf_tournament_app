@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+
+<h1> Hello there </h1>
+
+<head>
+<style>
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+.column {
+  height: 50px;
+  width: 150px;
+  float: left;
+  border: 2px solid #666666;
+  background-color: #ccc;
+  margin-right: 5px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 3px #000;
+  -ms-box-shadow: inset 0 0 3px #000;
+  box-shadow: inset 0 0 3px #000;
+  text-align: center;
+  cursor: move;
+}
+.column header {
+  color: #fff;
+  text-shadow: #000 0 1px;
+  box-shadow: 5px;
+  padding: 5px;
+  background: -moz-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  background: -webkit-gradient(linear, left top, right top,
+                               color-stop(0, rgb(0,0,0)),
+                               color-stop(0.50, rgb(79,79,79)),
+                               color-stop(1, rgb(21,21,21)));
+  background: -webkit-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  background: -ms-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  border-bottom: 1px solid #ddd;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -ms-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -ms-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+</style>
+</head>
+
+<script>
+  var dragSrcEl = null;
+
+  function handleDragStart(e) {
+    // Target (this) element is the source node.
+    this.style.opacity = '0.4';
+
+    dragSrcEl = this;
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.innerHTML);
+  }
+
+  function handleDrop(e) {
+  // this/e.target is current target element.
+
+  if (e.stopPropagation) {
+    e.stopPropagation(); // Stops some browsers from redirecting.
+  }
+
+  // Don't do anything if dropping the same column we're dragging.
+  if (dragSrcEl != this) {
+    // Set the source column's HTML to the HTML of the column we dropped on.
+    dragSrcEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
+  }
+
+  return false;
+  }
+
+</script>
+
+<div id="columns">
+  <div class="column" draggable="true"><header>A</header></div>
+  <div class="column" draggable="true"><header>B</header></div>
+  <div class="column" draggable="true"><header>C</header></div>
+</div>
+
+<% for key in @group_numbers %>
+<table class="table table-bordered">
+
+    <thead>
+        <th>Group <%= key[0] %> | Time: <%= key[1][0] =%> - <%= key[1][1] =%> </th>
+    </thead>
+    <tbody>
+
+     <% @all_tournament_players.each do |user|%>
+          <% if user["player"].group_number == key[0] %>
+          <tr>
+
+            <td>
+            <% if user["is_guest"] == true %>
+              <div class="column" draggable="true"> 
+              <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+              </div>
+            <% end %>
+            <% if user["is_guest"] == false %>
+              <% if user["account"] == nil %>
+                <div class="column" draggable="true">
+                No Name
+                </div>
+              <% else %>
+              <div class="column" draggable="true">
+              <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+              </div>
+              <% end %>
+            <% end %>
+            </td>
+
+            </tr>
+          <% end %>
+          
+    <% end %>
+
+  </tbody>
+</table>
+<% end %>

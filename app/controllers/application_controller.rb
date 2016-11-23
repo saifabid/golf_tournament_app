@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     # For each person thats part of a tournament we need to get their user information
     # And if they are a guest, we need to get their parent's information
     all_guests = all_persons.select{|person| person.is_guest == true}
-    all_parent_players = all_persons.select{|person| person.user_id != nil && person.is_player == true}
+    all_parent_players = all_persons.select{|person| person.user_id != nil}
     all_parent_players.each do |parent_player|
       if parent_player.user_id.to_i != 0 then
         account = Account.where("user_id = ?", parent_player.user_id).first
@@ -35,6 +35,13 @@ class ApplicationController < ActionController::Base
     end
 
     return @all_tournament_players
+  end
+
+  def check_tournament_organizer_or_admin
+    if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
+      redirect_to sprintf("/tournaments/%s", params[:id])
+      return
+    end
   end
 
   private

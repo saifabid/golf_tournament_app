@@ -1,5 +1,5 @@
 class TournamentStatsController < ApplicationController
-  # before_action :check_tournament_organizer
+    before_action :check_tournament_organizer_or_admin, only: [:show]
 
   def show
   	# Access info and stats on tournament (ie # of players signed up, amount of revenue generated etc.)
