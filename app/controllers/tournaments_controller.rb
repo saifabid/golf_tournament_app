@@ -19,7 +19,7 @@ class TournamentsController < ApplicationController
     end
   end
   def check_tournament_organizer_or_admin
-    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1) AND org_view_public != 1", current_user.id, params[:id])).exists?
+    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1) AND org_view_public = 0", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])
       return
     end
@@ -87,7 +87,7 @@ class TournamentsController < ApplicationController
       return
     end
 
-    if !@tournament.people.create({user_id: current_user.id, is_organizer: true})
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
       if @profile_pic_public_ids.length > 0
         Image.delete_by_ids @profile_pic_public_ids
@@ -463,7 +463,7 @@ class TournamentsController < ApplicationController
   end
 
   def return_to_org_dash
-    @organizer = Person.where(sprintf("id = %s AND tournament_id = %s AND is_organizer = 1 and org_view_public = 1", current_user.id, params[:id])).first
+    @organizer = Person.where(sprintf("user_id = %s AND tournament_id = %s AND is_organizer = 1 and org_view_public = 1", current_user.id, params[:id])).first
     @organizer.update_column(:org_view_public, 0)
 
     redirect_to '/organizer_dashboard/' + params[:id]

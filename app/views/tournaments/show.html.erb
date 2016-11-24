@@ -56,7 +56,7 @@
     </script>
 
    <% if !current_user.nil? %>
-      <% if Person.where(sprintf("id = %s AND tournament_id = %s AND is_organizer = 1 AND org_view_public = 1", current_user.id, @tournament.id)).exists? %>
+      <% if Person.where(sprintf("user_id = %s AND tournament_id = %s AND is_organizer = 1 AND org_view_public = 1", current_user.id, @tournament.id)).exists? %>
            <%=render "layouts/return_to_organizer_dashboard" %>
       <% end %>
     <% end %>
