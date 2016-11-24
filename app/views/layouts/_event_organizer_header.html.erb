@@ -9,5 +9,8 @@
 	</div>
 	<div class="col-md-2 col-spacing">
 		<%= button_to 'T sheets', {:controller => "sheets", :action => "show"}, :method=>:get %>
-	</div>	
+	</div>
+  <div class="col-md-2 col-spacing">
+    <%= button_to 'Public View', {:controller => "organizer_dashboard", :action => "view_public"}, :method=>:post %>
+  </div>
 </div>

@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 20161123224427) do
     t.text     "fname",                 limit: 65535
     t.text     "lname",                 limit: 65535
     t.integer  "group_number"
+    t.time     "start"
+    t.time     "end"
     t.boolean  "checked_in"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false

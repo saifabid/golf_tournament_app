@@ -19,7 +19,7 @@ class TournamentsController < ApplicationController
     end
   end
   def check_tournament_organizer_or_admin
-    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
+    if user_signed_in? && Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1) AND org_view_public != 1", current_user.id, params[:id])).exists?
       redirect_to sprintf("/organizer_dashboard/%s", params[:id])
       return
     end
@@ -460,6 +460,13 @@ class TournamentsController < ApplicationController
     else
       redirect_to '/tournaments/' + params[:id]
     end
+  end
+
+  def return_to_org_dash
+    @organizer = Person.where(sprintf("id = %s AND tournament_id = %s AND is_organizer = 1 and org_view_public = 1", current_user.id, params[:id])).first
+    @organizer.update_column(:org_view_public, 0)
+
+    redirect_to '/organizer_dashboard/' + params[:id]
   end
 
   def schedule

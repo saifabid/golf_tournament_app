@@ -60,4 +60,11 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def view_public
+    @organizer = Person.where(sprintf("user_id = %d AND tournament_id = %d AND is_organizer = 1", current_user.id, params[:id])).first
+    @organizer.update_column(:org_view_public, true)
+
+    redirect_to sprintf("/tournaments/%s", @organizer.tournament_id)
+  end
+
 end

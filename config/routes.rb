@@ -61,6 +61,9 @@ Rails.application.routes.draw do
 
   post 'welcome/hello_world'
 
+  post 'organizer_dashboard/:id' => 'organizer_dashboard#view_public'
+  post 'tournaments/:id' => 'tournaments#return_to_org_dash'
+
   get "welcome/hello_world" => "welcome#hello_world"
 
   # post 'users/edit' => 'accounts#create'
