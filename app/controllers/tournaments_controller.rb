@@ -4,7 +4,7 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer_or_admin, only: [:show]
 
-  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features, :sponsors]
 
   def index
     redirect_to "/"
@@ -440,6 +440,17 @@ class TournamentsController < ApplicationController
     @has_features = TournamentFeature.where(tournament_id: params[:id]).exists?
     if @has_features
       @features = TournamentFeature.where(tournament_id: params[:id])
+    else
+      redirect_to '/tournaments/' + params[:id]
+    end
+  end
+
+  def sponsors
+    @has_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).exists?
+    if @has_sponsors
+      @gold_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 1)
+      @silver_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 2)
+      @bronze_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 3)
     else
       redirect_to '/tournaments/' + params[:id]
     end
