@@ -16,6 +16,6 @@
   <%= link_to 'Continue', new_tournament_tournament_sponsorship_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
   <%= link_to 'Done', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
 
-  <h2> Current Agenda </h2>
+  <h2> Current Features </h2>
   <%=render  'tournament_features/list', tournament_features: @tournament.tournament_features %>
 </div>

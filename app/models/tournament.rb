@@ -6,6 +6,7 @@ class Tournament < ApplicationRecord
   has_many :tournament_features, dependent: :destroy
   has_many :tournament_tickets, dependent: :destroy
   has_many :tournament_profile_pictures, dependent: :destroy
+  has_many :tournament_sponsorships, dependent: :destroy
   has_many :people
 
   validates_presence_of :name, :venue_address, :start_date

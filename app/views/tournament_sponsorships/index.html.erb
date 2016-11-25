@@ -1,9 +1,0 @@
-<div class="sponsorships-panel">
-  <%= form_for([]) do |f| %>
-      <% @reviews.each do |review| %>
-          <%= fields_for review do |r| %>
-              <%= render "reviews/form", :r => r %>
-          <% end %>
-      <% end %>
-  <% end %>
-</div>

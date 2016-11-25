@@ -1,0 +1,36 @@
+<table class="table">
+    <tr>
+        <th>Level of Sponsorship </th>
+        <th>Name of Sponsor</th>
+        <th>Logo</th>
+        <th></th>
+    </tr>
+    <% tournament_sponsorships.each do|f|%>
+    <% if not f.company_name.blank? %>
+    <tr>
+        <% if f.sponsor_type == 1 %>
+          <td>Gold</td>
+        <% elsif f.sponsor_type == 2 %>
+          <td>Silver</td>
+        <% elsif f.sponsor_type == 3 %>
+          <td>Bronze</td>
+        <% end %>
+        <td><%=f.company_name%></td>
+        <td>
+          <% if not f.company_logo.blank? %>
+          <%= image_tag f.company_logo, :class => "style_image" %>
+          <%end%>
+        </td>
+        <td>
+          <a class="btn-danger btn-sm" href="/tournaments/<%=f.tournament_id%>/tournament_sponsorships/<%=f.id%>" data-method="delete">
+              <i class="pg-trash"></i>
+              <span class="bold">Delete</span>
+          </a>
+        </td>
+    </tr>
+    <% end %>
+    <% end %>
+</table>
+
+
+  

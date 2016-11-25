@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resources :tournament_sponsorships
     resources :tournament_features
     resources :tournament_profile_pictures
-
+    resources :tournament_sponsorships
   end
 
   get 'tournament/uploadimages' => 'tournaments#uploadimages'
