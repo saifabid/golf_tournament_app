@@ -2,21 +2,6 @@ class Image < ApplicationRecord
 
   def self.store prefix, image
     return nil unless image
-
-    if prefix == :profile_picture
-      respArr = []
-      image.each { |im|
-        file_name = "#{prefix}." << im.original_filename
-        directory = "uploads"
-        path = File.join(directory, file_name)
-        File.open(path, "wb") { |f| f.write(im.read)}
-        resp = Cloudinary::Uploader.upload(path)
-        respArr.push(resp)
-      }
-      return nil unless respArr
-      return respArr
-    end 
-
     file_name = "#{prefix}." << image.original_filename
     directory = "uploads"
     path = File.join(directory, file_name)

@@ -37,11 +37,6 @@ class TournamentsController < ApplicationController
   end
 
   def create
-    uploaded_profile_picture = Image.store(:profile_picture, params[:images])
-    if uploaded_profile_picture.nil?
-      uploaded_profile_picture = []
-    end
-
     params = tournament_params
     uploaded_logo = Image.store(:logo, params[:logo])
     if uploaded_logo.nil?
@@ -55,17 +50,6 @@ class TournamentsController < ApplicationController
 
     params[:logo] = uploaded_logo["url"]
     params[:venue_logo] = uploaded_logo["url"]
-    params[:profile_pictures] = uploaded_profile_picture
-    @profile_pic_public_ids = []
-    if uploaded_profile_picture.length > 0
-      profile_pic_arr = []
-
-      uploaded_profile_picture.each do |prof_pic|
-        profile_pic_arr.push(prof_pic['url'])
-        @profile_pic_public_ids.push(prof_pic['public_id'])
-      end
-      params[:profile_pictures] = profile_pic_arr
-    end
 
     if params[:is_private] == "1"
       params[:private_event_password] = Tournament.create_private_event_hash
@@ -96,8 +80,8 @@ class TournamentsController < ApplicationController
       return
     end
 
-    # Redirects organizer to view to setup tournament agenda of the day
-    redirect_to new_tournament_tournament_event_path(@tournament.id)
+    # Redirects organizer to upload event profile pictures 
+    redirect_to new_tournament_tournament_profile_picture_path(@tournament.id)
   end
 
   def show
@@ -270,8 +254,8 @@ class TournamentsController < ApplicationController
     end
 
     # Generate slide show
-    @profile_pictures = Tournament.where(id: params[:id]).first().profile_pictures
-    @slides = Tournament.string_to_arr(@profile_pictures)
+    # @profile_pictures = Tournament.where(id: params[:id]).first().profile_pictures
+    # @slides = Tournament.string_to_arr(@profile_pictures)
 
   end
 
