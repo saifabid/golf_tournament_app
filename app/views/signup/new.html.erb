@@ -1,33 +1,29 @@
 <!DOCTYPE HTML>
 
 <h1>Sign Up For a Tournament</h1>
+<h4>Select a Tournament to proceed to Signup</h4>
 
-<%= bootstrap_form_tag url: 'before_payment_summary', multipart: true, layout: :horizontal, label_col: "col-sm-1", control_col: "col-sm-5"  do |f| %>
-	<h4>Search for a Tournament</h4>
-	<%= f.collection_select :tournament_name, Tournament.where(sprintf("start_date >= %s", Time.now.strftime("'%Y-%m-%d %H:%M:%S'"))), :id, :name, {}, {:name=> 'tournament_id'} %>
 
-	<h4>Ticket Quantities</h4>
-  <% if flash[:error] == "You have selected more tickets than what's available" %>
-        <div class="alert alert-warning">
-          <strong>Warning!</strong> <%= "You have selected more tickets than what's available for #{@tournament.name}"  %>
-        </div>
-  <%elsif flash[:error] == "Negative" %>
-        <div class="alert alert-warning">
-          <strong>Warning!</strong> <%= "Please enter a ticket quantity greater than 0"  %>
-        </div>
-  <% end %>
-    <%= f.text_field :spectator_tickets %>
-    <%= f.text_field :dinner_tickets %>
-    <%= f.text_field :player_tickets %>
-  <%= f.text_field :foursome_tickets %>
-	<%= f.form_group :sponsor_level, label: { text: "Sponsor Level" } do %>
-	  <%= f.radio_button :sponsor_level, 1, label: "Gold" %>
-	  <%= f.radio_button :sponsor_level, 2, label: "Silver" %>
-	  <%= f.radio_button :sponsor_level, 3, label: "Bronze" %>
-	  <%= f.radio_button :sponsor_level, 0, label: "Player/Spectator Tickets Only", checked: true %>
-	<% end %>
 
-	<br>
-	<%= f.submit 'Continue to Payment', class: "btn-lg btn-success center-block " %>
+    <% @tournament.each do |tournament| %>
+        <tr>
+          <div class="content-card-title">
+            <%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %>
+          </div>
+          <div class="content-card">
+            <td>
+
+              <%= link_to tournament.name, signup_path(tournament), data: { turbolinks: false } %>
+            </td>
+            <br />
+            <% if !tournament.details.blank? %>
+                <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
+                <div id="details-<%=tournament.id%>" style="display:none">
+                  <td><%= tournament.details %></td>
+                </div>
+            <% else %>
+            <% end %>
+          </div>
+        </tr>
+    <% end %>
 	
-<% end %>

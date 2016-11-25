@@ -61,7 +61,7 @@ class SignupController < ApplicationController
 
   def new
     flash[:error] = ""
-    @tournament = Tournament.first
+    @tournament = Tournament.where("start_date > NOW() AND is_private != 1").all
   end
 
   def signup_from_tournament
