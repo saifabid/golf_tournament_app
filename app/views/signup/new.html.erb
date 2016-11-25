@@ -4,7 +4,6 @@
 <h4>Select a Tournament to proceed to Signup</h4>
 
 
-
     <% @tournament.each do |tournament| %>
         <tr>
           <div class="content-card-title">
@@ -12,17 +11,8 @@
           </div>
           <div class="content-card">
             <td>
-
               <%= link_to tournament.name, signup_path(tournament), data: { turbolinks: false } %>
             </td>
-            <br />
-            <% if !tournament.details.blank? %>
-                <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
-                <div id="details-<%=tournament.id%>" style="display:none">
-                  <td><%= tournament.details %></td>
-                </div>
-            <% else %>
-            <% end %>
           </div>
         </tr>
     <% end %>
