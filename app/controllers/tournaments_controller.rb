@@ -254,8 +254,7 @@ class TournamentsController < ApplicationController
     end
 
     # Generate slide show
-    # @profile_pictures = Tournament.where(id: params[:id]).first().profile_pictures
-    # @slides = Tournament.string_to_arr(@profile_pictures)
+    @profile_pictures = TournamentProfilePicture.where(tournament_id: params[:id])
 
   end
 
