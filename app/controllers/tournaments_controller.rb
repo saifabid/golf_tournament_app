@@ -253,9 +253,17 @@ class TournamentsController < ApplicationController
       end
     end
 
-    # Generate slide show
+    # Generate slide show for profile pictures
     @profile_pictures = TournamentProfilePicture.where(tournament_id: params[:id])
 
+    # Generate slide show for sponsors
+    @has_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).exists?
+    if @has_sponsors
+      @gold_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 1)
+      @silver_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 2)
+      @bronze_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 3)
+    end
+    
   end
 
   def success

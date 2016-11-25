@@ -1,0 +1,37 @@
+<style type="text/css">
+.style_image {
+    width: 400px;
+    height: 300px;
+  }
+</style>
+
+<%if @gold_sponsors %>
+	<div id="goldSponsors">
+		<% @gold_sponsors.each do|g|%>
+			<%= image_tag g.company_logo, :class => "style_image" %>
+		<% end%>
+	</div>
+<%end%>
+
+<script>
+	function swapImages() {
+    var $current = $('#goldSponsors img:visible');
+    var $next = $current.next();
+    if($next.length === 0) {
+        $next = $('#goldSponsors img:first');
+    }
+    $current.hide();
+    $next.show();
+}
+
+function initialTurnOff() {
+	$("div img").hide().filter(":first-child").show();
+  $("img").not("img.class-not-to-select").hide();
+}
+
+$(document).ready(function() {
+    // Run our swapImages() function every 0.5 secs
+    initialTurnOff();
+    setInterval(swapImages, 2000);
+});
+</script>

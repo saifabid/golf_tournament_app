@@ -91,8 +91,9 @@
         </div>
 				</div>
 				<div class="col-md-12">
-					<%= render('layouts/event_slideshow') %>	
+					<%= render('layouts/event_slideshow') %>
 				</div>
+
 				<%= render('layouts/general_map_view') %>
         <div class="col-md-12">
           <%= render "tournaments/sponsor_opportunities_modal" %>
@@ -104,6 +105,10 @@
 					<div class="countdown center-text">
 						<div id="countdown"></div>
 					</div>
+				</div>
+
+				<div class="col-md-12">
+					<%= render('layouts/gold_sponsor_slideshow') %>
 				</div>
 
 				<% if @is_signed_up or @is_valid_guest %>
