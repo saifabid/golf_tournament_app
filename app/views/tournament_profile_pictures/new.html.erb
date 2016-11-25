@@ -1,3 +1,10 @@
+<style type="text/css">
+.style_image {
+    width: 400px;
+    height: 300px;
+  }
+</style>
+
 <div class="events-panel container">
   <% if flash[:error] %>
     <br>
@@ -9,13 +16,11 @@
 
   <%= link_to 'Go to Organizer Dashboard', tournament_path(id: params[:tournament_id]), data: { turbolinks: false } %>
 
-  <h2>Tournament Features</h2>
-  <h2>Add Feature</h2>
-  <%= render 'tournament_features/createfeature'%>
+  <h2>Tournament Profile Pictures</h2>
+  <%= render 'tournament_profile_pictures/uploadpicture'%>
   <br></br>
   <%= link_to 'Continue', new_tournament_tournament_event_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
-  <%= link_to 'Done', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
 
-  <h2> Current Agenda </h2>
-  <%=render  'tournament_features/list', tournament_features: @tournament.tournament_features %>
+  <h2> Uploaded Profile Pictures </h2>
+  <%=render  'tournament_profile_pictures/list', tournament_profile_pictures: @tournament.tournament_profile_pictures %>
 </div>

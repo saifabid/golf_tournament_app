@@ -1,0 +1,19 @@
+<table class="table">
+    <tr>
+        
+    </tr>
+    <% tournament_profile_pictures.each do|f|%>
+    <% if f.image %>
+    <tr>
+        <td><%= image_tag f.image, :class => "style_image" %></td>
+        <td>
+          <a class="btn-danger btn-sm" href="/tournaments/<%=f.tournament_id%>/tournament_profile_pictures/<%=f.id%>" data-method="delete">
+              <i class="pg-trash"></i>
+              <span class="bold">Delete</span>
+          </a>
+        </td>
+    </tr>
+    <% end %>
+    <% end %>
+</table>
+

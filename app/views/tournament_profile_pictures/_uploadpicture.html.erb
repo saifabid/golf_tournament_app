@@ -1,0 +1,7 @@
+<%= bootstrap_form_for ([@tournament, @tournament.tournament_profile_pictures.build]) do |f| %>
+    <p>
+      <%= f.file_field :image %>
+    </p>
+
+    <%= f.submit "Upload Picture!" %>
+<% end %>
