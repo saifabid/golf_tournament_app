@@ -13,7 +13,6 @@
   <h2>Add Feature</h2>
   <%= render 'tournament_features/createfeature'%>
   <br></br>
-  <%= link_to 'Continue', new_tournament_tournament_event_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
   <%= link_to 'Done', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn btn-success"%>
 
   <h2> Current Agenda </h2>
