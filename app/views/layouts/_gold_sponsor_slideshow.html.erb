@@ -1,5 +1,5 @@
 <style type="text/css">
-.style_image {
+.gold_style_image {
     width: 400px;
     height: 300px;
   }
@@ -8,25 +8,27 @@
 <%if @gold_sponsors %>
 	<div id="goldSponsors">
 		<% @gold_sponsors.each do|g|%>
-			<%= image_tag g.company_logo, :class => "style_image" %>
+			<%= image_tag g.company_logo, :class => "gold_style_image" %>
 		<% end%>
 	</div>
 <%end%>
 
 <script>
 	function swapImages() {
-    var $current = $('#goldSponsors img:visible');
+    var $current = $('#goldSponsors img.gold_style_image:visible');
     var $next = $current.next();
     if($next.length === 0) {
-        $next = $('#goldSponsors img:first');
+        $next = $('#goldSponsors img.gold_style_image:first');
     }
     $current.hide();
     $next.show();
 }
 
 function initialTurnOff() {
-	$("div img").hide().filter(":first-child").show();
-  $("img").not("img.class-not-to-select").hide();
+    console.log('div img')
+    console.log($("div img"))
+	$("div img.gold_style_image").hide().filter(":first-child").show();
+  $("img.gold_style_image").not("img.gold_style_image").hide();
 }
 
 $(document).ready(function() {

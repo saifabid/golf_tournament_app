@@ -259,9 +259,9 @@ class TournamentsController < ApplicationController
     # Generate slide show for sponsors
     @has_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).exists?
     if @has_sponsors
-      @gold_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 1)
-      @silver_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 2)
-      @bronze_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 3)
+      @gold_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 1).where("company_logo IS NOT NULL")
+      @silver_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 2).where("company_logo IS NOT NULL")
+      @bronze_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 3).where("company_logo IS NOT NULL")
     end
     
   end
