@@ -83,7 +83,7 @@ class SignupController < ApplicationController
 
     if @total_tickets > @tournament.tickets_left.to_i
       flash[:error] = "You have selected more tickets than what's available"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
       return
     else
       flash[:error] = ""
@@ -93,7 +93,7 @@ class SignupController < ApplicationController
 
     if @total_spectator_tickets > @tournament.tickets_left.to_i * 4
       flash[:error] = "You have selected more tickets than what's available"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
       return
     else
       flash[:error] = ""
@@ -103,7 +103,7 @@ class SignupController < ApplicationController
 
     if @total_spectator_tickets > @tournament.spectator_tickets_left.to_i
       flash[:error] = "You have selected more tickets than what's available"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
       return
     else
       flash[:error] = ""
@@ -113,7 +113,7 @@ class SignupController < ApplicationController
 
     if @total_dinner_tickets > @tournament.dinner_tickets_left.to_i
       flash[:error] = "You have selected more tickets than what's available"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
       return
     else
       flash[:error] = ""
@@ -122,24 +122,26 @@ class SignupController < ApplicationController
 
   def check_positive_amounts
 
+    @tournament_id = params[:tournament_id]
+
     if params[:player_tickets] != "" && params[:player_tickets].to_i < 0
       flash[:error] = "Negative"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
     end
 
     if params[:foursome_tickets] != "" && params[:foursome_tickets].to_i < 0
       flash[:error] = "Negative"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
     end
 
     if params[:spectator_tickets] != "" && params[:spectator_tickets].to_i < 0
       flash[:error] = "Negative"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
     end
 
     if params[:dinner_tickets] != "" && params[:dinner_tickets].to_i < 0
       flash[:error] = "Negative"
-      render :new
+      redirect_to(sprintf("/signup/%s", @tournament_id))
     end
 
   end
