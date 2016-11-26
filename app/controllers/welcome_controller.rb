@@ -72,5 +72,16 @@ class WelcomeController < ApplicationController
 
     @form_url = '/'
 
+    @top_ids = Person.group(:tournament_id).count
+    @top_ids = Hash[@top_ids.sort_by{|k, v| v}.reverse]
+    @top_ids = @top_ids.keys
+    @top_ids = @top_ids.first(5)
+
+    @top_tourneys = []
+
+    @top_ids.each do |id|
+      @top_tourneys.push(Tournament.find(id))
+      puts @top_tourneys.inspect
+    end
   end
 end
