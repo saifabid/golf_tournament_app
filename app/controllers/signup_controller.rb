@@ -7,7 +7,7 @@ require 'barby/outputter/png_outputter'
 # TODO: Change name, signup is confusing
 class SignupController < ApplicationController
   helper_method :assigngroup, :assignfoursome
-  before_action :check_user_auth
+  before_action :check_user_auth, except: [:new]
   before_action :check_number_tickets, only: [:before_payment_summary]
   before_action :check_positive_amounts, only: [:before_payment_summary]
 
@@ -61,7 +61,8 @@ class SignupController < ApplicationController
 
   def new
     flash[:error] = ""
-    @tournament = Tournament.where("start_date > NOW() AND is_private != 1").all
+    @tournament = Tournament.where("start_date > NOW() AND is_private != 1")
+                      .where("tickets_left > 0 OR dinner_tickets_left > 0 OR spectator_tickets_left > 0").all
   end
 
   def signup_from_tournament
