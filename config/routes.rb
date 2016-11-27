@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     resources :tournament_sponsorships
   end
 
+  resources :organizer_payment, :only => [:show]
+
   get 'tournament/uploadimages' => 'tournaments#uploadimages'
   resources :signup, :except => [:show]
   get 'signup/download_ticket/:person_id' => 'signup#download_ticket'
