@@ -316,6 +316,8 @@ class SignupController < ApplicationController
     price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets, @dinner_tickets)
     @total= price_summary[:total]
     @price_lines=price_summary[:price_lines]
+    @surcharge = @total * 0.04
+    @total += @surcharge
 
   end
 
@@ -343,9 +345,12 @@ class SignupController < ApplicationController
 
     @total= price_summary[:total]
     @price_lines=price_summary[:price_lines]
+    @surcharge = @total*0.04
 
     @total_cents = @total * 100
     currency=tournament.currency==nil? ? 'cad' : tournament.currency
+    @surcharge_cents = @total_cents * 0.04
+    @total_cents += @surcharge_cents
 
     #process payments using stripe
     begin
@@ -353,7 +358,7 @@ class SignupController < ApplicationController
           :amount => @total_cents.floor,
           :description => "Golf Tournament Signup Transaction Num:#{@transaction_num.join.to_i}",
           :source => params[:stripeToken],
-          :currency => currency
+          :currency => currency,
       )
 
 
@@ -368,10 +373,12 @@ class SignupController < ApplicationController
           :transaction_number => @transaction_num.join.to_i,
           :user_id => current_user.id,
           :currency=> currency,
-          :amount_paid => @total
+          :amount_paid => @total,
+          :card_surcharge => @surcharge
       )
       transaction.save
       transaction_id= transaction.id
+
       if form_params[:player_tickets] == ''
         form_params[:player_tickets] = 0.to_s
       end
@@ -575,10 +582,25 @@ class SignupController < ApplicationController
         @foursome_tickets_sold = @tournament.num_foursomes + @k
       end
 
+      if @tournament.card_surcharge.nil?
+        @transaction_surcharge = @surcharge
+      else
+        @transaction_surcharge = @tournament.card_surcharge + @surcharge
+      end
+
+      if @tournament.player_surcharge.nil?
+        @player_surcharge = ((params[:player_tickets].to_i + params[:foursome_tickets].to_i * 4) * 2.50)
+      else
+        @player_surcharge = @tournament.player_surcharge + ((params[:player_tickets].to_i + params[:foursome_tickets].to_i * 4) * 2.50)
+      end
+
       @tournament.update_column(:tickets_left, @tickets_left)
       @tournament.update_column(:spectator_tickets_left, @spectator_tickets_left)
       @tournament.update_column(:dinner_tickets_left, @dinner_tickets_left)
       @tournament.update_column(:num_foursomes, @foursome_tickets_sold)
+      @tournament.update_column(:card_surcharge, @transaction_surcharge)
+      @tournament.update_column(:player_surcharge, @player_surcharge)
+
       redirect_to controller: 'signup', action: 'signup_summary', transaction_id: transaction_id
 
     end

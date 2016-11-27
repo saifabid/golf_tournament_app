@@ -19,6 +19,11 @@
   <% end %>
   <tr>
     <td></td>
+    <td><b>Signup Surcharge</b></td>
+    <td><%= "#{number_to_currency(@surcharge)} #{@currency}"%></td>
+  </tr>
+  <tr>
+    <td></td>
     <td><b>Total</b></td>
     <td><%= "#{number_to_currency(@total)} #{@currency}"%></td>
   </tr>
