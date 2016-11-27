@@ -25,14 +25,26 @@ class Tournament < ApplicationRecord
     @total_tickets = 0
 
     if(total_player_tickets.present?)
+      if(total_player_tickets > 144)
+        errors.add(:total_player_tickets, "Total number of tickets can't be greater than 144")
+        return
+      end
       @total_tickets += total_player_tickets
     end
 
     if(total_audience_tickets.present?)
+      if(total_audience_tickets > 144)
+        errors.add(:total_audience_tickets, "Total number of tickets can't be greater than 144")
+        return
+      end
       @total_tickets += total_audience_tickets
     end
 
     if(total_dinner_tickets.present?)
+      if(total_dinner_tickets > 144)
+        errors.add(:total_dinner_tickets, "Total number of tickets can't be greater than 144")
+        return
+      end
       @total_tickets += total_dinner_tickets
     end
 
