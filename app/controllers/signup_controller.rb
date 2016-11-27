@@ -313,6 +313,16 @@ class SignupController < ApplicationController
     @dinner_tickets= form_params[:dinner_tickets]=='' ? 0 : form_params[:dinner_tickets].to_i
     @sponsor_level= form_params[:sponsor_level].to_s
     @company_name= form_params[:company_name].to_s
+    @company_logo= form_params[:company_logo]
+
+    #store the image now, pass back the url as a hidden field
+
+    @uploaded_logo = Image.store(:company_logo, @company_logo)
+    if @uploaded_logo.nil?
+      @uploaded_logo = {}
+    else
+      @uploaded_logo = @uploaded_logo["url"]
+    end
 
     price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets, @dinner_tickets)
     @total= price_summary[:total]
@@ -340,6 +350,7 @@ class SignupController < ApplicationController
     @dinner_tickets= form_params[:dinner_tickets]=='' ? 0 : form_params[:dinner_tickets].to_i
     @sponsor_level= form_params[:sponsor_level].to_s
     @company_name= form_params[:company_name].to_s
+    @company_logo= form_params[:company_logo]
 
     price_summary= get_price_summary(tournament, @player_tickets, @sponsor_level, @spectator_tickets, @foursome_tickets, @dinner_tickets)
 
@@ -398,6 +409,7 @@ class SignupController < ApplicationController
       @sponsor_offset = 0
 
 
+      #process the sponsor details
       if form_params[:sponsor_level].to_i > 0
         @ticket_num = [@transaction_num, @offset]
         @tournament.people.new(
@@ -410,24 +422,24 @@ class SignupController < ApplicationController
         @offset += 1
         @sponsor_offset = 1
 
+
+        #process the sponsor name and logo
+
         p = tournament_sponsor_params
-        uploaded_logo = Image.store(:company_logo, p[:company_logo])
-        if uploaded_logo.nil?
-          uploaded_logo = {}
-        end
+
+        #this is just a url now
+        @uploaded_logo = form_params[:uploaded_logo]
 
         if @company_name.blank?
           @company_name = 'Anonymous'
         end
 
-        p[:company_logo] = uploaded_logo["url"]
+        p[:company_logo] = @uploaded_logo.to_s
         p[:tournament_id] = @tournament_id
         p[:company_name] = @company_name
         p[:sponsor_type] = form_params[:sponsor_level].to_i
 
-
         @tournament.tournament_sponsorships.build
-
 
         @tournament_sponsorship = @tournament.tournament_sponsorships.create(p)
         if @tournament_sponsorship.errors.any?
@@ -636,7 +648,8 @@ class SignupController < ApplicationController
         :player_tickets,
         :sponsor_level,
         :company_name,
-        :company_logo
+        :company_logo,
+        :uploaded_logo
     )
   end
 end
