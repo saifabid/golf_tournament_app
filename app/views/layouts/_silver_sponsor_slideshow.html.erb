@@ -25,15 +25,13 @@
 }
 
 function initialSilverTurnOff() {
-    console.log('div img')
-    console.log($("div img"))
-	$("div img.silver_style_image").hide().filter(":first-child").show();
-  $("img.silver_style_image").not("img.silver_style_image").hide();
+    $("div img.silver_style_image").hide().filter(":first-child").show();
+    $("img.silver_style_image").not("img.silver_style_image").hide();
 }
 
 $(document).ready(function() {
     // Run our swapImages() function every 0.5 secs
-    // initialSilverTurnOff();
-    swapImages(swapSilverImages, 2000);
+    initialSilverTurnOff();
+    setInterval(swapSilverImages, 2000);
 });
 </script>

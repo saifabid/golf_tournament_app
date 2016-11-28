@@ -42,7 +42,11 @@
 
     <div class="row">
       <div class="col-sm-4">
+      <% if @tournament.tournament_sponsorships.length > 2 %>
+        <%= link_to 'Complete Setup', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn-sm btn-danger"%>
+      <% else %>
       <%= link_to 'Skip and Complete Setup', tournament_path(id: params[:tournament_id]), data: { turbolinks: false }, class: "btn-sm btn-danger"%>
+      <% end %>
       </div>
     </div>
     <br/>

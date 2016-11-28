@@ -27,6 +27,9 @@
 	  <%= f.radio_button :sponsor_level, 0, label: "Player/Spectator Tickets Only", checked: true %>
 	<% end %>
 
+  <%= f.text_field :company_name %>
+  <%= f.file_field :company_logo %>
+
 	<br>
 	<%= f.submit class: "btn-lg btn-success center-block " %>
 	

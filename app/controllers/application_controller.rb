@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
   end
 
   def check_tournament_organizer_or_admin
+    if(current_user.nil?)
+      redirect_to sprintf("/tournaments/%s", params[:id])
+      return
+    end
+
     if !Person.where(sprintf("user_id = %d AND tournament_id = %d AND (is_organizer = 1 OR is_admin = 1)", current_user.id, params[:id])).exists?
       redirect_to sprintf("/tournaments/%s", params[:id])
       return

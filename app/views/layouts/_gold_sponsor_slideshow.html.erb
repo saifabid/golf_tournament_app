@@ -25,10 +25,8 @@
 }
 
 function initialTurnOff() {
-    console.log('div img')
-    console.log($("div img"))
-	$("div img.gold_style_image").hide().filter(":first-child").show();
-  $("img.gold_style_image").not("img.gold_style_image").hide();
+    $("div img.gold_style_image").hide().filter(":first-child").show();
+    $("img.gold_style_image").not("img.gold_style_image").hide();
 }
 
 $(document).ready(function() {
