@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127210833) do
+ActiveRecord::Schema.define(version: 20161128133915) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 20161127210833) do
     t.integer  "num_foursomes"
     t.decimal  "player_surcharge",                     precision: 16, scale: 2
     t.decimal  "card_surcharge",                       precision: 16, scale: 2
+    t.boolean  "organizer_paid"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
