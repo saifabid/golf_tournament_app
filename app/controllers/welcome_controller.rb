@@ -81,7 +81,6 @@ class WelcomeController < ApplicationController
 
     @top_ids.each do |id|
       @top_tourneys.push(Tournament.find(id))
-      puts @top_tourneys.inspect
     end
   end
 end
