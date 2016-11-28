@@ -1,4 +1,42 @@
-<!DOCTYPE HTML>
-  <H1>Organizer Payment</H1>
+  <H1>Organizer Fees</H1>
 
-</html>
+<% if flash[:error].present? %>
+    <div id="error_explanation">
+      <p><%= flash[:error] %></p>
+    </div>
+<% end %>
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Price(Subtotal)</th>
+  <tr>
+    <% @price_lines.each do |p| %>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.quantity %></td>
+        <td><%= "#{number_to_currency(p.sub_total)} #{@currency}" %></td>
+
+      </tr>
+  <% end %>
+  <tr>
+    <td></td>
+    <td><b>Credit Card Surcharge</b></td>
+    <td><%= "#{number_to_currency(@surcharge)} #{@currency}"%></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><b>Total</b></td>
+    <td><%= "#{number_to_currency(@total)} #{@currency}"%></td>
+  </tr>
+</table>
+<%= form_tag '/organizer_payment' do %>
+
+      <%= hidden_field_tag :tournament_id, params[:id] %>
+
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.application.secrets.stripe_publishable_key %>"
+            data-description="Organizer Fees"
+            data-locale="auto"></script>
+
+<% end %>
