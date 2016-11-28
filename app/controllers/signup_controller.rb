@@ -10,8 +10,16 @@ class SignupController < ApplicationController
   before_action :check_user_auth, except: [:new]
   before_action :check_number_tickets, only: [:before_payment_summary]
   before_action :check_positive_amounts, only: [:before_payment_summary]
+  before_action :check_organizer_paid, only: [:signup_from_tournament]
 
+  def check_organizer_paid
+    @tournament = Tournament.find(params[:id])
 
+    if @tournament.organizer_paid == true
+      redirect_to sprintf("/tournaments/%s", params[:id])
+      return
+    end
+  end
 
   #TODO: place in helper class
   def generate_barcode_img(numtoCode)

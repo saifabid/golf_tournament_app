@@ -60,6 +60,7 @@ class TournamentsController < ApplicationController
     @tournament.spectator_tickets_left = params[:total_audience_tickets].to_i
     @tournament.dinner_tickets_left = params[:total_dinner_tickets].to_i
     @tournament.num_foursomes = 0
+    @tournament.organizer_paid = false
 
     @tournament.save
     if @tournament.errors.any?

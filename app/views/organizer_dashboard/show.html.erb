@@ -23,6 +23,12 @@
    </div>
 <% end %>
 
+<div class = center-text>
+  <% if @tournament.organizer_paid != true && Time.now.strftime("%d-%m-%Y %H:%M:%S") > @tournament.start_date%>
+      <%= button_to "Tournament Outstanding Balance, Pay Here", {:controller => 'organizer_payment', :action => "show"}, :method => :get %>
+  <% end %>
+</div>
+
 <%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
 <div class = center-text>
 
