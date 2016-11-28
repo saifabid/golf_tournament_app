@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+// Font Variables
+$roboto-slab: 'Roboto Slab', serif;
+$open-sans: 'Open Sans', sans-serif;
+
+body {
+  font-family: $open-sans;
+  font-weight: normal;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: $open-sans;
+  font-weight: normal;
+}
+
+.button {
+  font-family: $open-sans;
+  font-weight: bold;
+}
