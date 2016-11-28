@@ -59,6 +59,8 @@ class OrganizerPaymentController < ApplicationController
       return
     end
 
+    @tournament.update_column(:organizer_paid, true)
+
     redirect_to sprintf("/organizer_dashboard/%s", params[:tournament_id])
   end
 end
