@@ -126,7 +126,7 @@ class Resend < ApplicationRecord
 
     @subject = "Outstanding Balance for #{@tournament.name}"
 
-    @body = "Dear Organizer,\n\nThere is an outstanding balance for #{@tournament.name}, please go to the following link and make the required payment\n\n
+    @body = "Dear Organizer,\n\nThere is an outstanding balance for #{@tournament.name}, please go to the following link and make the required payment. Note you will not be able to pay until the tournament has started.\n\n
               https://www.http://golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
             Thanks,\nXXX Administration"
 
@@ -143,4 +143,24 @@ class Resend < ApplicationRecord
     puts response.headers
   end
 
+  def self.organizer_blocked id
+    @person = User.find(id)
+
+    @subject = "Outstanding Balances Exist in Your Account}"
+
+    @body = "Dear Organizer,\n\nYou have outstanding balances for previous tournaments, and as a result will not be able to create any new tournaments. Please pay these balances and retry tournament creation./n/n
+            Thanks,\nXXX Administration"
+
+    from = Email.new(email: "admin@golftournamentapp.com")
+    to = Email.new(email: @person.email)
+    subject = @subject
+    content = Content.new(type: 'text/plain', value: @body)
+    mail = SendGrid::Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: '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')
+    response = sg.client.mail._('send').post(request_body: mail.to_json)
+    puts response.status_code
+    puts response.body
+    puts response.headers
+  end
 end

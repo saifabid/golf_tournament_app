@@ -6,6 +6,8 @@ class TournamentsController < ApplicationController
 
   before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features, :sponsors]
 
+  before_action :check_paid, only: [:new]
+
   def index
     redirect_to "/"
   end
@@ -26,6 +28,17 @@ class TournamentsController < ApplicationController
   end
   def uploadimages
 
+  end
+
+  def check_paid
+    @user_check = Tournament.joins("INNER JOIN people ON people.tournament_id = tournament.id AND
+                                    people.user_id = #{current_user.id} AND tournament.organier_paid != 1")
+
+    if !@user_check.nil?
+      redirect_to "/"
+      Resend.organizer_blocked current_user.id
+      return
+    end
   end
 
   def new
@@ -347,6 +360,11 @@ class TournamentsController < ApplicationController
       @person = Person.where(guest_of: params[:purchaser_id])
           .where(ticket_number: params[:ticket_number])
           .first()
+
+      if !Person.where(sprintf("tournament_id = %s AND checked_in = true", @person.tournament_id)).exists?
+        Resend.organizer_balance(@person.tournament_id)
+      end
+
       if @person.update(checked_in: 1)
         redirect_to controller: 'tournaments',
           action: 'show',
@@ -359,6 +377,11 @@ class TournamentsController < ApplicationController
       @person = Person.where(tournament_id: params[:id])
           .where(user_id: current_user.id)
           .first()
+
+      if !Person.where(sprintf("tournament_id = %s AND checked_in = true", @person.tournament_id)).exists?
+        Resend.organizer_balance(@person.tournament_id)
+      end
+
       if @person.update(checked_in: 1)
         redirect_to controller: 'tournaments',
           action: 'show',

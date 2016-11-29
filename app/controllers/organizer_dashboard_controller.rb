@@ -27,6 +27,10 @@ class OrganizerDashboardController < ApplicationController
 
   def check_player_in
     @player = Person.where("id = ?", params[:player_id])
+    if !Person.where(sprintf("tournament_id = %s AND checked_in = true", @player.first.tournament_id)).exists?
+      Resend.organizer_balance(@player.first.tournament_id)
+    end
+
     @player.update({"checked_in" => true})
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
