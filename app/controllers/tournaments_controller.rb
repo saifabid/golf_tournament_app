@@ -31,10 +31,13 @@ class TournamentsController < ApplicationController
   end
 
   def check_paid
-    @user_check = Tournament.joins("INNER JOIN people ON people.tournament_id = tournament.id AND
-                                    people.user_id = #{current_user.id} AND tournament.organier_paid != 1")
+    @user_check = Tournament.joins("INNER JOIN people ON people.tournament_id = tournaments.id").where("
+                                    people.user_id = #{current_user.id} AND tournaments.organizer_paid != 1
+                                    AND people.is_organizer = 1
+                                    AND tournaments.start_date < '#{Time.now.strftime("%d-%m-%Y %H:%M:%S")}'").exists?
 
-    if !@user_check.nil?
+
+    if @user_check == true
       redirect_to "/"
       Resend.organizer_blocked current_user.id
       return
