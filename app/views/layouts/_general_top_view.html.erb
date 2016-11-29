@@ -14,16 +14,6 @@
       <div class="card-title" >
         <%= tournament.name %>
         </div>
-
-        <div class="card-content"></div>
-        <% if !tournament.details.blank? %>
-          <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
-          <div id="details-<%=tournament.id%>" style="display:none">
-              <%= tournament.details %><
-          </div>
-        <% else %>
-        <% end %>
-
         </div>
       </a>
       </div>
