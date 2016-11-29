@@ -1,6 +1,6 @@
 <div class="center-block events-container">
       <% @top_tourneys.each do |tournament| %>
-    <div class="col-md-3 col-sm-12">
+    <div class="col-md-3 col-sm-8">
       <a href="<%=tournament_path(tournament)%>" data-turbolinks="false">
       <div class="card">
 
@@ -15,7 +15,7 @@
         <%= tournament.name %>
         </div>
 
-        <br />
+        <div class="card-content"></div>
         <% if !tournament.details.blank? %>
           <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
           <div id="details-<%=tournament.id%>" style="display:none">

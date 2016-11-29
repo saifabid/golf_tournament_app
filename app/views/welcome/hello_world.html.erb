@@ -1,18 +1,11 @@
+<div class="row">
 
-		<div class="row">
-			<div class="events-view-selector text-center col-md-2 col-md-offset-5 col-sm-12">
-				<%= button_to 'List', {:controller => "welcome", :action => "hello_world", :state => "List"}, :class=> 'btn btn-default', :method=>:post %>
-				<%= button_to 'Map', {:controller => "welcome", :action => "hello_world", :state => "Map"}, :class=> 'btn btn-default', :method=>:post %>
-			</div>
+  <div class="banner-image">
+  <%= image_tag "cover.jpg", :class=>'img-responsive'%>
+  </div>
 
-		</div>
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h4>Tournaments Near Me</h4>
-        <%= render(@state == "Map" ? 'layouts/general_map_view' : 'layouts/general_list_view') %>
-      </div>
 
-    </div>
+</div>
 
     <div class ="row">
       <div class="col-md-9 col-md-offset-2">
@@ -26,5 +19,3 @@
 				<%= button_to 'View all Available Tournaments', {:controller => "signup", :action => "new"}, :method=>:get, :class=> 'btn btn-default' %>
 			</div>
 		</div>
-
-
