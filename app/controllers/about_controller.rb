@@ -1,4 +1,5 @@
 class AboutController < ApplicationController
+  
   def company
   end
 
@@ -12,5 +13,6 @@ class AboutController < ApplicationController
   end
 
   def contact
+    @project_name = "railzBoyz"
   end
 end

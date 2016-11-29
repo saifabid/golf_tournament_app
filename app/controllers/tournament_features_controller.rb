@@ -10,6 +10,11 @@ class TournamentFeaturesController < ApplicationController
    end
   end
 
+  def edit_features
+    @tournament= Tournament.find(params[:id])
+    @tournament.tournament_features.build
+  end
+
   def new
     @tournament= Tournament.find(params[:tournament_id])
     @tournament.tournament_features.build

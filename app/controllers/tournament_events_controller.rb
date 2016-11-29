@@ -10,6 +10,11 @@ class TournamentEventsController < ApplicationController
    end
   end
 
+  def edit_events
+    @tournament= Tournament.find(params[:id])
+    @tournament.tournament_events.build
+  end
+
   def new
     @tournament= Tournament.find(params[:tournament_id])
     @tournament.tournament_events.build

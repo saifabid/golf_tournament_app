@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Golf Tournament App" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Golf Tournament App" %>">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
-    <%= include_gon %>
-    <%= stylesheet_link_tag "content.css" %>
-  </head>
- <body>
-    <div id="wrapper">
-    	<p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      
-      <header id="header">
-        <%= render 'layouts/navigation' %>
-      </header>
-      <main id="main" role="main" style="padding-bottom:100px">
-        <%= yield %>
-      </main>
-      <footer id="footer">
-        <%= render 'layouts/footer' %>
-      </footer>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "Golf Tournament App" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Golf Tournament App" %>">
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <%= include_gon %>
+  <%= stylesheet_link_tag "content.css" %>
+</head>
+<body>
+<div class="wrapper">
+  <% if alert %>
+      <div class="alert alert-dismissible alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%= alert %>
+      </div>
+  <% end %>
+
+  <% if notice %>
+      <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <p class="notice"><%= notice %></p>
+      </div>
+  <% end %>
+  <header id="header">
+    <%= render 'layouts/navigation' %>
+  </header>
+  <main id="main" role="main" style="padding-bottom:100px">
+    <div class="container-fluid">
+    <%= yield %>
     </div>
-  </body>
+  </main>
+  <div id="footer" class="nav navbar">
+
+    <%= render 'layouts/footer' %>
+  </div>
+</div>
+</body>
 </html>

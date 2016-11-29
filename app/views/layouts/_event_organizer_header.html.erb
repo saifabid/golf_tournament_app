@@ -13,4 +13,10 @@
   <div class="col-md-2 col-spacing">
     <%= button_to 'Public View', {:controller => "organizer_dashboard", :action => "view_public"}, :method=>:post %>
   </div>
+	<div class="col-md-2 col-spacing">
+		<%= button_to 'Edit Tournament Features', {:controller => "tournament_features", :action => "edit_features"}, :method=>:get %>
+	</div>
+	<div class="col-md-2 col-spacing">
+		<%= button_to 'Edit Tournament Agenda', {:controller => "tournament_events", :action => "edit_events"}, :method=>:get %>
+	</div>
 </div>
