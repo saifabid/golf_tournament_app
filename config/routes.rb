@@ -108,7 +108,9 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/sponsors', to: 'tournaments#sponsors'
 
-  get 'tournaments/:id/edit_tournament_features/', to: 'tournament_features#edit_features'
+  get 'tournaments/:id/edit_tournament_features', to: 'tournament_features#edit_features'
+  get 'tournaments/:id/edit_tournament_events', to: 'tournament_events#edit_events'
+
 
   get 'dashboard/index'
 
