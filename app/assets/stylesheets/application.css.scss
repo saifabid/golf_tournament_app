@@ -4,11 +4,16 @@
 @import "bootstrap";
 
 body{
-  padding-top:60px;
+  clear: both;
 }
+main{
+  min-height: 720px;
+}
+
 @import "bootswatch/paper/bootswatch";
 
 @import "styles/dashboard";
+@import "styles/home";
 @import "timepicker";
 @import "jquery.countdown";
 @import "fullcalendar";

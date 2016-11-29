@@ -16,9 +16,9 @@
     <%= label_tag(:searchDistance, "Distance (km)") %>
     <%= text_field_tag(:searchDistance, @searchDistanceFlash) %>
 
-    <%= submit_tag("Search") %>
+    <%= submit_tag "Search", :class=> 'btn-default btn' %>
 
-    <select id = "dropdownSelect" onchange="getSort()">
+    <select class="form-control" id = "dropdownSelect" onchange="getSort()">
       <option value="1">Ascending Start Date</option>
       <option value="2">Decending Start Date</option>
       <option value="3">Ascending Title</option>
