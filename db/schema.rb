@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20161128164432) do
     t.integer  "user_id"
     t.decimal  "amount_paid",        precision: 16, scale: 2
     t.decimal  "card_surcharge",     precision: 16, scale: 2
+    t.datetime "transaction_date"
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
     t.string   "currency",                                    default: "cad", null: false
@@ -157,6 +158,8 @@ ActiveRecord::Schema.define(version: 20161128164432) do
     t.integer  "tournament_id"
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.string   "comoany_name"
+    t.string   "comoany_logo"
     t.string   "company_logo"
     t.string   "company_name"
     t.index ["tournament_id"], name: "index_tournament_sponsorships_on_tournament_id", using: :btree
@@ -188,19 +191,19 @@ ActiveRecord::Schema.define(version: 20161128164432) do
     t.integer  "tickets_left"
     t.integer  "spectator_tickets_left"
     t.integer  "dinner_tickets_left"
-    t.datetime "created_at",                                                                    null: false
-    t.datetime "updated_at",                                                                    null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
     t.datetime "start_date"
     t.float    "longitude",              limit: 24
     t.float    "latitude",               limit: 24
     t.integer  "total_player_tickets"
     t.integer  "total_audience_tickets"
     t.integer  "total_dinner_tickets"
-    t.decimal  "gold_sponsor_price",                   precision: 16, scale: 2, default: "1.0"
+    t.decimal  "gold_sponsor_price",                   precision: 16, scale: 2
     t.text     "gold_sponsor_desc",      limit: 65535
-    t.decimal  "silver_sponsor_price",                 precision: 16, scale: 2, default: "1.0"
+    t.decimal  "silver_sponsor_price",                 precision: 16, scale: 2
     t.text     "silver_sponsor_desc",    limit: 65535
-    t.decimal  "bronze_sponsor_price",                 precision: 16, scale: 2, default: "1.0"
+    t.decimal  "bronze_sponsor_price",                 precision: 16, scale: 2
     t.text     "bronze_sponsor_desc",    limit: 65535
     t.decimal  "player_price",                         precision: 16, scale: 2
     t.decimal  "foursome_price",                       precision: 16, scale: 2
