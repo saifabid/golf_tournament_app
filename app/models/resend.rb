@@ -119,6 +119,28 @@ class Resend < ApplicationRecord
     puts response.headers
   end
 
+  def self.organizer_balance id
+    @tournament = Tournament.find(id)
+    @organizer = Person.where(sprintf("tournament_id = %s AND is_organizer = 1", id)).first
+    @organizer_user = User.find(@organizer.user_id)
 
+    @subject = "Outstanding Balance for #{@tournament.name}"
+
+    @body = "Dear Organizer,\n\nThere is an outstanding balance for #{@tournament.name}, please go to the following link and make the required payment\n\n
+              https://www.http://golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
+            Thanks,\nXXX Administration"
+
+    from = Email.new(email: "admin@golftournamentapp.com")
+    to = Email.new(email: @organizer_user.email)
+    subject = @subject
+    content = Content.new(type: 'text/plain', value: @body)
+    mail = SendGrid::Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: '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')
+    response = sg.client.mail._('send').post(request_body: mail.to_json)
+    puts response.status_code
+    puts response.body
+    puts response.headers
+  end
 
 end
