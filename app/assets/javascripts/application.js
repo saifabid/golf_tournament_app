@@ -25,3 +25,4 @@
 //= require jquery.countdown
 //= require electric-slide
 //= require jquery.sizes
+//= require jquery.dotdotdot
