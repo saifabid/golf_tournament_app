@@ -108,6 +108,8 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/sponsors', to: 'tournaments#sponsors'
 
+  get 'tournaments/:id/edit_tournament_features/', to: 'tournament_features#edit_features'
+
   get 'dashboard/index'
 
   get 'dashboard/participatingtournaments_feed'
