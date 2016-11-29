@@ -7,6 +7,7 @@
       <th> </th>
       <th> </th>
       <th> </th>
+      <th> </th>
   </thead>
   <tbody>
    <% users.each do |user|%>
@@ -47,12 +48,20 @@
         <%= render "organizer_dashboard/send_ticket_modal", user: user %>
         <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %> >Resend Ticket</button>
       </td>
-      
+
       <td>
         <% if user["player"].checked_in == true %>
           <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
         <% else %>
           <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% end %>
+      </td>
+
+      <td>
+        <% if user["player"].is_golf_course_admin != true %>
+          <%= button_to 'Set GolfCourse Admin', {controller: "organizer_dashboard", action: "set_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% else %>
+          <%= button_to 'Unset GolfCourse Admin', {controller: "organizer_dashboard", action: "unset_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
         <% end %>
       </td>
 

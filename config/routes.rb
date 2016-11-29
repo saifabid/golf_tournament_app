@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   resources :organizer_dashboard
   post'organizer_dashboard/:id/player/:player_id/check_in' => 'organizer_dashboard#check_player_in'
   post'organizer_dashboard/:id/player/:player_id/check_out' => 'organizer_dashboard#check_player_out'
+  post 'organizer_dashboard/:id/player/:player_id/set_golf_course_admin' => 'organizer_dashboard#set_golf_course_admin'
+  post 'organizer_dashboard/:id/player/:player_id/unset_golf_course_admin' => 'organizer_dashboard#unset_golf_course_admin'
+
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'

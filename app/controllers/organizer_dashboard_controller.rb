@@ -13,6 +13,18 @@ class OrganizerDashboardController < ApplicationController
     end
   end
 
+  def set_golf_course_admin
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"is_golf_course_admin" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_golf_course_admin
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"is_golf_course_admin" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def check_player_in
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"checked_in" => true})
