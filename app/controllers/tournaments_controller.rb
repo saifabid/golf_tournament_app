@@ -78,7 +78,7 @@ class TournamentsController < ApplicationController
       return
     end
 
-    # Redirects organizer to upload event profile pictures 
+    # Redirects organizer to upload event profile pictures
     redirect_to new_tournament_tournament_profile_picture_path(@tournament.id)
   end
 
@@ -187,7 +187,7 @@ class TournamentsController < ApplicationController
       # Logged in as a guest
       if params[:is_valid_guest]
         @show_signup_button = false
-        @is_valid_guest = params[:is_valid_guest] 
+        @is_valid_guest = params[:is_valid_guest]
       end
 
       if params[:is_valid_spectator]
@@ -197,7 +197,7 @@ class TournamentsController < ApplicationController
     end
 
     if @is_signed_up or @is_valid_guest
-      
+
       if @is_signed_up
         # Sign in user
         @curr_user = current_user.id
@@ -261,7 +261,7 @@ class TournamentsController < ApplicationController
       @silver_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 2).where("company_logo IS NOT NULL")
       @bronze_sponsors = TournamentSponsorship.where(tournament_id: params[:id]).where(sponsor_type: 3).where("company_logo IS NOT NULL")
     end
-    
+
   end
 
   def success
@@ -297,6 +297,8 @@ class TournamentsController < ApplicationController
       :venue_address,
       :venue_website,
       :venue_contact_details,
+      :contact_name,
+      :contact_email,
 
       :is_private,
       :start_date,
@@ -477,7 +479,7 @@ class TournamentsController < ApplicationController
     else
       searchTitle = "%"+params[:searchTitle]+"%"
     end
-    
+
     @has_agenda = TournamentEvent.where(tournament_id: params[:id]).exists?
     if @has_agenda
       @agenda = TournamentEvent.where(tournament_id: params[:id])

@@ -16,6 +16,10 @@
     </div>
       <%= f.check_box :is_private%>
       <br>
+    <h3>Personal Contact Information</h3>
+    <%= f.text_field :contact_name %>
+    <%= f.text_field :contact_email %>
+    <br>
     <h3>Venue Information</h3>
     <%= f.text_field :venue_name %>
     <%= f.file_field :venue_logo %>
@@ -114,7 +118,7 @@
   }
 
   // Hide/Show warning from checking off private event field
-  
+
   $("#tournament_is_private").click(function() {
     console.log('we in here?')
     if ($(this).is(":checked")) {
@@ -125,7 +129,7 @@
       $("#is_private_warning").hide()
     }
   })
-  
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJsI21_UkxTLQaDzxH0pev5nBdpErs-0k&libraries=places&callback=initAutocomplete"
         async defer></script>
