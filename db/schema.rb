@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128164432) do
+ActiveRecord::Schema.define(version: 20161129045426) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20161128164432) do
     t.integer  "score"
     t.integer  "guest_number"
     t.boolean  "org_view_public"
+    t.boolean  "is_golf_course_admin"
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
