@@ -49,6 +49,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def can_administer?
+      true
+  end
+
   private
   # override the devise helper to store the current location so we can
   # redirect to it after loggin in or out. This override makes signing in

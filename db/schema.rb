@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129061333) do
+ActiveRecord::Schema.define(version: 20161130001534) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -102,6 +102,44 @@ ActiveRecord::Schema.define(version: 20161129061333) do
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
+  end
+
+  create_table "rapidfire_answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "attempt_id"
+    t.integer  "question_id"
+    t.text     "answer_text", limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["attempt_id"], name: "index_rapidfire_answers_on_attempt_id", using: :btree
+    t.index ["question_id"], name: "index_rapidfire_answers_on_question_id", using: :btree
+  end
+
+  create_table "rapidfire_attempts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "survey_id"
+    t.string   "user_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["survey_id"], name: "index_rapidfire_attempts_on_survey_id", using: :btree
+    t.index ["user_id", "user_type"], name: "index_rapidfire_attempts_on_user_id_and_user_type", using: :btree
+  end
+
+  create_table "rapidfire_questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "survey_id"
+    t.string   "type"
+    t.string   "question_text"
+    t.integer  "position"
+    t.text     "answer_options",   limit: 65535
+    t.text     "validation_rules", limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["survey_id"], name: "index_rapidfire_questions_on_survey_id", using: :btree
+  end
+
+  create_table "rapidfire_surveys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "ticket_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
