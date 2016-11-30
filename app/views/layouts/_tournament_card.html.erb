@@ -1,0 +1,17 @@
+<div class="card">
+  <a href="<%=tournament_path(tournament)%>" data-turbolinks="false">
+    <div class="card-image">
+      <% if tournament.logo%><%= image_tag tournament.logo, :class=> 'img-responsive' %>
+      <% else %>
+          <%= image_tag "default-golf-logo.png", :class=> 'img-responsive' %>
+          </div>
+      <% end%>
+
+      <div class="card-title" >
+        <%= tournament.name %>
+
+      </div>
+
+      <div class="card-content"><em><%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %></em></div>
+      </a>
+  </div>
