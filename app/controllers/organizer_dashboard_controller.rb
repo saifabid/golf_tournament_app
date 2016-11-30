@@ -47,6 +47,18 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def set_golf_course_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"golf_course_csr" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_golf_course_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"golf_course_csr" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
   def set_company_rep
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"company_rep" => true})
