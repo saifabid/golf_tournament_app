@@ -56,10 +56,10 @@ Rails.application.routes.draw do
 
   post'organizer_dashboard/sendpassword/:id' => 'organizer_dashboard#send_password'
 
-  post 'organizer_dashboard/:id' => 'organizer_dashboard#survey_setup'
-  post 'organizer_dashboard/:id' => 'organizer_dashboard#survey_answers'
+  post 'organizer_dashboard/survey_setup'
+  post 'organizer_dashboard/survey_answers'
 
-  post 'tournaments/:id' => 'tournaments#answer_survey'
+  post 'tournaments/answer_survey'
 
   post'/tournaments/sponsorshipopportunites/:id' => 'tournaments#sponsor_signup'
 
