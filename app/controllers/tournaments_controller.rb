@@ -4,7 +4,7 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer_or_admin, only: [:show]
 
-  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features, :sponsors]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :information, :features, :sponsors]
 
   #before_action :check_paid, only: [:new]
 
@@ -466,8 +466,8 @@ class TournamentsController < ApplicationController
     @id = params[:id]
   end
 
-  def venue_information
-    @venue = Tournament.where(id: params[:id]).first()
+  def information
+    @tournament = Tournament.where(id: params[:id]).first()
   end
 
   def features
