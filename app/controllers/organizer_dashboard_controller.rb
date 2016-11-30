@@ -25,6 +25,17 @@ class OrganizerDashboardController < ApplicationController
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 
+  def set_company_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_csr" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_company_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_csr" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
   def check_player_in
     @player = Person.where("id = ?", params[:player_id])
     if !Person.where(sprintf("tournament_id = %s AND checked_in = true", @player.first.tournament_id)).exists?
