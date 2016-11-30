@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   end
 
   resources :organizer_payment
+  post 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#request_refund_email'
+  get 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#succcess_request_refund_email'
 
   get 'tournament/uploadimages' => 'tournaments#uploadimages'
   resources :signup, :except => [:show]
