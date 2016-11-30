@@ -9,7 +9,7 @@ class Tournament < ApplicationRecord
   has_many :tournament_sponsorships, dependent: :destroy
   has_many :people
 
-  validates_presence_of :name, :venue_address, :start_date
+  validates_presence_of :name, :venue_address, :start_date, :contact_name, :contact_email
   validates_numericality_of :total_player_tickets, :total_audience_tickets, :total_dinner_tickets, only_integer: true, greater_than_or_equal_to: 0
   validates_numericality_of :gold_sponsor_price, :silver_sponsor_price, :bronze_sponsor_price, :player_price,:spectator_price, :dinner_price, :foursome_price, :numericality => {:greater_than =>0}
   validate :start_date_is_not_past
