@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :sheets
 
   mount RailsAdmin::Engine => '/db_admin', as: 'rails_admin'
+  mount Rapidfire::Engine => "/rapidfire"
+
   get 'tournament_list/list'
   post 'tournament_list/list'
 
