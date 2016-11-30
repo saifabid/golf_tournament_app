@@ -109,7 +109,7 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/schedule', to: 'tournaments#schedule'
 
-  get 'tournaments/:id/venue_information', to: 'tournaments#venue_information'
+  get 'tournaments/:id/information', to: 'tournaments#information'
 
   get 'tournaments/:id/features', to: 'tournaments#features'
 

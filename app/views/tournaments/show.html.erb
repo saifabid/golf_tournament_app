@@ -65,8 +65,8 @@
 			<div class="col-md-1 col-spacing">
 				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
 				<%= button_to "Features", {:controller => "tournaments", :action => "features", :id => @id}, :method => "get" %>
-				<%= button_to "Venue Information", {:controller => "tournaments", :action => "venue_information", :id => @id}, :method => "get" %>
 				<%= button_to "Sponsors", {:controller => "tournaments", :action => "sponsors", :id => @id}, :method => "get" %>
+				<%= button_to "Information", {:controller => "tournaments", :action => "information", :id => @id}, :method => "get" %>
 			</div>
 			<div class="col-md-9">
 				<div class="center-text">
