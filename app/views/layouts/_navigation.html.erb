@@ -6,10 +6,10 @@
 
     <ul class="nav navbar-nav">
       <%= nav_link 'Home', root_path %>
-      <%= nav_link 'Tournaments', tournament_list_list_path %>
+      <%= nav_link 'Tournaments', main_app.tournament_list_list_path %>
       <% if user_signed_in? %>
-          <%= nav_link 'Dashboard', dashboard_index_path %>
-          <%= nav_link 'Create Tournament', new_tournament_path %>
+          <%= nav_link 'Dashboard', main_app.dashboard_index_path %>
+          <%= nav_link 'Create Tournament', main_app.new_tournament_path %>
           <% if current_user.is_admin? %>
               <%= nav_link 'Db Administration', rails_admin_path %>
           <% end %>
@@ -23,7 +23,7 @@
           <li><a href="/users/account">My Account</a></li>
           <li><%= nav_link 'My Orders', '/dashboard/my_orders' %>
 
-          <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %> </li>
+          <li> <%= link_to "Logout", main_app.destroy_user_session_path, :method => :delete %> </li>
 
       <% else %>
           <li><a href="/users/sign_in/">Login/Register</a></li>

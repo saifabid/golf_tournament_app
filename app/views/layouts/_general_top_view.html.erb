@@ -1,21 +1,7 @@
 <div class="center-block events-container">
       <% @top_tourneys.each do |tournament| %>
-    <div class="col-md-2 col-sm-8 col-xs-8">
-      <a href="<%=tournament_path(tournament)%>" data-turbolinks="false">
-      <div class="card">
-
-        <div class="card-image">
-          <% if tournament.logo%><%= image_tag tournament.logo, :class=> 'img-responsive' %>
-          <% else %>
-              <%= image_tag "default-golf-logo.png", :class=> 'img-responsive' %>
-              </div>
-              <% end%>
-
-      <div class="card-title" >
-        <%= tournament.name %>
-        </div>
-        </div>
-      </a>
+    <div class="col-md-2 col-sm-8 col-xs-8 col-sm-8-offset-2 col-xs-8-offset-2">
+      <%= render "layouts/tournament_card", :tournament=> tournament%>
       </div>
   <% end %>
 </div>

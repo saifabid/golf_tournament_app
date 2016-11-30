@@ -1,88 +1,82 @@
 <div class="center-block events-container">
-     <!-- dropdown form -->
+  <!-- dropdown form -->
   <%= form_tag(@form_url, method: "get") do %>
-    <%= hidden_field_tag(:q) %>
-    <%= hidden_field_tag(:client_ip) %>
-    <%= hidden_field_tag(:client_lat) %>
-    <%= hidden_field_tag(:client_lng) %>
- 
+      <%= hidden_field_tag(:q) %>
+      <%= hidden_field_tag(:client_ip) %>
+      <%= hidden_field_tag(:client_lat) %>
+      <%= hidden_field_tag(:client_lng) %>
 
-    <%= label_tag(:searchTitle, "Title:") %>
-    <%= text_field_tag(:searchTitle, @searchTitleFlash) %>
+      <div class="row">
+        <div class="col-md-3">
+          <%= label_tag(:searchTitle, "Title:") %><br>
+          <%= text_field_tag(:searchTitle, @searchTitleFlash) %>
+        </div>
+        <div class="col-md-3">
+          <%= label_tag(:searchStart, "Start date:") %><br>
+          <%= text_field_tag(:searchStart, @searchStartFlash) %>
+        </div>
+        <div class="col-md-3">
+          <%= label_tag(:searchDistance, "Distance (km):S") %><br>
+          <%= text_field_tag(:searchDistance, @searchDistanceFlash) %>
+        </div>
+        <div class="col-md-3">
+          <%= label_tag  "Sort By:" %><br>
+          <select class="form-control" id="dropdownSelect" onchange="getSort()">
+            <option value="1">Ascending Start Date</option>
+            <option value="2">Decending Start Date</option>
+            <option value="3">Ascending Title</option>
+            <option value="4">Descending Title</option>
+            <option value="5">Ascending Distance</option>
+          </select>
+        </div>
 
-    <%= label_tag(:searchStart, "Start date:") %>
-    <%= text_field_tag(:searchStart, @searchStartFlash) %>
+        <div class="col-md-1">   <%= submit_tag "Search", :class => 'btn-default btn' %></div>
 
-    <%= label_tag(:searchDistance, "Distance (km)") %>
-    <%= text_field_tag(:searchDistance, @searchDistanceFlash) %>
+      </div>
+      <br>
 
-    <%= submit_tag "Search", :class=> 'btn-default btn' %>
 
-    <select class="form-control" id = "dropdownSelect" onchange="getSort()">
-      <option value="1">Ascending Start Date</option>
-      <option value="2">Decending Start Date</option>
-      <option value="3">Ascending Title</option>
-      <option value="4">Descending Title</option>
-      <option value="5">Ascending Distance</option>
-    </select>
-
-    <script>
-      function getSort() {
+      <script>
+        function getSort() {
           var mySelect = document.getElementById("dropdownSelect");
           document.getElementById("q").value = mySelect.value;
-      }
+        }
 
-      function getIP() {
-          $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+        function getIP() {
+          $.getJSON('//freegeoip.net/json/?callback=?', function (data) {
             var client_ip = data.ip;
             var client_lat = data.latitude
             var client_lng = data.longitude;
             document.getElementById("client_ip").value = client_ip;
             document.getElementById("client_lat").value = client_lat;
             document.getElementById("client_lng").value = client_lng;
-        });
-      }
+          });
+        }
 
-      getSort()
-      getIP()
-    </script>
+        getSort()
+        getIP()
+      </script>
 
-    <script type="text/javascript">
-      function toggle_visibility(id, hide_id) {
-         var e = document.getElementById(id);
-         if(e.style.display == 'block')
+      <script type="text/javascript">
+        function toggle_visibility(id, hide_id) {
+          var e = document.getElementById(id);
+          if (e.style.display == 'block')
             e.style.display = 'none';
-         else
+          else
             e.style.display = 'block';
 
-         var h = document.getElementById(hide_id);
+          var h = document.getElementById(hide_id);
 
-         //change text value
-         h.innerHTML = (h.innerHTML.toUpperCase() == 'SHOW DETAILS') ? 'Hide Details' : 'Show Details' ;
-      }
-    </script>
+          //change text value
+          h.innerHTML = (h.innerHTML.toUpperCase() == 'SHOW DETAILS') ? 'Hide Details' : 'Show Details';
+        }
+      </script>
 
   <% end %>
-  
-      <% @tournaments.each do |tournament| %>
-    <tr>
-      <div class="content-card-title">
-        <%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %>
+
+  <% @tournaments.each do |tournament| %>
+      <div class="col-md-2 col-sm-8 col-xs-8 col-sm-8-offset-2 col-xs-8-offset-2">
+        <%= render "layouts/tournament_card", :tournament => tournament %>
       </div>
-      <div class="content-card">
-        <td>
-         
-        <%= link_to tournament.name, tournament_path(tournament), data: { turbolinks: false } %>
-        </td>
-        <br />
-        <% if !tournament.details.blank? %>
-          <a id= "hide-<%=tournament.id%>" href="" onclick="toggle_visibility('details-<%=tournament.id%>','hide-<%=tournament.id%>');return false">Show Details</a>
-          <div id="details-<%=tournament.id%>" style="display:none">
-              <td><%= tournament.details %></td>
-          </div>
-        <% else %>
-        <% end %>
-      </div>
-    </tr>
   <% end %>
 </div>

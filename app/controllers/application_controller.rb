@@ -22,13 +22,13 @@ class ApplicationController < ActionController::Base
         account = Account.where("user_id = ?", parent_player.user_id).first
         user = User.where("id = ?", parent_player.user_id).first
         ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player]
-        @all_tournament_players.append(ac)
+        @all_tournament_players.push(ac)
+        i = 0;
         all_guests.each do |guest_player|
           if guest_player.guest_of == parent_player.user_id then
-            ac["is_guest"] = true
-            ac["guest_number"] = ac["guest_number"] + 1
-            ac["player"] = guest_player
-            @all_tournament_players.append(ac)
+            ac = Hash["account" => account, "email" => user.email, "is_guest" => true, "guest_number" => i+1, "player" => guest_player]
+            @all_tournament_players.push(ac)
+            i = i + 1;
           end
         end
       end
@@ -47,6 +47,10 @@ class ApplicationController < ActionController::Base
       redirect_to sprintf("/tournaments/%s", params[:id])
       return
     end
+  end
+
+  def can_administer?
+      true
   end
 
   private
