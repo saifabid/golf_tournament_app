@@ -13,6 +13,16 @@ class OrganizerDashboardController < ApplicationController
     end
   end
 
+  def survey_setup
+    @person = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
+    redirect_to sprintf("/rapidfire/surveys/%d/questions", @person.survey_admin)
+  end
+
+  def survey_answers
+    @person = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
+    redirect_to sprintf("/rapidfire/surveys/%d/answers", @person.survey_admin)
+  end
+
   def set_golf_course_admin
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"is_golf_course_admin" => true})

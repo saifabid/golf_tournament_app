@@ -53,7 +53,15 @@ class ApplicationController < ActionController::Base
   end
 
   def can_administer?
+    @person = Person.where("user_id = ? AND is_organizer = 1 AND survey_admin = ?", current_user.id, params[:survey_id])
+    @results = Person.where("user_id = ? AND is_organizer = 1 AND survey_admin = ?", current_user.id, params[:id])
+    puts @person.inspect
+
+    if @person.exists? || @results.exists?
       true
+    else
+      false
+    end
   end
 
   private

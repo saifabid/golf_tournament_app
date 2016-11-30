@@ -127,7 +127,7 @@ class Resend < ApplicationRecord
     @subject = "Outstanding Balance for #{@tournament.name}"
 
     @body = "Dear Organizer,\n\nThere is an outstanding balance for #{@tournament.name}, please go to the following link and make the required payment. Note you will not be able to pay until the tournament has started.\n\n
-              https://www.http://golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
+              https://www.golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
             Thanks,\nXXX Administration"
 
     from = Email.new(email: "admin@golftournamentapp.com")

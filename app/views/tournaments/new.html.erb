@@ -36,7 +36,7 @@
       <%= f.number_field :dinner_price, :step=>:any%>
       <%= f.number_field :spectator_price, :step=>:any%>
       <%= f.number_field :foursome_price, :step=>:any%>
-      <h4>Sponsor Options</h4>
+      <h3>Sponsor Options</h3>
 
 
       <%= f.number_field :gold_sponsor_price,:step=>:any%>
@@ -46,6 +46,9 @@
       <%= f.number_field :bronze_sponsor_price, :step=>:any%>
       <%= f.text_area :bronze_sponsor_desc %>
 
+      <h3>Player Questionnaire (Optional)</h3>
+      <%= f.check_box :player_questionnaire %>
+      <%= f.text_field :questionnaire_name %>
 
     <br>
 
