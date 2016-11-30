@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   post 'organizer_dashboard/:id/player/:player_id/set_company_csr' => 'organizer_dashboard#set_company_csr'
   post 'organizer_dashboard/:id/player/:player_id/unset_company_csr' => 'organizer_dashboard#unset_company_csr'
 
+  post 'organizer_dashboard/:id/player/:player_id/set_company_rep' => 'organizer_dashboard#set_company_rep'
+  post 'organizer_dashboard/:id/player/:player_id/unset_company_rep' => 'organizer_dashboard#unset_company_rep'
+
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
   post'organizer_dashboard/:id/player/:player_id/email' => 'organizer_dashboard#send_player_email'
