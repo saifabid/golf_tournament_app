@@ -10,6 +10,7 @@
       <th> </th>
       <th> </th>
       <th> </th>
+      <th> </th>
   </thead>
   <tbody>
    <% users.each do |user|%>
@@ -80,6 +81,14 @@
             <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
         <% else %>
             <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% end %>
+      </td>
+
+      <td>
+        <% if user["player"].golf_course_csr != true %>
+            <%= button_to 'Set GolfCourse CSR', {controller: "organizer_dashboard", action: "set_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% else %>
+            <%= button_to 'Unset GolfCourse CSR', {controller: "organizer_dashboard", action: "unset_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
         <% end %>
       </td>
 
