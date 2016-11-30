@@ -1,0 +1,48 @@
+<style type="text/css">	
+	.style_image {
+		width: 400px;
+		height: 300px;
+	}
+	.center-text{
+			text-align: center
+		}
+</style>
+<div class="center-text">
+<h1> Venue Information </h1>
+<% if @tournament.venue_name.length > 0 %>
+<h2>
+	<%=@tournament.venue_name%>
+</h2>
+<% end %>
+
+<% if @tournament.venue_logo %>
+<img src=<%= @tournament.venue_logo %> class="style_image" >
+<% end %>
+
+<% if @tournament.venue_address.length > 0 %>
+<h3>
+	Located @ <%=@tournament.venue_address%>!
+</h3>
+<% end %>
+
+<% if @tournament.venue_website.length > 0 %>
+<h3>
+	Visit us @ <%=@tournament.venue_website%>
+</h3>
+<% end %>
+
+<% if @tournament.venue_contact_details.length > 0 %>
+<h3>
+	Need to contact us? <%=@tournament.venue_contact_details%>
+</h3>
+<% end %>
+
+<h1> Organizer Information </h1>
+<h3>
+	Name: <%=@tournament.contact_name%>
+</h3>
+<h3>
+Email: <%=@tournament.contact_email%>
+</h3>
+
+</div>

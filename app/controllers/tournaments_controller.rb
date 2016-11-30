@@ -4,13 +4,25 @@ class TournamentsController < ApplicationController
   end
   before_action :check_tournament_organizer_or_admin, only: [:show]
 
-  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :venue_information, :features, :sponsors]
+  before_action :check_private_event, only: [:show, :check_in, :check_in_fail, :guest_login, :guest_login_fail, :schedule, :information, :features, :sponsors]
 
   #before_action :check_paid, only: [:new]
 
   def index
     redirect_to "/"
   end
+
+  def request_refund_email
+    tournament = Tournament.where("id = ?", params[:tournament_id]).first
+    requester = User.where("id = ?", params[:id]).first
+    Resend.send_refund_request_email(tournament.contact_email, requester.email, tournament.name)
+    render :successful_request_refund_email
+  end
+
+  def successful_request_refund_email
+    render :successful_request_refund_email
+  end
+
   def check_private_event
     session[:private_event_logged_in] ||= []
     if Tournament.where(id: params[:id]).where(:is_private => 1).exists? and !session[:private_event_logged_in].include? params[:id]
@@ -466,8 +478,8 @@ class TournamentsController < ApplicationController
     @id = params[:id]
   end
 
-  def venue_information
-    @venue = Tournament.where(id: params[:id]).first()
+  def information
+    @tournament = Tournament.where(id: params[:id]).first()
   end
 
   def features

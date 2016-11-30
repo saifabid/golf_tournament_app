@@ -23,7 +23,11 @@ Rails.application.routes.draw do
     resources :tournament_sponsorships
   end
 
+  get 'switch_user', to: 'switch_user#set_current_user'
+  get 'switch_user/remember_user', to: 'switch_user#remember_user'
   resources :organizer_payment
+  post 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#request_refund_email'
+  get 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#succcess_request_refund_email'
 
   get 'tournament/uploadimages' => 'tournaments#uploadimages'
   resources :signup, :except => [:show]
@@ -38,6 +42,12 @@ Rails.application.routes.draw do
   post'organizer_dashboard/:id/player/:player_id/check_out' => 'organizer_dashboard#check_player_out'
   post 'organizer_dashboard/:id/player/:player_id/set_golf_course_admin' => 'organizer_dashboard#set_golf_course_admin'
   post 'organizer_dashboard/:id/player/:player_id/unset_golf_course_admin' => 'organizer_dashboard#unset_golf_course_admin'
+
+  post 'organizer_dashboard/:id/player/:player_id/set_company_csr' => 'organizer_dashboard#set_company_csr'
+  post 'organizer_dashboard/:id/player/:player_id/unset_company_csr' => 'organizer_dashboard#unset_company_csr'
+
+  post 'organizer_dashboard/:id/player/:player_id/set_company_rep' => 'organizer_dashboard#set_company_rep'
+  post 'organizer_dashboard/:id/player/:player_id/unset_company_rep' => 'organizer_dashboard#unset_company_rep'
 
   post'organizer_dashboard/:id/player/:player_id/status/admin/accept' => 'organizer_dashboard#set_player_admin'
   post'organizer_dashboard/:id/player/:player_id/status/admin/reject' => 'organizer_dashboard#remove_player_admin'
@@ -107,7 +117,7 @@ Rails.application.routes.draw do
 
   get 'tournaments/:id/schedule', to: 'tournaments#schedule'
 
-  get 'tournaments/:id/venue_information', to: 'tournaments#venue_information'
+  get 'tournaments/:id/information', to: 'tournaments#information'
 
   get 'tournaments/:id/features', to: 'tournaments#features'
 

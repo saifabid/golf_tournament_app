@@ -8,6 +8,8 @@
       <th> </th>
       <th> </th>
       <th> </th>
+      <th> </th>
+      <th> </th>
   </thead>
   <tbody>
    <% users.each do |user|%>
@@ -37,7 +39,7 @@
         <% end %>
       </td>
       <td>
-        <%= user["player"].group_number %>
+        <%= user["group_number"] %>
       </td>
       <td>
         <%= render "organizer_dashboard/send_email_modal", user: user %>
@@ -64,6 +66,23 @@
           <%= button_to 'Unset GolfCourse Admin', {controller: "organizer_dashboard", action: "unset_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
         <% end %>
       </td>
+
+      <td>
+        <% if user["player"].company_csr != true %>
+            <%= button_to 'Set Company CSR', {controller: "organizer_dashboard", action: "set_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% else %>
+            <%= button_to 'Unset Company CSR', {controller: "organizer_dashboard", action: "unset_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% end %>
+      </td>
+
+      <td>
+        <% if user["player"].company_rep != true %>
+            <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+        <% else %>
+            <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+        <% end %>
+      </td>
+
 
       <!-- Only see the ability to make users admins if organizer  -->
       <% if current_player.is_organizer == true %>

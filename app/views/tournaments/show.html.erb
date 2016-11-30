@@ -65,8 +65,8 @@
 			<div class="col-md-1 col-spacing">
 				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
 				<%= button_to "Features", {:controller => "tournaments", :action => "features", :id => @id}, :method => "get" %>
-				<%= button_to "Venue Information", {:controller => "tournaments", :action => "venue_information", :id => @id}, :method => "get" %>
 				<%= button_to "Sponsors", {:controller => "tournaments", :action => "sponsors", :id => @id}, :method => "get" %>
+				<%= button_to "Information", {:controller => "tournaments", :action => "information", :id => @id}, :method => "get" %>
 			</div>
 			<div class="col-md-9">
 				<div class="center-text">
@@ -159,12 +159,17 @@
 				<%= button_to "Are you someone's Guest or a Spectator?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
 				<% end %>
 				<%= render_shareable :buttons=> ['twitter', 'linkedin']%>
-				
+
 				<a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share on Facebook</a>
 
 				<%= render('layouts/silver_sponsor_slideshow') %>
 			</div>
 		</div>
+  <div>
+    <% if @is_signed_up  %>
+  <%= link_to "Request A Refund", {:controller => "tournaments", :action => "request_refund_email", :id => current_user.id, :tournament_id => params[:id]}, :method => "post" %>
+    <% end %>
+  </div>
 	</body>
 </html>
 <script>
