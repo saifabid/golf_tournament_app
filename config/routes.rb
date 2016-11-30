@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :tournament_sponsorships
   end
 
+  get 'switch_user', to: 'switch_user#set_current_user'
+  get 'switch_user/remember_user', to: 'switch_user#remember_user'
   resources :organizer_payment
   post 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#request_refund_email'
   get 'tournament/:tournament_id/player/:id/request_refund_email' => 'tournaments#succcess_request_refund_email'

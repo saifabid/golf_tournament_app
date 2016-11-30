@@ -1,7 +1,9 @@
 <%= render 'layouts/link_back_to_event_page' %>
 
 <div align="right">
-  	<h3>Want administrator style access?</h3>
+  <%= switch_user_select class: 'special-select', styles: 'width: 220px' %>
+
+  <h3>Want administrator style access?</h3>
 
   	<form method="post" action="mailto:csc444golf@gmail.com" >
   		<input type="submit" value="Send request" /> 

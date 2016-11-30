@@ -282,6 +282,7 @@ GEM
       sprockets (>= 3.0.0)
     stripe (1.56.2)
       rest-client (>= 1.4, < 4.0)
+    switch_user (1.4.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -357,6 +358,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   stripe
+  switch_user
   therubyracer
   turbolinks (~> 5)
   tzinfo-data
