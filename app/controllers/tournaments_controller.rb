@@ -11,6 +11,18 @@ class TournamentsController < ApplicationController
   def index
     redirect_to "/"
   end
+
+  def request_refund_email
+    tournament = Tournament.where("id = ?", params[:tournament_id]).first
+    requester = User.where("id = ?", params[:id]).first
+    Resend.send_refund_request_email(tournament.contact_email, requester.email, tournament.name)
+    render :successful_request_refund_email
+  end
+
+  def successful_request_refund_email
+    render :successful_request_refund_email
+  end
+
   def check_private_event
     session[:private_event_logged_in] ||= []
     if Tournament.where(id: params[:id]).where(:is_private => 1).exists? and !session[:private_event_logged_in].include? params[:id]
