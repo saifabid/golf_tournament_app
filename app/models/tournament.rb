@@ -21,12 +21,23 @@ class Tournament < ApplicationRecord
     end
   end
 
+  def questionnaire_settings
+    if player_questionnaire == true && !questionnaire_name.present?
+      errors.add(:questionnaire_name, "Please specify the questionnaire name")
+      return
+    end
+
+    if player_questionnaire == false && questionnaire_name.present?
+      errors.add(:player_questionnaire, "Please select you would like a questionnaire available to players")
+    end
+  end
+
   def total_ticket_num
     @total_tickets = 0
 
     if(total_player_tickets.present?)
       if(total_player_tickets > 144)
-        errors.add(:total_player_tickets, "Total number of tickets can't be greater than 144")
+        errors.add(:total_player_tickets, "Number of tickets can't be greater than 144")
         return
       end
       @total_tickets += total_player_tickets
@@ -34,7 +45,7 @@ class Tournament < ApplicationRecord
 
     if(total_audience_tickets.present?)
       if(total_audience_tickets > 144)
-        errors.add(:total_audience_tickets, "Total number of tickets can't be greater than 144")
+        errors.add(:total_audience_tickets, "Number of tickets can't be greater than 144")
         return
       end
       @total_tickets += total_audience_tickets
@@ -42,16 +53,16 @@ class Tournament < ApplicationRecord
 
     if(total_dinner_tickets.present?)
       if(total_dinner_tickets > 144)
-        errors.add(:total_dinner_tickets, "Total number of tickets can't be greater than 144")
+        errors.add(:total_dinner_tickets, "Number of tickets can't be greater than 144")
         return
       end
       @total_tickets += total_dinner_tickets
     end
 
     if(@total_tickets > 144)
-      errors.add(:total_dinner_tickets, "Total number of tickets can't be greater than 144")
-      errors.add(:total_player_tickets, "Total number of tickets can't be greater than 144")
-      errors.add(:total_audience_tickets, "Total number of tickets can't be greater than 144")
+      errors.add(:total_dinner_tickets, "Total number of tickets for the tournament can't be greater than 144")
+      errors.add(:total_player_tickets, "Total number of tickets for the tournament can't be greater than 144")
+      errors.add(:total_audience_tickets, "Total number of tickets for the tournament can't be greater than 144")
     end
   end
 

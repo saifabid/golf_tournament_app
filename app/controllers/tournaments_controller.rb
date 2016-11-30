@@ -42,6 +42,11 @@ class TournamentsController < ApplicationController
 
   end
 
+  def answer_survey
+    @admin = Person.where("tournament_id = ? AND is_organizer = 1", params[:id]).first
+    redirect_to sprintf("/rapidfire/surveys/%d/attempts/new", @admin.survey_admin)
+  end
+
   def check_paid
     @user_check = Tournament.joins("INNER JOIN people ON people.tournament_id = tournaments.id").where("
                                     people.user_id = #{current_user.id} AND tournaments.organizer_paid != 1
@@ -97,7 +102,10 @@ class TournamentsController < ApplicationController
       return
     end
 
-    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false})
+    Rapidfire::Survey.create(:name => @tournament.questionnaire_name)
+    @survey = Rapidfire::Survey.last
+
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false, survey_admin: @survey.id})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
       if @profile_pic_public_ids.length > 0
         Image.delete_by_ids @profile_pic_public_ids
@@ -345,7 +353,9 @@ class TournamentsController < ApplicationController
       :bronze_sponsor_price,
       :bronze_sponsor_desc,
       :spectator_price,
-      :foursome_price
+      :foursome_price,
+      :player_questionnaire,
+      :questionnaire_name
     )
   end
 
