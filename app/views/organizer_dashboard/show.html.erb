@@ -54,6 +54,8 @@
 
   <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get %>
 
+  <%= render_shareable :buttons=> ['twitter', 'linkedin'], :url => request.original_url.sub('organizer_dashboard', 'tournaments')%>
+
 </div>
 
 <% if @is_private == true %>
