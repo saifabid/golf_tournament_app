@@ -255,6 +255,8 @@ ActiveRecord::Schema.define(version: 20161130072543) do
     t.boolean  "organizer_paid"
     t.string   "contact_name"
     t.string   "contact_email"
+    t.boolean  "player_questionnaire"
+    t.string   "questionnaire_name"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
