@@ -35,11 +35,13 @@ class WelcomeController < ApplicationController
 
     if params[:client_lat].blank? or params[:client_lng].blank?
       #if we were unable to get the lat & long, hard code to SF building as centre point
-      clientLat = 43.6600236 
-      clientLng = -79.396231
+      clientLat = session[:client_lat]
+      clientLng = session[:client_lng]
     else
       clientLat = params[:client_lat]
       clientLng = params[:client_lng]
+      session[:client_lat] = clientLat
+      session[:client_lng] = clientLng
     end
 
   	@events = Tournament.where("start_date >= NOW()").where("is_private = '0'")
