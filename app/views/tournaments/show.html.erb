@@ -147,19 +147,7 @@
     </div>
 <% end %>
 
-<% if @sponsor_accounts.present? %>
-    <div>
-      <div>Sponsored By:</div>
-      <% @sponsor_accounts.each do |sponsor_account| -%>
 
-          <%= sponsor_account.first_name %> <%= sponsor_account.last_name %> ID(<%= sponsor_account.user_id %>):
-          <% if sponsor_account.profile_pic.present? %>
-              <img src=<%= sponsor_account.profile_pic %>>
-          <% end %>
-      <% end -%>
-    </div>
-    <br>
-<% end %>
 
 <div class="col-md-8">
   <div class="countdown center-text">
@@ -180,17 +168,27 @@
             <%= @email %>
         <% end %>
     <% end %>
-
-
-
-
-
-
-
     <%= render('layouts/silver_sponsor_slideshow') %>
   </div>
 </div>
 
+
+<% if @sponsor_accounts.present? %>
+    <div class="row">
+      <h3>Sponsored By:</h3>
+      <% @sponsor_accounts.each do |sponsor_account| -%>
+          <div class="col-md-4">
+            <%= sponsor_account.first_name %> <%= sponsor_account.last_name %> ID(<%= sponsor_account.user_id %>):
+            <% if sponsor_account.profile_pic.present? %>
+                <img src="<%= sponsor_account.profile_pic %>" class="img-responsive">
+            <% end %>
+          </div>
+      <% end %>
+
+    </div>
+    <br>
+
+<% end %>
 <script>
   function fbShare(url, title, descr, image, winWidth, winHeight) {
     var winTop = (screen.height / 2) - (winHeight / 2);
