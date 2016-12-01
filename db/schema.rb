@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130072543) do
+ActiveRecord::Schema.define(version: 20161130231710) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20161130072543) do
     t.boolean  "company_rep"
     t.boolean  "company_csr"
     t.integer  "survey_admin"
+    t.boolean  "golf_course_csr"
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_people_on_user_id", using: :btree
