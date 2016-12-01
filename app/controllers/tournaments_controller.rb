@@ -319,6 +319,7 @@ class TournamentsController < ApplicationController
       redirect_to @tournament
     else
       Rails.logger.info(@tournament.errors.messages.inspect)
+      render :edit
     end
   end
 
