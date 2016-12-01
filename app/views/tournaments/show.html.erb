@@ -32,7 +32,7 @@
 
 
 		<div class="row">
-      <div class="col-md-9">
+      <div class="col-md-12">
         <div class="text-center">
           <% if @tournament.logo.present? %>
               <img src=<%= @tournament.logo %> class="style_image" >
@@ -41,12 +41,12 @@
             <h2><%=@tournament.name%></h2>
           </div>
         </div>
-      </div>
-
-
-      <div class="col-md-8">
         <%= render('layouts/event_slideshow') %>
       </div>
+
+
+<br>
+
 
       <div class="col-md-9">
         <div class="list-group">
@@ -79,6 +79,7 @@
 
           </div>
           </div>
+
       <br>
       <%= render('layouts/general_map_view') %>
     </div>
@@ -107,7 +108,7 @@
                  <%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
              <%end%>
              <% if @show_signup_button and not @no_group_need_to_buy_tickets and not @buy_additional_tickets%>
-                 <%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
+                 <%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get ,:class=>'btn btn-default' %>
              <% end %>
          <%end%>
          <%= render "tournaments/sponsor_opportunities_modal" %>
