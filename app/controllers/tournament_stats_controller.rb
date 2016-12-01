@@ -5,6 +5,42 @@ class TournamentStatsController < ApplicationController
 
   def show
     calculate
+
+    dict = {}
+    @counter = 0
+    Person.where(tournament_id: params[:id]).find_each do |person|
+      if person.ticket_number
+        if dict[person.created_at.to_date].nil?
+          if kind_of(person) != "ignore"
+            dict[person.created_at.to_date] = Hash[kind_of(person) => 1]
+          end
+        else
+          if dict[person.created_at.to_date][kind_of(person)].nil?
+            if kind_of(person) != "ignore"
+              dict[person.created_at.to_date].update(kind_of(person) => 1)
+            end
+          else
+            puts kind_of(person)
+            dict[person.created_at.to_date][kind_of(person)] += 1
+          end
+        end
+      end
+    end
+    puts '=================='
+    puts dict
+    puts '=================='
+  end
+
+  def kind_of(person)
+    if person.is_player == true
+      return "players"
+    elsif person.is_spectator == true
+      return "spectators"
+    elsif person.is_dinner == true
+      return "dinners"
+    else
+      return "ignore"
+    end
   end
 
   def download_pdf
