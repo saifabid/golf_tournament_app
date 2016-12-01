@@ -39,4 +39,5 @@
 	Net: $<%= @net %>
   <br/>
   <br/>
-<a href="//pdfcrowd.com/url_to_pdf/">Save Stats To PDF</a>
+
+<%= link_to "Download PDF", {:controller => "tournament_stats", :action => "download_pdf"} %>

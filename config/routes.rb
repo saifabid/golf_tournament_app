@@ -115,6 +115,8 @@ Rails.application.routes.draw do
 
   get 'tournament_stats/:id', to: 'tournament_stats#show'
 
+  get 'tournament_stats/:id/data.pdf', to: 'tournament_stats#download_pdf'
+
   get 'tournaments/:id/edit', to: 'tournaments#edit'
 
   get 'tournaments/:id/guest_login', to: 'tournaments#guest_login'
