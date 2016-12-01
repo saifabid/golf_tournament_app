@@ -28,10 +28,6 @@
       <% end %>
     <% end %>
   </div>
-</div>
-
-
-		<div class="row">
       <div class="col-md-10 col-centered">
         <div class="text-center">
           <% if @tournament.logo.present? %>
@@ -48,10 +44,11 @@
 <br>
 
 
-      <div class="col-md-7 col-md-offset-1">
-        <div class="list-group">
-          <% if @tournament.details.present? %>
 
+      <div class="col-md-7 col-md-offset-1">
+
+          <% if @tournament.details.present? %>
+            <div class="list-group">db
               Description:
 
               <%=@tournament.details%>
@@ -78,7 +75,7 @@
 
 
           </div>
-          </div>
+
 
       <br>
       <%= render('layouts/general_map_view') %>
@@ -157,6 +154,7 @@
 
 
     </div>
+   <div class="row">
    <div class="col-md-2 col-spacing">
      <% if !@is_valid_guest %>
          <% if @profile_pic %>
@@ -173,13 +171,9 @@
 
 
 
+
      <%= render('layouts/silver_sponsor_slideshow') %>
    </div>
-   </div>
-   <div>
-     <% if @is_signed_up  %>
-         <%= link_to "Request A Refund", {:controller => "tournaments", :action => "request_refund_email", :id => current_user.id, :tournament_id => params[:id]}, :method => "post" %>
-     <% end %>
    </div>
 
    <script>
@@ -189,5 +183,5 @@
            window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
        }
    </script>
-    </div>
+
 
