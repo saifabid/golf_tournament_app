@@ -13,6 +13,11 @@
     <%= f.text_area :details %>
     <%= f.datetime_field :start_date %>
     <br>
+    <br>
+    <h3>Personal Contact Information</h3>
+    <%= f.text_field :contact_name %>
+    <%= f.text_field :contact_email %>
+    <br>
     <h3>Venue Information</h3>
     <%= f.text_field :venue_name %>
     <%= f.file_field :venue_logo %>
@@ -28,6 +33,7 @@
 
     <%= f.number_field :player_price%>
     <%= f.number_field :spectator_price%>
+    <%= f.number_field :dinner_price, :step=>:any%>
     <%= f.number_field :foursome_price%>
     <h4>Sponsor Options</h4>
 
