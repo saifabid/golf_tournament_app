@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :sheets
-
+  post 'sheets/edit' => "sheets#update"
   mount RailsAdmin::Engine => '/db_admin', as: 'rails_admin'
   mount Rapidfire::Engine => "/rapidfire"
 
@@ -88,8 +88,8 @@ Rails.application.routes.draw do
 
   post 'welcome/hello_world'
 
-  post 'organizer_dashboard/:id' => 'organizer_dashboard#view_public'
-  post 'tournaments/:id' => 'tournaments#return_to_org_dash'
+  post 'organizer_dashboard/view_public'
+  post 'tournaments/return_to_org_dash'
 
   get "welcome/hello_world" => "welcome#hello_world"
 
