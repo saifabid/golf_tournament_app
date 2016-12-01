@@ -6,7 +6,7 @@
     <% @groups.each do |key, value|  %>
       <table class="table table-bordered">
         <thead>
-          <th>Group <%= key %> | Time: <%= value[0] =%> - <%= value[1] =%> </th>
+          <th unique_group_id = "<%= key %>">Group <%= key %> | Time: <%= value[0] =%> - <%= value[1] =%> </th>
         </thead>
         <tbody class = "connectedSortable" id="values" >
           <% @all_tournament_players.each do |user|%>
@@ -47,6 +47,7 @@
 var group_and_users = {}
 var not_needed = {}
 
+sent = false;
 $(".connectedSortable")
         .sortable({
         connectWith: ".connectedSortable",
@@ -60,7 +61,7 @@ $(".connectedSortable")
     });
     $(".edit_tsheets").click(function(){ 
       $("#values tr td").each(function() {
-          var g_id = $(this).attr("unique_group_id");
+          var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("user_id");
           if (g_id in group_and_users){
             group_and_users[g_id].push(u_id)
@@ -73,9 +74,9 @@ $(".connectedSortable")
       }); 
 
       $("#novalues tr td").each(function() {
-          var g_id = $(this).attr("unique_group_id");
+          var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("user_id");
-          if (typeof g_id != 'undefined'){
+          if (typeof u_id != 'undefined'){
             if (g_id in not_needed){
               not_needed[g_id].push(u_id)
             }
@@ -83,16 +84,23 @@ $(".connectedSortable")
                not_needed[g_id] = []
                not_needed[g_id].push(u_id)
             }
-            }
+          }
       });
 
-        var saveData = $.ajax({
+      post_ajax(group_and_users, not_needed);
+        
+      
+    });
+
+    function post_ajax(group_and_users, not_needed){
+      $.ajax({
               type: 'POST',
               url: "/sheets/edit/",
               data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>"}),
               dataType: "json",
         });
-    });
+
+    }
 
 </script>
   
