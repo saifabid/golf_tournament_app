@@ -303,6 +303,7 @@ class TournamentsController < ApplicationController
 
   def update
     @tournament = Tournament.find(params[:id])
+    @id = params[:id]
 
     @tickets_left = @tournament.tickets_left + (tournament_params[:total_player_tickets].to_i - @tournament.total_player_tickets)
     @dinner_tickets_left = @tournament.dinner_tickets_left + (tournament_params[:total_dinner_tickets].to_i - @tournament.total_dinner_tickets)

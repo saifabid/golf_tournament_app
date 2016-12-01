@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 20161130231710) do
     t.integer  "member_four"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.time     "start"
+    t.time     "end"
   end
 
   create_table "people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -99,9 +101,9 @@ ActiveRecord::Schema.define(version: 20161130231710) do
     t.integer  "guest_number"
     t.boolean  "org_view_public"
     t.boolean  "is_golf_course_admin"
-    t.integer  "survey_admin"
     t.boolean  "company_rep"
     t.boolean  "company_csr"
+    t.integer  "survey_admin"
     t.boolean  "golf_course_csr"
     t.index ["ticket_transaction_id"], name: "index_people_on_ticket_transaction_id", using: :btree
     t.index ["tournament_id"], name: "index_people_on_tournament_id", using: :btree
