@@ -20,7 +20,7 @@ class OrganizerDashboardController < ApplicationController
 
   def survey_answers
     @person = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
-    redirect_to sprintf("/rapidfire/surveys/%d/answers", @person.survey_admin)
+     redirect_to sprintf("/rapidfire/surveys/%d/results", @person.survey_admin)
   end
 
   def set_golf_course_admin

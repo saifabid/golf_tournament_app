@@ -24,9 +24,9 @@
 <% end %>
 
 <% if @tournament.player_questionnaire %>
-    <%= link_to "Setup your Survey", {:controller => 'organizer_dashboard', :action => 'survey_setup'}, :method => :post %>
+    <%= link_to "Setup your Survey", {:controller => 'organizer_dashboard', :action => 'survey_setup', :id => params[:id]}, :method => :post %>
     <br>
-    <%= link_to "View Survey Answers", {:controller => 'organizer_dashboard', :action => 'survey_answers'}, :method => :post %>
+    <%= link_to "View Survey Answers", {:controller => 'organizer_dashboard', :action => 'survey_answers', :id => params[:id]}, :method => :post %>
 <% end %>
 
 <div class = center-text>

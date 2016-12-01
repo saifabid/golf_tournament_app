@@ -2,7 +2,7 @@
 	<% if @is_signed_up %>
     <% if @tournament.player_questionnaire %>
       <div>
-        <%= link_to "Answer the tournament Survey!", {:controller => 'tournaments', :action => 'answer_survey'}, :method => :post %>
+        <%= link_to "Answer the tournament Survey!", {:controller => 'tournaments', :action => 'answer_survey', :id => params[:id]}, :method => :post %>
       </div>
     <%end%>
 		<div>
