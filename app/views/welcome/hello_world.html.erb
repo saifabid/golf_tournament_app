@@ -25,7 +25,7 @@
 </div>
 
     <div class ="row">
-      <div class="col-md-10 col-md-offset-1">
+      <div class="col-md-11 col-md-offset-1">
       <h4 >Top 5 Upcoming Tournaments</h4>
 
       <%= render 'layouts/general_top_view' %>
@@ -34,6 +34,6 @@
 
 		<div class="row">
 			<div class="col-md-2 col-sm-12 col-md-offset-5 text-center player-signup">
-				<%= button_to 'View all Available Tournaments', {:controller => "signup", :action => "new"}, :method=>:get, :class=> 'btn btn-default' %>
+				<%= button_to 'View all Available Tournaments', {:controller => "tournament_list", :action => "list"}, :method=>:get, :class=> 'btn btn-default' %>
 			</div>
 		</div>

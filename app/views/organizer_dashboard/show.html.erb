@@ -36,7 +36,7 @@
 </div>
 
 <%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
-<div class = center-text>
+<div class = 'row center-text'>
 
     <thead>
       <tr>
@@ -46,13 +46,13 @@
       </tr>
     </thead>
 
-  <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get %>
+  <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get, :class=> 'btn btn-default' %>
 
 </div>
 
-<div class = center-text>
+<div class ='row center-text'>
 
-  <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get %>
+  <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get, :class=>'btn btn-default' %>
 
   <%= render_shareable :buttons=> ['twitter', 'linkedin'], :url => request.original_url.sub('organizer_dashboard', 'tournaments')%>
 

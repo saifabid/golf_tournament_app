@@ -107,9 +107,6 @@ class TournamentsController < ApplicationController
 
     if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false, survey_admin: @survey.id})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
-      if @profile_pic_public_ids.length > 0
-        Image.delete_by_ids @profile_pic_public_ids
-      end
       render :new
       return
     end
