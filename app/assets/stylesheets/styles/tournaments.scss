@@ -1,3 +1,33 @@
 // Place all the styles related to the tournaments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+/*
+ * Start Bootstrap - Full Slider (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+.carousel {
+  height: 400px;
+  .item,
+  .active {
+    height: 100%;
+  }
+
+  .carousel-inner {
+    height: 100%;
+    img {
+      margin: 0 auto;
+    }
+  }
+}
+
+
+
+.countdown {
+  width:200px;
+  height:80px;
+  padding: 20px;
+  float: none;
+  margin: auto;
+}
