@@ -26,8 +26,32 @@ class TournamentStatsController < ApplicationController
         end
       end
     end
+    @all_data = []
+    dict.each do |key, value|
+      temp = [key]
+      
+      if value["players"].nil?
+        temp.append(0)
+      else
+        temp.append(value["players"])
+      end
+
+      if value["spectators"].nil?
+        temp.append(0)
+      else
+        temp.append(value["spectators"])
+      end
+
+      if value["dinners"].nil?
+        temp.append(0)
+      else
+        temp.append(value["dinners"])
+      end
+
+      @all_data.append(temp)
+    end
     puts '=================='
-    puts dict
+    puts @all_data
     puts '=================='
   end
 
