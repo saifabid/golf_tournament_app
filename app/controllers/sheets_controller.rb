@@ -16,7 +16,7 @@ class SheetsController < ApplicationController
 		@all_tournament_players = Person.where(tournament_id: params[:id], is_player: true)
 		@groups = {}
 		Group.where(:tournament_id => params[:id]).each do |group|
-			@groups[group.tournament_group_num] = [group.start.strftime("%H:%M"), group.end.strftime("%H:%M")]
+			@groups[group.tournament_group_num] = [group.start, group.end]
 		end
 		puts '============================'
 		puts @groups
