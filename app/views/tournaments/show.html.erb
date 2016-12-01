@@ -1,50 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<style type="text/css">
-		.col-centered{
-    	float: none;
-     	margin: auto;
-		}
-		.center-text{
-			text-align: center
-		}
-		.countdown {
-			width:200px;
-			height:80px;
-			padding: 20px;
-			float: none;
-     	margin: auto;
-		}
-		.style_image {
-			width: 400px;
-			height: 300px;
-		}
-		.slide {
-		  display:none;
-		  width: 200px;
-		  height: 300px;
-		  margin:0 auto;
-		}
-		#slides .slide-header {
-		  display: none
-		}
-		#slides .slide-footer {
-		  margin:0;
-		  width: 200px;
-		}
-		.slide-footer .previous {
-		  width:75px;
-		  float:left;
-		}
-		.slide-footer .next {
-		  width:75px;
-		  float:right;
-		  text-align:right;
-		}
-		</style>
-	</head>
-	<body>
+
+
 
 	 <script>
 	    jQuery(document).on("ready page:load", function() {
@@ -65,12 +20,16 @@
 	  ga('send', 'pageview');
 
 	</script>
-
+<div class="row">
+  <div class="col-md-1">
    <% if !current_user.nil? %>
       <% if Person.where(sprintf("user_id = %s AND tournament_id = %s AND is_organizer = 1 AND org_view_public = 1", current_user.id, @tournament.id)).exists? %>
            <%=render "layouts/return_to_organizer_dashboard" %>
       <% end %>
     <% end %>
+  </div>
+</div>
+
 
 		<div class="row">
 			<div class="col-md-1 col-spacing">
@@ -79,6 +38,9 @@
 				<%= button_to "Sponsors", {:controller => "tournaments", :action => "sponsors", :id => @id}, :method => "get" %>
 				<%= button_to "Information", {:controller => "tournaments", :action => "information", :id => @id}, :method => "get" %>
 			</div>
+
+    </div>
+    <div class="row">
 			<div class="col-md-9">
 				<div class="center-text">
 				<% if @tournament.logo.present? %>
@@ -87,6 +49,16 @@
 				<div class="logo">
 				 	<%=@tournament.name%>
 				</div>
+        </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-md-8 col-centered">
+        <%= render('layouts/event_slideshow') %>
+        </div>
+      </div>
+
+      <div class="row">
 				<% if @tournament.details.present? %>
 				<div class="logo">
 				 	<%=@tournament.details%>
@@ -100,9 +72,6 @@
          <%=@spectator_tickets_left%> Spectator Tickets Remaining,
           <%=@dinner_tickets_left%> Dinner Tickets Remaining,
         </div>
-				</div>
-				<div class="col-md-12">
-					<%= render('layouts/event_slideshow') %>
 				</div>
 
 				<%= render('layouts/general_map_view') %>
@@ -137,8 +106,6 @@
 		 					<% if sponsor_account.profile_pic.present? %>
 							 	<img src=<%= sponsor_account.profile_pic %>>	
 							<% end %>
-
-							&nbsp;&nbsp;&nbsp;
 						 <%end -%>
 					</div>
 					<br>
@@ -181,8 +148,7 @@
   <%= link_to "Request A Refund", {:controller => "tournaments", :action => "request_refund_email", :id => current_user.id, :tournament_id => params[:id]}, :method => "post" %>
     <% end %>
   </div>
-	</body>
-</html>
+
 <script>
     function fbShare(url, title, descr, image, winWidth, winHeight) {
         var winTop = (screen.height / 2) - (winHeight / 2);
