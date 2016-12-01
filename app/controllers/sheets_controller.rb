@@ -17,7 +17,7 @@ class SheetsController < ApplicationController
 
 		@assigned.each do |key, values|
 			@gr = Group.find_by(:tournament_id => @t_id, :id => key)
-
+			puts @gr.id
 	
 			begin
 				@gr.member_one = values[0]

@@ -67,7 +67,7 @@ $(".connectedSortable")
       $("#values tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("user_id");
-          if (typeof u_id != 'undefined'){
+          // if (typeof u_id != 'undefined'){
             if (g_id in group_and_users){
               group_and_users[g_id].push(u_id)
             }
@@ -75,14 +75,14 @@ $(".connectedSortable")
                group_and_users[g_id] = []
                group_and_users[g_id].push(u_id)
             }
-          }
+          // }
           
       }); 
 
       $("#novalues tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("user_id");
-          if (typeof u_id != 'undefined'){
+          // if (typeof u_id != 'undefined'){
             if (g_id in not_needed){
               not_needed[g_id].push(u_id)
             }
@@ -90,7 +90,7 @@ $(".connectedSortable")
                not_needed[g_id] = []
                not_needed[g_id].push(u_id)
             }
-          }
+          // }
       });
 
       post_ajax(group_and_users, not_needed);
