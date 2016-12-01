@@ -11,6 +11,18 @@ class TournamentsController < ApplicationController
   def index
     redirect_to "/"
   end
+
+  def request_refund_email
+    tournament = Tournament.where("id = ?", params[:tournament_id]).first
+    requester = User.where("id = ?", params[:id]).first
+    Resend.send_refund_request_email(tournament.contact_email, requester.email, tournament.name)
+    render :successful_request_refund_email
+  end
+
+  def successful_request_refund_email
+    render :successful_request_refund_email
+  end
+
   def check_private_event
     session[:private_event_logged_in] ||= []
     if Tournament.where(id: params[:id]).where(:is_private => 1).exists? and !session[:private_event_logged_in].include? params[:id]
@@ -28,6 +40,11 @@ class TournamentsController < ApplicationController
   end
   def uploadimages
 
+  end
+
+  def answer_survey
+    @admin = Person.where("tournament_id = ? AND is_organizer = 1", params[:id]).first
+    redirect_to sprintf("/rapidfire/surveys/%d/attempts/new", @admin.survey_admin)
   end
 
   def check_paid
@@ -85,7 +102,10 @@ class TournamentsController < ApplicationController
       return
     end
 
-    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false})
+    Rapidfire::Survey.create(:name => @tournament.questionnaire_name)
+    @survey = Rapidfire::Survey.last
+
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false, survey_admin: @survey.id})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
       if @profile_pic_public_ids.length > 0
         Image.delete_by_ids @profile_pic_public_ids
@@ -333,7 +353,9 @@ class TournamentsController < ApplicationController
       :bronze_sponsor_price,
       :bronze_sponsor_desc,
       :spectator_price,
-      :foursome_price
+      :foursome_price,
+      :player_questionnaire,
+      :questionnaire_name
     )
   end
 

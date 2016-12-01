@@ -7,6 +7,10 @@ class User < ApplicationRecord
 
   has_one :account
 
+  def admin?
+    is_admin
+  end
+
   def self.from_omniauth(auth)
     where(email: auth.info.email).first_or_create do |user|
       user.email = auth.info.email

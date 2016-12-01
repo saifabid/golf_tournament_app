@@ -1,5 +1,10 @@
 <% if @checked_in != true %>
 	<% if @is_signed_up %>
+    <% if @tournament.player_questionnaire %>
+      <div>
+        <%= link_to "Answer the tournament Survey!", {:controller => 'tournaments', :action => 'answer_survey', :id => params[:id]}, :method => :post %>
+      </div>
+    <%end%>
 		<div>
 			<a href="/tournaments/<%=params[:id]%>/check_in?guest=false&user=<%=@curr_user%>" class="btn btn-info" role="button">Check In</a>
 		</div>

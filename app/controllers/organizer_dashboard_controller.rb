@@ -13,6 +13,16 @@ class OrganizerDashboardController < ApplicationController
     end
   end
 
+  def survey_setup
+    @person = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
+    redirect_to sprintf("/rapidfire/surveys/%d/questions", @person.survey_admin)
+  end
+
+  def survey_answers
+    @person = Person.where("user_id = ? AND tournament_id = ?", current_user.id, params[:id]).first
+     redirect_to sprintf("/rapidfire/surveys/%d/results", @person.survey_admin)
+  end
+
   def set_golf_course_admin
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"is_golf_course_admin" => true})
@@ -22,6 +32,42 @@ class OrganizerDashboardController < ApplicationController
   def unset_golf_course_admin
     @player = Person.where("id = ?", params[:player_id])
     @player.update({"is_golf_course_admin" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def set_company_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_csr" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_company_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_csr" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def set_golf_course_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"golf_course_csr" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_golf_course_csr
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"golf_course_csr" => false})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def set_company_rep
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_rep" => true})
+    redirect_to sprintf("/organizer_dashboard/%s", params[:id])
+  end
+
+  def unset_company_rep
+    @player = Person.where("id = ?", params[:player_id])
+    @player.update({"company_rep" => false})
     redirect_to sprintf("/organizer_dashboard/%s", params[:id])
   end
 

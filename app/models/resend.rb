@@ -127,7 +127,7 @@ class Resend < ApplicationRecord
     @subject = "Outstanding Balance for #{@tournament.name}"
 
     @body = "Dear Organizer,\n\nThere is an outstanding balance for #{@tournament.name}, please go to the following link and make the required payment. Note you will not be able to pay until the tournament has started.\n\n
-              https://www.http://golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
+              https://www.golf-tournament-app.herokuapp.com/organizer_payment/#{@tournament.id}\n\n
             Thanks,\nXXX Administration"
 
     from = Email.new(email: "admin@golftournamentapp.com")
@@ -162,5 +162,22 @@ class Resend < ApplicationRecord
     puts response.status_code
     puts response.body
     puts response.headers
+  end
+
+  def self.send_refund_request_email organizer_email, player_email, tournament_name
+    @subject = "Request refund request"
+
+    @body = "Dear Organizer, \n\n User with email #{player_email} has requested a refund for your tournament
+            \"#{tournament_name}\".\n Please contact the player through the organizer dashboard to continue discussions\n
+            of this refund\n\n Thank You, Golf Team"
+
+    from = Email.new(email: "admin@golftournamentapp.com")
+    to = Email.new(email: organizer_email)
+    subject = @subject
+    content = Content.new(type: 'text/plain', value: @body)
+    mail = SendGrid::Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: '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')
+    sg.client.mail._('send').post(request_body: mail.to_json)
   end
 end
