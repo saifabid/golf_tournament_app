@@ -100,9 +100,13 @@ class TournamentStatsController < ApplicationController
     @spectator_tickets_sold = @tournament.total_audience_tickets - @spectator_tickets_left
     @dinner_tickets_left = @tournament.dinner_tickets_left
     @dinner_tickets_sold = @tournament.total_dinner_tickets - @dinner_tickets_left
-
-    @revenue_players = (@player_tickets_sold - 4 * @tournament.num_foursomes) * @tournament.player_price
-    @revenue_foursomes = @tournament.num_foursomes * @tournament.foursome_price
+    begin
+      @revenue_players = (@player_tickets_sold - 4 * @tournament.num_foursomes) * @tournament.player_price
+      @revenue_foursomes = @tournament.num_foursomes * @tournament.foursome_price
+    rescue
+      @revenue_foursomes = 0
+      @revenue_players = @player_tickets_sold * @tournament.player_price
+    end
     @revenue_spectators = @spectator_tickets_sold * @tournament.spectator_price
     @revenue_dinner = @dinner_tickets_sold * @tournament.dinner_price
     
