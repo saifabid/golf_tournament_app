@@ -4,8 +4,6 @@ class TournamentStatsController < ApplicationController
     before_action :check_tournament_organizer_or_admin, only: [:show]
 
   def show
-    # Access info and stats on tournament (ie # of players signed up, amount of revenue generated etc.)
-    # ToDo: Read from signups 
     calculate
   end
 
@@ -67,7 +65,6 @@ class TournamentStatsController < ApplicationController
     @dinner_tickets_left = @tournament.dinner_tickets_left
     @dinner_tickets_sold = @tournament.total_dinner_tickets - @dinner_tickets_left
 
-    #TODO: adjust revenue_players for foursome price
     @revenue_players = (@player_tickets_sold - 4 * @tournament.num_foursomes) * @tournament.player_price
     @revenue_foursomes = @tournament.num_foursomes * @tournament.foursome_price
     @revenue_spectators = @spectator_tickets_sold * @tournament.spectator_price
