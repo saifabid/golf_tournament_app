@@ -15,9 +15,14 @@ class SheetsController < ApplicationController
 		@unassigned = @req["values_not_needed"]
 		@t_id = @req["t_id"]
 
+		puts "++++++++++++++++++++++++++++++++++++++"	
+		
+		puts @assigned
+
+		puts "++++++++++++++++++++++++++++++++++++++"
 		@assigned.each do |key, values|
 			@gr = Group.find_by(:tournament_id => @t_id, :id => key)
-
+			puts @gr.id
 	
 			begin
 				@gr.member_one = values[0]
