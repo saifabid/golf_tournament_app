@@ -3,7 +3,6 @@ class SheetsController < ApplicationController
 
 	def show
 		get_players
-		get_groups
 	end
 
 	def edit
@@ -14,25 +13,12 @@ class SheetsController < ApplicationController
 	end
 
 	def get_players
-		@all_tournament_players = get_tournament_players_list
-		print @all_tournament_players
-		puts '=========================='
-		@group_numbers = {}
-		for person in @all_tournament_players
-			print person
-			puts '=========================='
-			@group_numbers[person["player"].group_number] = [Time.now, Time.now]
-			puts '=========================='
-			puts person["player"].group_number
-		end
-	end
-
-	def get_groups
-		@group_members = []
+		@all_tournament_players = Person.where(tournament_id: params[:id], is_player: true)
+		@groups = {}
 		Group.where(:tournament_id => params[:id]).each do |group|
-			@group_members.append(group.tournament_group_num)
+			@groups[group.tournament_group_num] = [group.start.strftime("%H:%M"), group.end.strftime("%H:%M")]
 		end
 		puts '============================'
-		puts @group_members
+		puts @groups
 	end
 end
