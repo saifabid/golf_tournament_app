@@ -9,8 +9,12 @@
           <th unique_group_id = "<%= key %>">Group <%= key %> | Time: <%= value[0] =%> - <%= value[1] =%> </th>
         </thead>
         <tbody class = "connectedSortable" id="values" >
+        <tr> 
+          <td> </td>
+        </tr>
           <% @all_tournament_players.each do |user|%>
             <% if user.group_number == key %>
+
           <tr>
             <td unique_group_id = "<%= key %>" user_id = "<%= user.id%>">
               <% if user.is_guest == true %>
@@ -63,12 +67,14 @@ $(".connectedSortable")
       $("#values tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("user_id");
-          if (g_id in group_and_users){
-            group_and_users[g_id].push(u_id)
-          }
-          else{
-             group_and_users[g_id] = []
-             group_and_users[g_id].push(u_id)
+          if (typeof u_id != 'undefined'){
+            if (g_id in group_and_users){
+              group_and_users[g_id].push(u_id)
+            }
+            else{
+               group_and_users[g_id] = []
+               group_and_users[g_id].push(u_id)
+            }
           }
           
       }); 
