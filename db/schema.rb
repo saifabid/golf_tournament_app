@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 20161130231710) do
     t.integer  "member_four"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.time     "start"
+    t.time     "end"
   end
 
   create_table "people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
