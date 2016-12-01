@@ -88,6 +88,13 @@ $(".connectedSortable")
       console.log(group_and_users);
       console.log("HEHREHH");
       console.log(not_needed);
+
+        var saveData = $.ajax({
+              type: 'POST',
+              url: "/sheets/edit/",
+              data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>"}),
+              dataType: "json",
+        });
     });
 
 </script>

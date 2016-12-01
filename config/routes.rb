@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :sheets
-
+  post 'sheets/edit' => "sheets#update"
   mount RailsAdmin::Engine => '/db_admin', as: 'rails_admin'
   mount Rapidfire::Engine => "/rapidfire"
 

@@ -10,9 +10,15 @@ class SheetsController < ApplicationController
 	end
 
 	def update
+		@req = JSON.parse(request.body.read)
+		@assigned = @req["values_needed"]
+		@unassigned = @req["values_not_needed"]
+		@t_id = @req["t_id"]
+		
 	end
 
 	def get_players
+		@t_id = params[:id]
 		@all_tournament_players = Person.where(tournament_id: params[:id], is_player: true)
 		@groups = {}
 		Group.where(:tournament_id => params[:id]).each do |group|
