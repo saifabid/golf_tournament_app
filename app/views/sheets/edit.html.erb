@@ -3,7 +3,7 @@
 </BR> </BR>
 <div class="row">
   <div class="col-md-6">
-    <% @groups.each do |key, value|  %>
+    <% @groups.each do |key, value| %>
       <table class="table table-bordered">
         <thead>
           <th unique_group_id = "<%= key %>">Group <%= key %> | Tee off time: <%= value =%> </th>
@@ -12,15 +12,15 @@
         <tr> 
           <td> </td>
         </tr>
-          <% @all_tournament_players.each do |user|%>
-            <% if user.group_number == key %>
+          <% @all_tournament_players.each do |player|%>
+            <% if player.group_number == key %>
 
           <tr>
-            <td unique_group_id = "<%= key %>" user_id = "<%= user.id%>">
-              <% if user.is_guest == true %>
-              <%= sprintf("%s guest", Account.find_by(user_id: user.guest_of).first_name) %>
+            <td unique_group_id = "<%= key %>" person_id = "<%= player.id%>">
+              <% if player.is_guest == true %>
+              <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
               <% else %>
-              <%= sprintf("%s %s", Account.find_by(user_id: user.user_id).first_name, Account.find_by(user_id: user.user_id).last_name) %>
+              <%= sprintf("%s %s", Account.find_by(user_id: player.user_id).first_name, Account.find_by(user_id: player.user_id).last_name) %>
               <% end %>
             </td>
           </tr>
@@ -34,12 +34,27 @@
   <div class="col-md-6">
     <table class="table table-bordered">
         <thead>
-          <th> UNASSIGNED PLAYERS </th>
+          <th> Unassigned players </th>
         </thead>
         <tbody class = "connectedSortable" id = "novalues">
           <tr>
             <td> </td>
           </tr>
+          <% @all_tournament_players.each do |player|%>
+            <% if player.group_number == -1 %>
+
+          <tr>
+            <td unique_group_id = "-1" person_id = "<%= player.id%>">
+              <% if player.is_guest == true %>
+                <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
+              <% else %>
+                <%= sprintf("%s %s", Account.find_by(user_id: player.user_id).first_name, Account.find_by(user_id: player.user_id).last_name) %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+
+          <% end %>
         </tbody>
     </table>
   </div>
@@ -66,7 +81,7 @@ $(".connectedSortable")
     $(".edit_tsheets").click(function(){ 
       $("#values tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
-          var u_id = $(this).attr("user_id");
+          var u_id = $(this).attr("person_id");
           // if (typeof u_id != 'undefined'){
             if (g_id in group_and_users){
               group_and_users[g_id].push(u_id)
@@ -81,7 +96,7 @@ $(".connectedSortable")
 
       $("#novalues tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
-          var u_id = $(this).attr("user_id");
+          var u_id = $(this).attr("person_id");
           // if (typeof u_id != 'undefined'){
             if (g_id in not_needed){
               not_needed[g_id].push(u_id)
