@@ -51,11 +51,6 @@
     </script>
 </head>
 
-<body>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-</body>
-
 <h1><%=@tournament_name%> stats</h1>
 	
 	Checked in: <%= @num_checked_in %>
@@ -99,5 +94,10 @@
 	Net: $<%= @net %>
   <br/>
   <br/>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+</body>
 
 <%= link_to "Download PDF", {:controller => "tournament_stats", :action => "download_pdf"} %>
