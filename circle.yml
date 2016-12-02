@@ -12,4 +12,4 @@ database:
 
 test:
   override:
-    - rspec spec/features
+    - rspec -fd spec/features

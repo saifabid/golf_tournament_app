@@ -1,10 +1,10 @@
 require "spec_helper"
 require 'securerandom'
 
-describe "Create User", :type => :feature do
+describe "Create Player", :type => :feature do
 	it "should sign up through sign up page" do
-		# visit "https://golf-tournament-app.herokuapp.com/"
-		visit "http://localhost:3000/"
+		visit "https://golf-tournament-app.herokuapp.com/"
+		# visit "http://localhost:3000/"
 		sleep 2
 		page.click_on('Login/Register')
 		sleep 2
