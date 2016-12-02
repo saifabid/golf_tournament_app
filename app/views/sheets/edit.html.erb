@@ -119,6 +119,11 @@ $(".connectedSortable")
               url: "/sheets/edit/",
               data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>"}),
               dataType: "json",
+              complete: function(){
+                window.location.href = "/sheets/<%= @t_id %>"
+     // Handle the complete event
+
+          }
         });
 
     }
