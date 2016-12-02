@@ -17,7 +17,6 @@ class SheetsController < ApplicationController
 
 		@assigned.each do |key, values|
 			@gr = Group.find_by(:tournament_id => @t_id, :id => key)
-			puts @gr.id
 	
 			begin
 				@gr.member_one = values[0]
@@ -102,7 +101,5 @@ class SheetsController < ApplicationController
 		Group.where(:tournament_id => params[:id]).each do |group|
 			@groups[group.tournament_group_num] = [group.start, group.end]
 		end
-		puts '============================'
-		puts @groups
 	end
 end
