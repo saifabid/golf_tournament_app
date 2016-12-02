@@ -50,6 +50,13 @@
 
 </div>
 
+<div>
+  <a class="btn-danger btn-sm" href="/tournaments/<%=@tournament.id%>" data-method="delete">
+    <i class="pg-trash"></i>
+    <span class="bold">Delete Tournament</span>
+  </a>
+</div>
+
 <div class ='row center-text'>
 
   <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get, :class=>'btn btn-default' %>

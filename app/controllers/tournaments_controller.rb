@@ -553,4 +553,10 @@ class TournamentsController < ApplicationController
       redirect_to '/tournaments/' + @id
     end
   end
+
+  def destroy
+    @tournament = Tournament.find(params[:id])
+    @tournament.destroy
+    redirect_to '/'
+  end
 end
