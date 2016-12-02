@@ -34,6 +34,7 @@ describe "Create Tournament", :type => :feature do
 		fill_in 'tournament_name', :with => "Integration Test Tournament"
 		page.attach_file('tournament[logo]', Rails.root + 'spec/images/img1.jpg')
 		fill_in 'tournament_details', :with =>'This is the integration test tourny description'
+		select "9", :from => "tournament_start_date_3i"
 		# check 'tournament_is_private'
 		# Implement if you find a way to store the passcode
 		fill_in 'tournament_contact_name', :with =>'Mr. Tyrone'
