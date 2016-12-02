@@ -3,11 +3,15 @@
 <div align="right">
   <%= switch_user_select class: 'special-select', styles: 'width: 220px' %>
 
-  <h3>Want administrator style access?</h3>
+  <% if not @user.is_admin? %>
+	  <div>
+	    <h3>Want administrator style access?</h3>
 
-  	<form method="post" action="mailto:csc444golf@gmail.com" >
-  		<input type="submit" value="Send request" /> 
-	</form>
+	  	<form method="post" action="mailto:csc444golf@gmail.com" >
+	  		<input type="submit" value="Send request" />
+		</form>
+	  </div>
+  <% end %>
 </div>
 
 <label> Profile Picture: </label> <BR/> <%= image_tag @account.profile_pic, size: "200x200", alt: "Edit Entry" %> <BR/><BR/>
