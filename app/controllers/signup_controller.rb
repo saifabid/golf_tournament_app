@@ -17,7 +17,7 @@ class SignupController < ApplicationController
 
    def check_for_company_name
     if !params[:company_name].present? 
-      flash[:error] = "Please enter a company_name"
+      flash[:error] = "Please enter a company name"
       redirect_to (sprintf("/signup/%d", params[:tournament_id]))
     end
   end
