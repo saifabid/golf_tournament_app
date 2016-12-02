@@ -76,7 +76,7 @@
 <script>
 var group_and_users = {}
 var not_needed = {}
-
+var time = {}
 sent = false;
 $(".connectedSortable")
         .sortable({
@@ -93,6 +93,7 @@ $(".connectedSortable")
       $("#values tr td").each(function() {
           var g_id = $(this).closest("table").find("th").attr("unique_group_id");
           var u_id = $(this).attr("person_id");
+          time[g_id] = $(this).closest("table").find("th .timepicker").val(); 
           // if (typeof u_id != 'undefined'){
             if (g_id in group_and_users){
               group_and_users[g_id].push(u_id)
@@ -119,16 +120,16 @@ $(".connectedSortable")
           // }
       });
 
-      post_ajax(group_and_users, not_needed);
+      post_ajax(group_and_users, not_needed, time);
         
       
     });
 
-    function post_ajax(group_and_users, not_needed){
+    function post_ajax(group_and_users, not_needed, time){
       $.ajax({
               type: 'POST',
               url: "/sheets/edit/",
-              data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>"}),
+              data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>", "time" : time}),
               dataType: "json",
               complete: function(){
                 window.location.href = "/sheets/<%= @t_id %>"
