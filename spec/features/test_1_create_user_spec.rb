@@ -3,7 +3,8 @@ require 'securerandom'
 
 describe "Create User", :type => :feature do
 	it "should sign up through sign up page" do
-		visit "https://golf-tournament-app.herokuapp.com/"
+		# visit "https://golf-tournament-app.herokuapp.com/"
+		visit "http://localhost:3000/"
 		sleep 2
 		page.click_on('Login/Register')
 		sleep 2
@@ -18,7 +19,7 @@ describe "Create User", :type => :feature do
 		page.should have_content('Welcome! You have signed up successfully.')
 		
 		# should get error message when clicking on submit without filling in first and last name
-		#  BUG: this does not work
+		#  BUG: this does not work###################################################
 		# click_button("Submit")
 		# page.should have_content("First name can't be blank")
 		# page.should have_content("Last name can't be blank")
