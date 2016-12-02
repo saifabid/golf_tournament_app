@@ -15,6 +15,10 @@
         <div class="alert alert-warning">
           <strong>Warning!</strong> <%= "Please enter a ticket quantity greater than 0"  %>
         </div>
+    <%elsif flash[:error] == "Please enter a ticket amount" %>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> <%= "Please enter a ticket amount"  %>
+        </div>
     <% end %>
   <%= f.text_field :spectator_tickets, placeholder: "Tickets Left: #{@tournament.spectator_tickets_left}" %>
   <%= f.text_field :dinner_tickets, placeholder: "Tickets Left: #{@tournament.dinner_tickets_left}" %>

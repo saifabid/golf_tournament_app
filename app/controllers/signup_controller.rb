@@ -11,6 +11,7 @@ class SignupController < ApplicationController
   before_action :check_number_tickets, only: [:before_payment_summary]
   before_action :check_positive_amounts, only: [:before_payment_summary]
   before_action :check_organizer_paid, only: [:signup_from_tournament]
+  before_action :check_non_zero_tickets, only: [:before_payment_summary]
 
   def check_organizer_paid
     @tournament = Tournament.find(params[:id])
@@ -18,6 +19,13 @@ class SignupController < ApplicationController
     if @tournament.organizer_paid == true
       redirect_to sprintf("/tournaments/%s", params[:id])
       return
+    end
+  end
+
+  def check_non_zero_tickets
+    if !params[:player_tickets].present? && !params[:foursome_tickets].present? && !params[:dinner_tickets].present? && !params[:spectator_tickets].present? && params[:sponsor_level].to_i == 0
+      flash[:error] = "Please enter a ticket amount"
+      redirect_to (sprintf("/signup/%d", params[:tournament_id]))
     end
   end
 
