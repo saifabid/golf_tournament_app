@@ -6,7 +6,7 @@
     <% @groups.each do |key, value|  %>
       <table class="table table-bordered">
         <thead>
-          <th unique_group_id = "<%= key %>">Group <%= key %> | Time: <%= value[0] =%> - <%= value[1] =%> </th>
+          <th unique_group_id = "<%= key %>">Group <%= key %> | Tee off time: <%= value =%> </th>
         </thead>
         <tbody class = "connectedSortable" id="values" >
         <tr> 

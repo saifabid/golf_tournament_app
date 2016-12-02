@@ -99,7 +99,11 @@ class SheetsController < ApplicationController
 		@all_tournament_players = Person.where(tournament_id: params[:id], is_player: true)
 		@groups = {}
 		Group.where(:tournament_id => params[:id]).each do |group|
-			@groups[group.tournament_group_num] = [group.start, group.end]
+			begin
+				@groups[group.tournament_group_num] = group.start.strftime('%H:%M')
+			rescue
+				@groups[group.tournament_group_num] = "not assigned yet"
+			end
 		end
 	end
 end
