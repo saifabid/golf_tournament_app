@@ -23,6 +23,10 @@
         <div class="alert alert-warning">
           <strong>Warning!</strong> <%= "Please enter a company name"  %>
         </div>
+    <%elsif flash[:error] == "Please upload a company logo" %>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> <%= "Please upload a company logo"  %>
+        </div>
     <% end %>
   <%= f.text_field :spectator_tickets, placeholder: "Tickets Left: #{@tournament.spectator_tickets_left}" %>
   <%= f.text_field :dinner_tickets, placeholder: "Tickets Left: #{@tournament.dinner_tickets_left}" %>
