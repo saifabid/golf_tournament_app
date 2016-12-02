@@ -25,7 +25,7 @@ class SheetsController < ApplicationController
 				us.group_number = key
 				us.save
 			rescue
-				@gr.member_one = nil
+				@gr.member_one = -1
 			end
 
 			begin
@@ -34,7 +34,7 @@ class SheetsController < ApplicationController
 				us.group_number = key
 				us.save
 			rescue
-				@gr.member_two = nil
+				@gr.member_two = -1
 			end
 
 			begin
@@ -43,9 +43,8 @@ class SheetsController < ApplicationController
 				us.group_number = key
 				us.save
 			rescue
-				@gr.member_three = nil
+				@gr.member_three = -1
 			end
-			
 
 			begin
 				@gr.member_four = values[3]
@@ -53,7 +52,7 @@ class SheetsController < ApplicationController
 				us.group_number = key
 				us.save
 			rescue
-				@gr.member_four = nil
+				@gr.member_four = -1
 			end
 
 			@gr.current_members = values.length
