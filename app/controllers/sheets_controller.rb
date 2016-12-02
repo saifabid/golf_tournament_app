@@ -21,36 +21,36 @@ class SheetsController < ApplicationController
 	
 			begin
 				@gr.member_one = values[0]
-				us = Person.find_by(:id => values[0])
-				us.group_number = key
-				us.save
+				player = Person.find_by(:id => values[0])
+				player.group_number = key
+				player.save
 			rescue
 				@gr.member_one = -1
 			end
 
 			begin
 				@gr.member_two = values[1]
-				us = Person.find_by(:id => values[1])
-				us.group_number = key
-				us.save
+				player = Person.find_by(:id => values[1])
+				player.group_number = key
+				player.save
 			rescue
 				@gr.member_two = -1
 			end
 
 			begin
 				@gr.member_three = values[2]
-				us = Person.find_by(:id => values[2])
-				us.group_number = key
-				us.save
+				player = Person.find_by(:id => values[2])
+				player.group_number = key
+				player.save
 			rescue
 				@gr.member_three = -1
 			end
 
 			begin
 				@gr.member_four = values[3]
-				us = Person.find_by(:id => values[3])
-				us.group_number = key
-				us.save
+				player = Person.find_by(:id => values[3])
+				player.group_number = key
+				player.save
 			rescue
 				@gr.member_four = -1
 			end
@@ -63,44 +63,44 @@ class SheetsController < ApplicationController
 
 		@unassigned.each do |key, values|
 			begin
-				us = Person.find_by(:id => values[0])
-				us.group_number = -1
-				us.save
+				player = Person.find_by(:id => values[0])
+				player.group_number = -1
+				player.save
 			rescue
-				us = nil
+				player = nil
 			end
 
 			begin
-				us = Person.find_by(:id => values[1])
-				us.group_number = -1
-				us.save
+				player = Person.find_by(:id => values[1])
+				player.group_number = -1
+				player.save
 			rescue
-				us = nil
+				player = nil
 			end
 
 			begin
-				us = Person.find_by(:id => values[2])
-				us.group_number = -1
-				us.save
+				player = Person.find_by(:id => values[2])
+				player.group_number = -1
+				player.save
 			rescue
-				us = nil
+				player = nil
 			end
 
 			begin
-				us = Person.find_by(:id => values[3])
-				us.group_number = -1
-				us.save
+				player = Person.find_by(:id => values[3])
+				player.group_number = -1
+				player.save
 			rescue
-				us = nil
+				player = nil
 			end			
 		end
 	end
 
 	def get_players
 		@t_id = params[:id]
-		@all_tournament_players = Person.where(tournament_id: params[:id], is_player: true)
+		@all_tournament_players = Person.where(tournament_id: @t_id, is_player: true)
 		@groups = {}
-		Group.where(:tournament_id => params[:id]).each do |group|
+		Group.where(:tournament_id => @t_id).each do |group|
 			begin
 				@groups[group.tournament_group_num] = group.start.strftime('%H:%M')
 			rescue
