@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       @account = Account.find_by!(user_id: current_user.id)
       puts @account.id
     rescue
-      # flash[:notice] = 'Please fill out some basic information before attempting to view Account. Mandatory fields: first name and birthdate'
+      flash[:notice] = 'Please fill out some basic information before attempting to view Account. Mandatory fields: first and last name'
       redirect_to new_user_url
     end
   end

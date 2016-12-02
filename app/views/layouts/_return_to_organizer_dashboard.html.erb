@@ -1,5 +1,5 @@
 <div class="row" style="border-bottom-style: solid;">
   <div class="center-text">
-    <%= button_to 'Return to Organizer Dashboard', {:controller => "tournaments", :action => "return_to_org_dash"}, :method=>:post %>
+    <%= button_to 'Back to Organizer Dashboard', {:controller => "tournaments", :action => "return_to_org_dash", :id => params[:id]}, :method=>:post, :class=> 'btn btn-default' %>
   </div>
 </div>

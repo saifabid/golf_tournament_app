@@ -1,39 +1,157 @@
-<div id="columns">
-  <div class="tableA column" draggable="true"><header>A</header></div>
-  <div class="tableB column" draggable="true"><header>B</header></div>
-  <div class="tableC column" draggable="true"><header>C</header></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"> </script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+<button type="submit" class="btn btn-default edit_tsheets">Submit</button>
+</BR> </BR>
+<div class="row">
+  <div class="col-md-6">
+    <% @groups.each do |key, value| %>
+
+      <table class="table table-bordered">
+        <thead>
+          <th unique_group_id = "<%= key %>">Group <%= key %>  <span style ="float:right;">    Tee off time: 
+
+              <input class="timepicker text-center" jt-timepicker="" time="model.time" time-string="model.timeString" default-time="<%= value %>" time-format="model.options.timeFormat" start-time="model.options.startTime" min-time="model.options.minTime" max-time="model.options.maxTime" interval="model.options.interval" dynamic="model.options.dynamic" scrollbar="model.options.scrollbar" dropdown="model.options.dropdown" value ="<%= value %>">
+
+
+          </span>
+
+
+          </th>
+        </thead>
+        <tbody class = "connectedSortable" id="values" >
+        <tr> 
+          <td> </td>
+        </tr>
+          <% @all_tournament_players.each do |player|%>
+            <% if player.group_number == key %>
+
+          <tr>
+            <td unique_group_id = "<%= key %>" person_id = "<%= player.id%>">
+              <% if player.is_guest == true %>
+              <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
+              <% else %>
+              <%= sprintf("%s %s", Account.find_by(user_id: player.user_id).first_name, Account.find_by(user_id: player.user_id).last_name) %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+ </div>
+  <div class="col-md-6">
+    <table class="table table-bordered">
+        <thead>
+          <th> Unassigned players </th>
+        </thead>
+        <tbody class = "connectedSortable" id = "novalues">
+          <tr>
+            <td> </td>
+          </tr>
+          <% @all_tournament_players.each do |player|%>
+            <% if player.group_number == -1 %>
+
+          <tr>
+            <td unique_group_id = "-1" person_id = "<%= player.id%>">
+              <% if player.is_guest == true %>
+                <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
+              <% else %>
+                <%= sprintf("%s %s", Account.find_by(user_id: player.user_id).first_name, Account.find_by(user_id: player.user_id).last_name) %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+
+          <% end %>
+        </tbody>
+    </table>
+  </div>
 </div>
 
-<% @groups.each do |key, value|  %>
-<table class="table table-bordered">
 
-    <thead>
-        <th>Group <%= key %> | Time: <%= value[0] =%> - <%= value[1] =%> </th>
-    </thead>
-    <tbody>
 
-     <% @all_tournament_players.each do |user|%>
-          <% if user.group_number == key %>
-          <tr>
-
-            <td>
-            <% if user.is_guest == true %>
-              <div class="column" draggable="true"> 
-              <%= sprintf("%s guest", Account.find_by(user_id: user.guest_of).first_name) %>
-              </div>
-
-              <% else %>
-              <div class="column" draggable="true">
-              <%= sprintf("%s %s", Account.find_by(user_id: user.user_id).first_name, Account.find_by(user_id: user.user_id).last_name) %>
-              </div>
-            <% end %>
-            </td>
-
-            </tr>
-          <% end %>
+<script>
+var group_and_users = {}
+var not_needed = {}
+var time = {}
+sent = false;
+$(".connectedSortable")
+        .sortable({
+        connectWith: ".connectedSortable",
+        appendTo: "parent",
+        helper: "clone",
+        cursor: "move",
+        zIndex: 999990,
+        receive: function () {
+            
+        }
+    });
+    $(".edit_tsheets").click(function(){ 
+      $("#values tr td").each(function() {
+          var g_id = $(this).closest("table").find("th").attr("unique_group_id");
+          var u_id = $(this).attr("person_id");
+          time[g_id] = $(this).closest("table").find("th .timepicker").val(); 
+          // if (typeof u_id != 'undefined'){
+            if (g_id in group_and_users){
+              group_and_users[g_id].push(u_id)
+            }
+            else{
+               group_and_users[g_id] = []
+               group_and_users[g_id].push(u_id)
+            }
+          // }
           
-    <% end %>
+      }); 
 
-  </tbody>
-</table>
-<% end %>
+      $("#novalues tr td").each(function() {
+          var g_id = $(this).closest("table").find("th").attr("unique_group_id");
+          var u_id = $(this).attr("person_id");
+          // if (typeof u_id != 'undefined'){
+            if (g_id in not_needed){
+              not_needed[g_id].push(u_id)
+            }
+            else{
+               not_needed[g_id] = []
+               not_needed[g_id].push(u_id)
+            }
+          // }
+      });
+
+      post_ajax(group_and_users, not_needed, time);
+        
+      
+    });
+
+    function post_ajax(group_and_users, not_needed, time){
+      $.ajax({
+              type: 'POST',
+              url: "/sheets/edit/",
+              data: JSON.stringify({"values_needed" : group_and_users, "values_not_needed" : not_needed, "t_id" : "<%= @t_id %>", "time" : time}),
+              dataType: "json",
+              complete: function(){
+                window.location.href = "/sheets/<%= @t_id %>"
+     // Handle the complete event
+
+          }
+        });
+
+    }
+
+    $('.timepicker').timepicker({
+    timeFormat: 'HH:mm',
+    interval: 30,
+    // minTime: '10',
+    // maxTime: '6:00pm',
+    // defaultTime: '10:00am',
+    startTime: '10:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+});
+
+</script>
+  

@@ -4,7 +4,7 @@
     <script type="text/javascript">
 
       // Load the Visualization API and the corechart package.
-      google.charts.load('current', {packages: ['corechart', 'line']});
+      google.charts.load('current', {packages: ['corechart']});
 
       // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawBasic);
@@ -19,41 +19,40 @@
       	data.addColumn('date', 'Date');
       	data.addColumn('number', 'Players');
       	data.addColumn('number', 'Spectators');
-      	data.addColumn('number', 'Dinners');
+      	data.addColumn('number', 'Dinner guests');
 
-        data.addRows(@all_data);
+        // alert($('#all-data').val());
+        var check = <%= @all_data.to_json.html_safe %>
+        for (i = 0; i < check.length; i++)
+        {
+        	var parts = check[i][0].split('-');
+        	check[i][0] = new Date(parts[0], parts[1]-1, parts[2]);
+        }
+
+        data.addRows(check);
 
         // Set chart options
         var options = {
-          title: 'Chart',
-          // width: 900,
-          // height: 500,
-          hAxis: {
-            format: 'M/d/yy',
-            gridlines: {count: 15}
-          },
-          vAxis: {
-            gridlines: {color: 'none'},
-            minValue: 0
-          }
-        };
+        hAxis: {
+	          title: 'Dates'
+	        },
+	        vAxis: {
+	          title: 'Tickets sold'
+	        },
+	        series: {
+	          1: {curveType: 'function'}
+	        }
+	    };
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
       	chart.draw(data, options);
       }
     </script>
 </head>
 
-<body>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-</body>
-
 <h1><%=@tournament_name%> stats</h1>
 	
-	Data: <%= @all_data %>
-	<BR/> <BR/>
 	Checked in: <%= @num_checked_in %>
 	<BR/> <BR/>
 	Number of guests (of users) at this event: <%= @num_guests %>
@@ -95,5 +94,10 @@
 	Net: $<%= @net %>
   <br/>
   <br/>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+</body>
 
 <%= link_to "Download PDF", {:controller => "tournament_stats", :action => "download_pdf"} %>

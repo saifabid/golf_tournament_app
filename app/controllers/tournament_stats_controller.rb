@@ -50,9 +50,6 @@ class TournamentStatsController < ApplicationController
 
       @all_data.append(temp)
     end
-    puts '=================='
-    puts @all_data
-    puts '=================='
   end
 
   def kind_of(person)

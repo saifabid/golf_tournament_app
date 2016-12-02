@@ -1,33 +1,37 @@
 <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $('#eventSlides').carousel({
+            interval: 3000
+        });
 
-  $('#slides').carousel({
-      interval: 3000
-  })
+
+    });
+
+
  </script>
 
-
-
-
 <% if @profile_pictures.length > 0 %>
-    <div  id="slides" class="carousel slide" data-ride="carousel">
+<div id="eventSlides" class="carousel slide" data-ride="carousel">
+
+
   <div class="carousel-inner" role="listbox">
     <% @profile_pictures.each_with_index do |s, i| %>
-        <% itemclass= i==0? "item active" :"item" %>
+        <% itemclass=i==0? "item active" :"item" %>
 
 
-        <div class="<% itemclass %>">
-          <%= image_tag s.image, :class => "style_image" %>
+        <div class="<%= itemclass %>">
+          <%= image_tag s.image, :class=> "img-responsive"%>
         </div>
     <% end %>
   </div>
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
+  <a class="left carousel-control" href="#eventSlides" data-slide="prev">
+    <span class="icon-prev"></span>
   </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
+  <a class="right carousel-control" href="#eventSlides" data-slide="next">
+    <span class="icon-next"></span>
   </a>
 </div>
 
 <% end %>
+
+

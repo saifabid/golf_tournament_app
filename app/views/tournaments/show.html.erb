@@ -1,192 +1,200 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<style type="text/css">
-		.col-centered{
-    	float: none;
-     	margin: auto;
-		}
-		.center-text{
-			text-align: center
-		}
-		.countdown {
-			width:200px;
-			height:80px;
-			padding: 20px;
-			float: none;
-     	margin: auto;
-		}
-		.style_image {
-			width: 400px;
-			height: 300px;
-		}
-		.slide {
-		  display:none;
-		  width: 200px;
-		  height: 300px;
-		  margin:0 auto;
-		}
-		#slides .slide-header {
-		  display: none
-		}
-		#slides .slide-footer {
-		  margin:0;
-		  width: 200px;
-		}
-		.slide-footer .previous {
-		  width:75px;
-		  float:left;
-		}
-		.slide-footer .next {
-		  width:75px;
-		  float:right;
-		  text-align:right;
-		}
-		</style>
-	</head>
-	<body>
+<script>
+  jQuery(document).on("ready page:load", function () {
+    $(function () {
+      $('#countdown').countdown({
+        until: new Date(gon.year, gon.month - 1, gon.day), compact: true,
+        layout: 'Golfing in <b>{dn} {dl} {hnn}{sep}{mnn}{sep}{snn}</b> {desc}'
+      });
+    });
+  });
+</script>
 
-	 <script>
-	    jQuery(document).on("ready page:load", function() {
-			  $(function () { 
-			    $('#countdown').countdown({until: new Date(gon.year, gon.month - 1, gon.day), compact: true, 
-    			layout: 'Golfing in <b>{dn} {dl} {hnn}{sep}{mnn}{sep}{snn}</b> {desc}'});
-			  });
-			});
-    </script>
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    <script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-88266161-1', 'auto');
+  ga('send', 'pageview');
 
-	  ga('create', 'UA-88266161-1', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
-
-   <% if !current_user.nil? %>
-      <% if Person.where(sprintf("user_id = %s AND tournament_id = %s AND is_organizer = 1 AND org_view_public = 1", current_user.id, @tournament.id)).exists? %>
-           <%=render "layouts/return_to_organizer_dashboard" %>
-      <% end %>
-    <% end %>
-
-		<div class="row">
-			<div class="col-md-1 col-spacing">
-				<%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get" %>
-				<%= button_to "Features", {:controller => "tournaments", :action => "features", :id => @id}, :method => "get" %>
-				<%= button_to "Sponsors", {:controller => "tournaments", :action => "sponsors", :id => @id}, :method => "get" %>
-				<%= button_to "Information", {:controller => "tournaments", :action => "information", :id => @id}, :method => "get" %>
-			</div>
-			<div class="col-md-9">
-				<div class="center-text">
-				<% if @tournament.logo.present? %>
-				 	<img src=<%= @tournament.logo %> class="style_image" >	
-				<% end %>
-				<div class="logo">
-				 	<%=@tournament.name%>
-				</div>
-				<% if @tournament.details.present? %>
-				<div class="logo">
-				 	<%=@tournament.details%>
-				</div>
-				<% end %>
-				<div>
-					Start Time : <%=@date%>
-				</div>
-				<div>
-				 <%=@tickets_left%> Player Tickets Remaining,
-         <%=@spectator_tickets_left%> Spectator Tickets Remaining,
-          <%=@dinner_tickets_left%> Dinner Tickets Remaining,
-        </div>
-				</div>
-				<div class="col-md-12">
-					<%= render('layouts/event_slideshow') %>
-				</div>
-
-				<%= render('layouts/general_map_view') %>
-        <div class="col-md-12">
-          <%= render "tournaments/sponsor_opportunities_modal" %>
-          <div class="center-text">
-            <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sponsordetails#{params[:id]}" %> >Interested in Sponsoring this Tournament?</button>
-          </div>
-        </div>
-				<div class="col-md-12">
-					<div class="countdown center-text">
-						<div id="countdown"></div>
-					</div>
-				</div>
-
-				<div class="col-md-12">
-					<%= render('layouts/gold_sponsor_slideshow') %>
-				</div>
-
-				<% if @is_signed_up or @is_valid_guest %>
-				<div class="col-md-12">
-					<%= render('layouts/event_group_view') %>
-				</div>
-				<% end %>
-
-				<% if @sponsor_accounts.present?%>
-					<div>
-						<div>Sponsored By:</div>
-						 <%@sponsor_accounts.each do |sponsor_account| -%>
-
-						 	<%=sponsor_account.first_name%> <%=sponsor_account.last_name%> ID(<%=sponsor_account.user_id%>):
-		 					<% if sponsor_account.profile_pic.present? %>
-							 	<img src=<%= sponsor_account.profile_pic %>>	
-							<% end %>
-
-							&nbsp;&nbsp;&nbsp;
-						 <%end -%>
-					</div>
-					<br>
-				<%end%>
-
-			</div>
-			<div class="col-md-2 col-spacing">
-				<% if !@is_valid_guest %>
-					<% if @profile_pic %>
-						<img height="100" width="100" src=<%= @profile_pic %> >
-					<% elsif @f_name != 'none' %>
-						<%=@f_name%>
-					<% elsif @email %>
-						<%=@email %> 
-					<% end %>
-				<% end %>
-				<% if @tickets_left >= 1 %>
-					<% if @show_signup_button and @no_group_need_to_buy_tickets %>
-				 		<%= button_to 'Buy Tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
-				 		<% elsif @buy_additional_tickets %>
-				 		<%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
-				 	<%end%>
-				 	<% if @show_signup_button and not @no_group_need_to_buy_tickets and not @buy_additional_tickets%>
-				 		<%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method=>:get %>
-				 	<% end %>
-				<%end%>
-
-				<% if @show_signup_button and not @buy_additional_tickets%>
-				<%= button_to "Are you someone's Guest or a Spectator?", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get" %>
-				<% end %>
-				<%= render_shareable :buttons=> ['twitter', 'linkedin']%>
-
-				<a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share on Facebook</a>
-
-				<%= render('layouts/silver_sponsor_slideshow') %>
-			</div>
-		</div>
-  <div>
-    <% if @is_signed_up  %>
-  <%= link_to "Request A Refund", {:controller => "tournaments", :action => "request_refund_email", :id => current_user.id, :tournament_id => params[:id]}, :method => "post" %>
+</script>
+<div class="row">
+  <div class="col-md-1">
+    <% if !current_user.nil? %>
+        <% if Person.where(sprintf("user_id = %s AND tournament_id = %s AND is_organizer = 1 AND org_view_public = 1", current_user.id, @tournament.id)).exists? %>
+            <%= render "layouts/return_to_organizer_dashboard" %>
+        <% end %>
     <% end %>
   </div>
-	</body>
-</html>
+  <div class="col-md-10 col-centered">
+
+    <div class="row">
+      <div class="col-centered col-md-3"
+      <% if @tournament.logo.present? %>
+          <img src=<%= @tournament.logo %> class="style_image">
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="text-center">
+      <h2><%= @tournament.name %></h2>
+    </div>
+  </div>
+  <div class="row">
+    <%= render('layouts/event_slideshow') %>
+  </div>
+</div>
+
+
+<br>
+
+
+
+<div class="col-md-7 col-md-offset-1">
+  <div class="list-group">
+    <% if @tournament.details.present? %>
+        <div class="list-group-item">db
+          Description:
+
+          <%= @tournament.details %>
+
+        </div>
+    <% end %>
+
+
+    <div class="list-group-item">
+
+      Start Time : <%= @date %>
+
+    </div>
+
+    <div class="list-group-item">
+      Player Tickets Remaining: <%= @tickets_left %>
+    </div>
+    <div class="list-group-item">
+      Spectator Tickets Remaining: <%= @spectator_tickets_left %>
+    </div>
+    <div class="list-group-item">
+      Dinner Tickets Remaining: <%= @dinner_tickets_left %>
+    </div>
+
+  </div>
+
+
+  <br>
+  <%= render('layouts/general_map_view') %>
+</div>
+
+<div class="col-md-3">
+
+  <div class="panel-primary panel tournament-panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">Explore</h4>
+    </div>
+    <div class="panel-body">
+      <%= button_to "Agenda", {:controller => "tournaments", :action => "schedule", :id => @id}, :method => "get", :class => 'btn btn-default' %>
+      <%= button_to "Features", {:controller => "tournaments", :action => "features", :id => @id}, :method => "get", :class => 'btn btn-default' %>
+      <%= button_to "Sponsors", {:controller => "tournaments", :action => "sponsors", :id => @id}, :method => "get", :class => 'btn btn-default' %>
+      <%= button_to "Information", {:controller => "tournaments", :action => "information", :id => @id}, :method => "get", :class => 'btn btn-default' %>
+
+      <% if @show_signup_button and not @buy_additional_tickets %>
+
+          <br>
+          <%= button_to "Check In", {:controller => "tournaments", :action => "guest_login", :id => @id}, :method => "get", :class => 'btn btn-default' %>
+      <% end %>
+      <% if @tickets_left >= 1 %>
+          <% if @show_signup_button and @no_group_need_to_buy_tickets %>
+              <%= button_to 'Buy Tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get, :class => 'btn btn-default' %>
+          <% elsif @buy_additional_tickets %>
+              <%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get %>
+          <% end %>
+          <% if @show_signup_button and not @no_group_need_to_buy_tickets and not @buy_additional_tickets %>
+              <%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get, :class => 'btn btn-default' %>
+          <% end %>
+      <% end %>
+      <%= render "tournaments/sponsor_opportunities_modal" %>
+
+      <button type="button" class="btn-default btn" data-toggle="modal" data-target=<%= "#sponsordetails#{params[:id]}" %>>Become
+        A Sponsor!
+      </button>
+      <br>
+
+      <%= render_shareable :buttons => ['twitter', 'linkedin'] %>
+      <a href="javascript:fbShare('http://jsfiddle.net/stichoza/EYxTJ/', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share
+        on Facebook</a>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-md-12">
+  <%= render('layouts/gold_sponsor_slideshow') %>
+</div>
+
+<% if @is_signed_up or @is_valid_guest %>
+    <div class="col-md-12">
+      <%= render('layouts/event_group_view') %>
+    </div>
+<% end %>
+
+
+
+<div class="col-md-8">
+  <div class="countdown center-text">
+    <div id="countdown"></div>
+  </div>
+</div>
+
+
+</div>
+<div class="row">
+  <div class="col-md-2 col-spacing">
+    <% if !@is_valid_guest %>
+        <% if @profile_pic %>
+            <img height="100" width="100" src=<%= @profile_pic %>>
+        <% elsif @f_name != 'none' %>
+            <%= @f_name %>
+        <% elsif @email %>
+            <%= @email %>
+        <% end %>
+    <% end %>
+    <%= render('layouts/silver_sponsor_slideshow') %>
+  </div>
+</div>
+
+
+<% if @sponsor_accounts.present? %>
+    <div class="row">
+      <h3>Sponsored By:</h3>
+      <% @sponsor_accounts.each do |sponsor_account| -%>
+          <div class="col-md-4">
+            <%= sponsor_account.first_name %> <%= sponsor_account.last_name %> ID(<%= sponsor_account.user_id %>):
+            <% if sponsor_account.profile_pic.present? %>
+                <img src="<%= sponsor_account.profile_pic %>" class="img-responsive">
+            <% end %>
+          </div>
+      <% end %>
+
+    </div>
+    <br>
+
+<% end %>
 <script>
-    function fbShare(url, title, descr, image, winWidth, winHeight) {
-        var winTop = (screen.height / 2) - (winHeight / 2);
-        var winLeft = (screen.width / 2) - (winWidth / 2);
-        window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
-    }
+  function fbShare(url, title, descr, image, winWidth, winHeight) {
+    var winTop = (screen.height / 2) - (winHeight / 2);
+    var winLeft = (screen.width / 2) - (winWidth / 2);
+    window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+  }
 </script>
+
+
