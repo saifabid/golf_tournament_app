@@ -104,8 +104,7 @@ class TournamentsController < ApplicationController
 
     Rapidfire::Survey.create(:name => @tournament.questionnaire_name)
     @survey = Rapidfire::Survey.last
-
-    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false, survey_admin: @survey.id})
+    if !@tournament.people.create({user_id: current_user.id, is_organizer: true, org_view_public: false, survey_admin: @survey.nil? ? 0: @survey.id})
       Image.delete_by_ids [uploaded_logo["public_id"],uploaded_venue_logo["public_id"]]
       render :new
       return
