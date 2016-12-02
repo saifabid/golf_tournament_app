@@ -279,7 +279,7 @@ class TournamentsController < ApplicationController
         begin 
           @people_data['group'] = @tournament_group_num.tournament_group_num
         rescue
-          @people_data['group'] = -1
+          @people_data['group'] = "Not assigned"
         end
 
         @people_data['checked_in'] = member.checked_in
