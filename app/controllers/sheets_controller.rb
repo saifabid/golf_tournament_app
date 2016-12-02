@@ -14,6 +14,7 @@ class SheetsController < ApplicationController
 		@assigned = @req["values_needed"]
 		@unassigned = @req["values_not_needed"]
 		@t_id = @req["t_id"]
+		@time = @req["time"]
 
 		@assigned.each do |key, values|
 			@gr = Group.find_by(:tournament_id => @t_id, :id => key)
@@ -55,6 +56,7 @@ class SheetsController < ApplicationController
 			end
 
 			@gr.current_members = values.length
+			@gr.start = @time[key]
 			@gr.save
 			
 		end
