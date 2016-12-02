@@ -12,6 +12,15 @@ class SignupController < ApplicationController
   before_action :check_positive_amounts, only: [:before_payment_summary]
   before_action :check_organizer_paid, only: [:signup_from_tournament]
   before_action :check_non_zero_tickets, only: [:before_payment_summary]
+  before_action :check_for_company_name, only: [:before_payment_summary]
+
+
+   def check_for_company_name
+    if !params[:company_name].present? 
+      flash[:error] = "Please enter a company_name"
+      redirect_to (sprintf("/signup/%d", params[:tournament_id]))
+    end
+  end
 
   def check_organizer_paid
     @tournament = Tournament.find(params[:id])
