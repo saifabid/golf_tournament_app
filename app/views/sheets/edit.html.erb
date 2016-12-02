@@ -7,11 +7,12 @@
 <div class="row">
   <div class="col-md-6">
     <% @groups.each do |key, value| %>
+
       <table class="table table-bordered">
         <thead>
           <th unique_group_id = "<%= key %>">Group <%= key %>  <span style ="float:right;">    Tee off time: 
 
-              <input class="timepicker text-center" jt-timepicker="" time="model.time" time-string="model.timeString" default-time="model.options.defaultTime" time-format="model.options.timeFormat" start-time="model.options.startTime" min-time="model.options.minTime" max-time="model.options.maxTime" interval="model.options.interval" dynamic="model.options.dynamic" scrollbar="model.options.scrollbar" dropdown="model.options.dropdown">
+              <input class="timepicker text-center" jt-timepicker="" time="model.time" time-string="model.timeString" default-time="<%= value %>" time-format="model.options.timeFormat" start-time="model.options.startTime" min-time="model.options.minTime" max-time="model.options.maxTime" interval="model.options.interval" dynamic="model.options.dynamic" scrollbar="model.options.scrollbar" dropdown="model.options.dropdown" value ="<%= value %>">
 
 
           </span>
@@ -145,7 +146,7 @@ $(".connectedSortable")
     interval: 30,
     // minTime: '10',
     // maxTime: '6:00pm',
-    defaultTime: '10:00am',
+    // defaultTime: '10:00am',
     startTime: '10:00',
     dynamic: false,
     dropdown: true,
