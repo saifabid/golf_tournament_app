@@ -16,17 +16,17 @@ class SignupController < ApplicationController
   before_action :check_for_company_logo, only: [:before_payment_summary]
 
    def check_for_company_logo
-    if !params[:company_logo].present? 
-      flash[:error] = "Please upload a company logo"
-      redirect_to (sprintf("/signup/%d", params[:tournament_id]))
-    end
+      if params[:sponsor_level].to_i > 0 && !params[:company_logo].present?
+        flash[:error] = "Please upload a company logo"
+        redirect_to (sprintf("/signup/%d", params[:tournament_id]))
+      end
   end
 
    def check_for_company_name
-    if !params[:company_name].present? 
-      flash[:error] = "Please enter a company name"
-      redirect_to (sprintf("/signup/%d", params[:tournament_id]))
-    end
+      if params[:sponsor_level].to_i > 0 && !params[:company_name].present?  
+        flash[:error] = "Please enter a company name"
+        redirect_to (sprintf("/signup/%d", params[:tournament_id]))
+      end
   end
 
   def check_organizer_paid
