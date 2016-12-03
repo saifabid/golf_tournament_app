@@ -19,9 +19,16 @@
 		<%= image_tag g.company_logo, :class => "style_image" %>
 		<% end %>
 	</div>
+	<div class="col-md-12 col-spacing">
+		<% if g.description%>
+			<%= g.description %>
+		<% end %>
+		<br>
+	</div>
 	<%end%>
 <%end%>
-
+<br>
+<br>
 <%if @silver_sponsors %>
 	<div class="col-md-12 col-spacing">
 		<h1>Silver</h1>
@@ -35,22 +42,36 @@
 		<%= image_tag g.company_logo, :class => "style_image" %>
 		<% end %>
 	</div>
+	<div class="col-md-12 col-spacing">
+		<% if g.description%>
+			<%= g.description %>
+		<% end %>
+		<br>
+	</div>
 	<%end%>
 <%end%>
+<br>
+<br>
 
 <%if @bronze_sponsors %>
 	<div class="col-md-12 col-spacing">
 		<h1>Bronze</h1>
 	</div>
 	<% @bronze_sponsors.each do|g|%>
-	<div class="col-md-12 col-spacing">
-	<%=g.company_name %>
-	</div>
-	<div class="col-md-12 col-spacing">
-		<% if g.company_logo %>
-		<%= image_tag g.company_logo, :class => "style_image" %>
-		<% end %>
-	</div>
+		<div class="col-md-12 col-spacing">
+			<%=g.company_name %>
+		</div>
+		<div class="col-md-12 col-spacing">
+			<% if g.company_logo %>
+				<%= image_tag g.company_logo, :class => "style_image" %>
+			<% end %>
+		</div>
+		<div class="col-md-12 col-spacing">
+			<% if g.description%>
+				<%= g.description %>
+			<% end %>
+			<br>
+		</div>
 	<%end%>
 <%end%>
 
