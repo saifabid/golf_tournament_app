@@ -1,3 +1,6 @@
+<% content_for(:body_attributes) do %>
+    data-no-turbolink="true"
+<% end %>
 <h2>User Dashboard</h2>
 
 
@@ -39,4 +42,43 @@
     </div>
   </div>
   </div>
+<script>
+
+
+
+
+    $(document).ready(function(){
+        $('#dashboardCalendar').fullCalendar({
+            header: {
+                left: 'prev,next',
+                center: 'title'
+            },
+            eventSources: [
+                {
+                    url: 'participatingtournaments_feed',
+                    color: 'blue',
+                    textColor: 'white'
+                },
+                {
+                    url: 'createdtournaments_feed',
+                    color: 'green',
+                    textColor: 'white'
+                },
+                {
+                    url: 'spectatortournaments_feed',
+                    color: 'purple',
+                    textColor: 'white'
+                },
+                {
+                    url:'sponsoredtournaments_feed',
+                    color: 'orange',
+                    textcolor: 'white'
+                }
+            ]
+
+        });
+    });
+
+
+</script>
 

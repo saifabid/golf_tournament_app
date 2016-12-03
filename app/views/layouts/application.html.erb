@@ -10,7 +10,10 @@
   <%= include_gon %>
 
 </head>
-<body>
+<body
+<% if content_for?(:body_attributes) %>
+    <%= yield(:body_attributes) %>
+<% end %>>
 <div class="wrapper">
   <% if alert %>
       <div class="alert alert-dismissible alert-warning">
