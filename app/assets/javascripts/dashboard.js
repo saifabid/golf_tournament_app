@@ -1,5 +1,6 @@
 
-$(document).on('turbolinks:load',function() {
+
+$(document).one('turbolinks:load',function() {
     $('#dashboardCalendar').fullCalendar({
         header: {
             left: 'prev,next',
