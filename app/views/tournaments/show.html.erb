@@ -37,7 +37,7 @@
   <div class="col-md-10 col-centered">
 
     <div class="row">
-      <div class="col-centered col-md-3"
+      <div class="col-centered col-md-3">
       <% if @tournament.logo.present? %>
           <img src=<%= @tournament.logo %> class="style_image">
       <% end %>
@@ -58,11 +58,12 @@
 
 
 
-<div class="col-md-7 col-md-offset-1">
+<div class="col-md-5 col-md-offset-3">
+
   <div class="list-group">
     <% if @tournament.details.present? %>
         <div class="list-group-item">db
-          Description:
+         <b>Description:</b>
 
           <%= @tournament.details %>
 
@@ -72,25 +73,25 @@
 
     <div class="list-group-item">
 
-      Start Time : <%= @date %>
+      <b>Start Time:</b> <%= @date %>
 
     </div>
 
     <div class="list-group-item">
-      Player Tickets Remaining: <%= @tickets_left %>
+      <b>Player Tickets Remaining:</b> <%= @tickets_left %>
     </div>
     <div class="list-group-item">
-      Spectator Tickets Remaining: <%= @spectator_tickets_left %>
+      <b>Spectator Tickets Remaining:</b> <%= @spectator_tickets_left %>
     </div>
     <div class="list-group-item">
-      Dinner Tickets Remaining: <%= @dinner_tickets_left %>
+     <b>Dinner Tickets Remaining:</b> <%= @dinner_tickets_left %>
     </div>
 
   </div>
 
 
-  <br>
-  <%= render('layouts/general_map_view') %>
+
+
 </div>
 
 <div class="col-md-3">
@@ -134,12 +135,12 @@
     </div>
   </div>
 </div>
-
-
-
-<div class="col-md-12">
-  <%= render('layouts/gold_sponsor_slideshow') %>
+<div class="col-centered col-md-12">
+  <%= render('layouts/general_map_view') %>
 </div>
+
+
+
 
 <% if @is_signed_up or @is_valid_guest %>
     <div class="col-md-12">
@@ -149,7 +150,7 @@
 
 
 
-<div class="col-md-8">
+<div class="col-md-12 col-centered">
   <div class="countdown center-text">
     <div id="countdown"></div>
   </div>
@@ -168,9 +169,10 @@
             <%= @email %>
         <% end %>
     <% end %>
-    <%= render('layouts/silver_sponsor_slideshow') %>
+
   </div>
 </div>
+
 
 
 <% if @sponsor_accounts.present? %>
@@ -188,7 +190,15 @@
     </div>
     <br>
 
+
 <% end %>
+<div class="col-md-12">
+  <%= render('layouts/gold_sponsor_slideshow') %>
+</div>
+<div class="col-md-12">
+  <%= render('layouts/silver_sponsor_slideshow') %>
+</div>
+
 <script>
   function fbShare(url, title, descr, image, winWidth, winHeight) {
     var winTop = (screen.height / 2) - (winHeight / 2);
