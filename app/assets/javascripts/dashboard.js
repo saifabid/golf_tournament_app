@@ -1,5 +1,5 @@
 
-$(document).ready(function() {
+$(document).on('turbolinks:load',function() {
     $('#dashboardCalendar').fullCalendar({
         header: {
             left: 'prev,next',
