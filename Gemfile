@@ -85,6 +85,7 @@ gem 'jquery-countdown-rails'
 gem 'gon'
 gem 'rubyzip'
 
+
 # image management pipeline
 gem 'carrierwave'
 gem 'cloudinary'
@@ -105,3 +106,4 @@ gem 'rapidfire'
 gem "switch_user"
 
 gem 'prawn'
+gem 'font-awesome-rails'

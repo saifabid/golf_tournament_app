@@ -333,6 +333,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   dropzonejs-rails
+  font-awesome-rails
   fullcalendar-rails
   geocoder
   geokit-rails
