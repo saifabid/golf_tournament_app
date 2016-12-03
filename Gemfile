@@ -106,4 +106,11 @@ gem 'rapidfire'
 gem "switch_user"
 
 gem 'prawn'
+
 gem 'font-awesome-rails'
+
+# integration tests
+gem 'rspec'
+gem 'capybara'
+gem 'selenium-webdriver'
+gem "chromedriver-helper", "1.0.0"

@@ -1,0 +1,15 @@
+machine:
+  ruby:
+    version: 2.3.1
+
+dependencies:
+  override:
+    - bundle install
+
+database:
+  override:
+    - echo "Do nothing"
+
+test:
+  override:
+    - rspec -fd spec/features
