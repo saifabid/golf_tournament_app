@@ -10,18 +10,17 @@ class TournamentStatsController < ApplicationController
     @counter = 0
     Person.where(tournament_id: params[:id]).find_each do |person|
       if person.ticket_number
-        if dict[person.created_at.to_date].nil?
+        if dict[person.created_at.strftime("%Y-%m-%d")].nil?
           if kind_of(person) != "ignore"
-            dict[person.created_at.to_date] = Hash[kind_of(person) => 1]
+            dict[person.created_at.strftime("%Y-%m-%d")] = Hash[kind_of(person) => 1]
           end
         else
-          if dict[person.created_at.to_date][kind_of(person)].nil?
+          if dict[person.created_at.strftime("%Y-%m-%d")][kind_of(person)].nil?
             if kind_of(person) != "ignore"
-              dict[person.created_at.to_date].update(kind_of(person) => 1)
+              dict[person.created_at.strftime("%Y-%m-%d")].update(kind_of(person) => 1)
             end
           else
-            puts kind_of(person)
-            dict[person.created_at.to_date][kind_of(person)] += 1
+            dict[person.created_at.strftime("%Y-%m-%d")][kind_of(person)] += 1
           end
         end
       end
