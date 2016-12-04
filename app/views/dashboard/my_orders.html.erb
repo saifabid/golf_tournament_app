@@ -1,4 +1,5 @@
-<h2>My Orders</h2>
+<% if !@orders.empty? %>
+    <h2>My Orders</h2>
 <table class="table">
   <tr>
     <th>Transaction Number</th>
@@ -14,3 +15,7 @@
   <% end %>
 
 </table>
+<% else %>
+
+   <div class="jumbotron"><h2>You don't have any orders!</h2></div>
+<% end %>

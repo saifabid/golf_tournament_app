@@ -1,72 +1,95 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <style type="text/css">
-      .col-centered{
-        float: none;
-        margin: auto;
-      }
-      .center-text{
-      text-align: center
-      }
-      </style>
-  </head>
-</html>
+
 
 <h1>Organiser Dashboard</h1>
-<%=render('layouts/event_organizer_header') %>
 
-<% if @is_private == true %>
-     <%= render "organizer_dashboard/send_password_modal" %>
-  <div class = center-text>
-    <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendpassword#{params[:id]}" %> >Send Password by Email</button>
-   </div>
-<% end %>
 
-<% if @tournament.player_questionnaire %>
-    <%= link_to "Setup your Survey", {:controller => 'organizer_dashboard', :action => 'survey_setup', :id => params[:id]}, :method => :post %>
-    <br>
-    <%= link_to "View Survey Answers", {:controller => 'organizer_dashboard', :action => 'survey_answers', :id => params[:id]}, :method => :post %>
-<% end %>
 
-<div class = center-text>
-  <% if @tournament.organizer_paid != true && Time.now.strftime("%d-%m-%Y %H:%M:%S") > @tournament.start_date%>
-      <%= button_to "Tournament Outstanding Balance, Pay Here", {:controller => 'organizer_payment', :action => "show"}, :method => :get %>
-  <% end %>
-</div>
 
-<%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
-<div class = 'row center-text'>
 
-    <thead>
-      <tr>
-        <th> Player Tickets Left: <%= @tournament.tickets_left %>, </th>
-        <th> Spectator Tickets Left: <%= @tournament.spectator_tickets_left %>,</th>
-        <th> Dinner Tickets Left: <%= @tournament.dinner_tickets_left %></th>
-      </tr>
-    </thead>
 
-  <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get, :class=> 'btn btn-default' %>
+
+
+
+<div class ='col-md-9'>
+
+  <%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
 
 </div>
 
-<div>
-  <a class="btn-danger btn-sm" href="/tournaments/<%=@tournament.id%>" data-method="delete">
-    <i class="pg-trash"></i>
-    <span class="bold">Delete Tournament</span>
-  </a>
-</div>
 
-<div class ='row center-text'>
+<div class="col-md-3">
 
-  <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get, :class=>'btn btn-default' %>
+  <div class="panel-primary panel tournament-panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">Manage</h4>
+    </div>
+    <div class="panel-body">
 
-  <%= render_shareable :buttons=> ['twitter', 'linkedin'], :url => request.original_url.sub('organizer_dashboard', 'tournaments')%>
+      <div>
+        <%= button_to 'Event Stats', {:controller => "tournament_stats", :action => "show"}, :method=>:get, :class=>'btn btn-default' %>
+      </div>
+      <div>
+        <%= button_to 'Edit Event', {:controller => "tournaments", :action => "edit"}, :method=>:get,:class=>'btn btn-default' %>
+      </div>
+      <div>
+        <%= button_to 'T sheets', {:controller => "sheets", :action => "show"}, :method=>:get,:class=>'btn btn-default' %>
+      </div>
+      <div>
+        <%= button_to 'Public View', {:controller => "organizer_dashboard", :action => "view_public", :id => params[:id]}, :method=>:post,:class=>'btn btn-default' %>
+      </div>
+      <div>
+        <%= button_to 'Edit Tournament Features', {:controller => "tournament_features", :action => "edit_features"}, :method=>:get,:class=>'btn btn-default' %>
+      </div>
+      <div>
+        <%= button_to 'Edit Tournament Agenda', {:controller => "tournament_events", :action => "edit_events"}, :method=>:get,:class=>'btn btn-default' %>
+      </div>
+      <div>
+        <% if @tournament.organizer_paid != true && Time.now.strftime("%d-%m-%Y %H:%M:%S") > @tournament.start_date%>
 
-</div>
+            <%= button_to "Tournament Outstanding Balance, Pay Here", {:controller => 'organizer_payment', :action => "show"}, :method => :get, :class=>'btn btn-default' %>
+        <% end %>
+      </div>
+      <br>
+      <div>
+        <div class="text-info"> Player Tickets Left: <%= @tournament.tickets_left %>, </div>
+        <div class="text-info"> Spectator Tickets Left: <%= @tournament.spectator_tickets_left %>,</div>
+        <div class="text-info"> Dinner Tickets Left: <%= @tournament.dinner_tickets_left %></div>
+      <%= button_to "Reload Tickets Left", {:controller => 'organizer_dashboard', :action => "show"}, :method => :get, :class=> 'btn btn-default' %>
+      </div>
 
-<% if @is_private == true %>
-  <div class = center-text>
-  The password to your event is: <%= @private_event_password %>
+      <div></div>
+      <% if @is_private == true %>
+          <br>
+          <%= render "organizer_dashboard/send_password_modal" %>
+          <div class = "center-text">
+            <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendpassword#{params[:id]}" %> >Send Password by Email</button>
+          </div>
+      <% end %>
+      <% if @tournament.player_questionnaire %>
+          <br>
+          <%= link_to "Setup your Survey", {:controller => 'organizer_dashboard', :action => 'survey_setup', :id => params[:id]}, :method => :post, :class=>'btn btn-default' %>
+          <br>
+          <%= link_to "View Survey Answers", {:controller => 'organizer_dashboard', :action => 'survey_answers', :id => params[:id]}, :method => :post, :class=>'btn btn-default' %>
+      <% end %>
+
+      <br>
+      <br>
+      <div>
+        <%= button_to 'Signup', {:controller => "signup", :action => "signup_from_tournament", :id => params[:id]} , :method=>:get, :class=>'btn btn-default' %>
+      </div>
+      <div >
+        <%= render_shareable :buttons=> ['twitter', 'linkedin'], :url => request.original_url.sub('organizer_dashboard', 'tournaments')%>
+      </div>
+      <br>
+      <br>
+      <div>
+        <a class="btn-danger btn" href="/tournaments/<%=@tournament.id%>" onclick="confirm('Are you sure you want to do this?')" data-method="delete">
+          <i class="fa fa-trash-o" aria-hidden="true"></i>
+          <span class="bold">Delete Tournament</span>
+        </a>
+      </div>
+
+
+    </div>
   </div>
-<% end %>
+</div>
