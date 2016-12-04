@@ -11,9 +11,13 @@
 
 
 <div class ='col-md-9'>
+<h3>Manage Tournament Users</h3>
+  <% if @all_tournament_players.empty?%>
+  <div class="jumbotron"> There are no users for this tournament so far...</div>
+  <%else%>
+      <%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
 
-  <%= render "organizer_dashboard/users_table",  users: @all_tournament_players, current_player: @current_player %>
-
+<% end%>
 </div>
 
 
