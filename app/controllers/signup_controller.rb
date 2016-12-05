@@ -80,6 +80,10 @@ class SignupController < ApplicationController
 
   def signup_summary
     transaction_id= params[:transaction_id]
+    if(params[:tournament_id])
+      @tournament_id=params[:tournament_id]
+    end
+
     transaction= TicketTransaction.find(transaction_id)
     if (transaction.user_id!= current_user.id)
       raise 'You are not permitted to view this transaction'
@@ -678,7 +682,7 @@ class SignupController < ApplicationController
       @tournament.update_column(:card_surcharge, @transaction_surcharge)
       @tournament.update_column(:player_surcharge, @player_surcharge)
 
-      redirect_to controller: 'signup', action: 'signup_summary', transaction_id: transaction_id
+      redirect_to controller: 'signup', action: 'signup_summary', transaction_id: transaction_id, tournament_id: tournament.id
 
     end
 

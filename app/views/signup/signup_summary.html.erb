@@ -1,5 +1,8 @@
 <h1> Transaction number: <%= @transaction_num%></h1>
 
+<% if @tournament_id %>
+    <%= link_to 'Back to Event Page!', {:controller=> 'tournaments',:action=> 'show',  :id=>@tournament_id}, data: { turbolinks: false }, :class=>'btn btn-default'%>
+<% end %>
 <table class="table">
   <tr>
     <th>Ticket Number</th>
