@@ -115,7 +115,7 @@
           <% if @show_signup_button and @no_group_need_to_buy_tickets %>
               <%= button_to 'Buy Tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get, :class => 'btn btn-default' %>
           <% elsif @buy_additional_tickets %>
-              <%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get %>
+              <%= button_to 'Purchase additional tickets', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get, :class=>'btn btn-default' %>
           <% end %>
           <% if @show_signup_button and not @no_group_need_to_buy_tickets and not @buy_additional_tickets %>
               <%= button_to 'Signup/Login', {:controller => "signup", :action => "signup_from_tournament", :id => @id}, :method => :get, :class => 'btn btn-default' %>
