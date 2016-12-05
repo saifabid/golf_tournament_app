@@ -5,13 +5,20 @@
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-88266161-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-88266161-1', 'auto');
+    ga('send', 'pageview');
 
 </script>
 
@@ -23,7 +30,7 @@
     </div>
     <div class="col-md-3">
       <div class="mytournaments-panel">
-     
+
         <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Participating In", tournaments: @participatingtournaments %>
       </div>
       <div class="mycreatedtournaments-panel">
@@ -36,30 +43,27 @@
       </div>
       <div class="mysponsoredtournaments-panel">
 
-        <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Sponsoring", tournaments: @sponsoredtournaments  %>
+        <%= render 'dashboard/tournamentlist', title: "Tournaments I'm Sponsoring", tournaments: @sponsoredtournaments %>
       </div>
 
     </div>
   </div>
   <div id="dashboardModalContainer"></div>
-  </div>
+</div>
 <script>
 
 
-
-
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#dashboardCalendar').fullCalendar({
             header: {
                 left: 'prev,next',
                 center: 'title'
             },
+            eventClick: function (calEvent) {
 
-            eventClick: function(calEvent, jsEvent, view) {
-
-                getTournamentModal(calEvent.tournament_id, function(response){
+                getTournamentModal(calEvent.tournament_id, function (response) {
                     $("#dashboardModalContainer").html(response);
-                   $("#dashboardModalContainer .modal").modal();
+                    $("#dashboardModalContainer .modal").modal();
                 });
 
             },
@@ -81,7 +85,7 @@
                     textColor: 'white'
                 },
                 {
-                    url:'sponsoredtournaments_feed',
+                    url: 'sponsoredtournaments_feed',
                     color: 'orange',
                     textcolor: 'white'
                 }
@@ -90,7 +94,7 @@
         });
     });
 
-    var getTournamentModal=function(tournament_id, successCallback) {
+    var getTournamentModal = function (tournament_id, successCallback) {
         $.ajax({
             url: '<%= dashboard_get_tournament_modal_path%>',
             data: {tournament_id: tournament_id},
