@@ -130,13 +130,8 @@
       <th>Checked in?</th>
       <th>Group Number</th>
       <th> </th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-  <th></th>
+
+
   </thead>
   <tbody>
    <% users.each do |user|%>
@@ -174,67 +169,66 @@
       <td>
         <%= user["group_number"] %>
       </td>
-      <td>
-        <%= render "organizer_dashboard/send_email_modal", user: user %>
-        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %> >Message</button>
-      </td>
+<td>
+        <div class="panel-group">
+          <div class="panel panel-default">
 
-      <td>
-        <%= render "organizer_dashboard/send_ticket_modal", user: user %>
-        <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %> >Ticket</button>
-      </td>
+                <a class='btn btn-primary' data-toggle="collapse" href="#collapse<%= user['player'].id%>">Manage</a>
 
-      <td>
-        <% if user["player"].checked_in == true %>
-          <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% else %>
-          <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% end %>
-      </td>
+            <div id="collapse<%= user['player'].id%>" class="panel-collapse collapse">
+              <div class="panel-body">
+                <%= render "organizer_dashboard/send_email_modal", user: user %>
+                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %> >Message</button>
+                <br>
+                <%= render "organizer_dashboard/send_ticket_modal", user: user %>
+                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %> >Ticket</button>
+                <br>
+                <% if user["player"].checked_in == true %>
+                    <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                <% else %>
+                    <%= button_to 'Check In', {controller: "organizer_dashboard", action: "check_player_in", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                <% end %>
 
-      <td>
-        <% if user["player"].is_golf_course_admin != true %>
-          <%= button_to 'Set GolfCourse Admin', {controller: "organizer_dashboard", action: "set_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% else %>
-          <%= button_to 'Unset GolfCourse Admin', {controller: "organizer_dashboard", action: "unset_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% end %>
-      </td>
+                <% if user["player"].is_golf_course_admin != true %>
+                    <%= button_to 'Set GolfCourse Admin', {controller: "organizer_dashboard", action: "set_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                <% else %>
+                    <%= button_to 'Unset GolfCourse Admin', {controller: "organizer_dashboard", action: "unset_golf_course_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                <% end %>
+                <br>
+                <% if user["player"].company_csr != true %>
+                    <%= button_to 'Set Company CSR', {controller: "organizer_dashboard", action: "set_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                <% else %>
+                    <%= button_to 'Unset Company CSR', {controller: "organizer_dashboard", action: "unset_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                <% end %>
+              <br>
+              <% if user["player"].company_rep != true %>
+                  <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+              <% else %>
+                  <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+              <% end %>
+              <% if user["player"].golf_course_csr != true %>
+                  <%= button_to 'Set GolfCourse CSR', {controller: "organizer_dashboard", action: "set_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+              <% else %>
+                  <%= button_to 'Unset GolfCourse CSR', {controller: "organizer_dashboard", action: "unset_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+              <% end %>
 
-      <td>
-        <% if user["player"].company_csr != true %>
-            <%= button_to 'Set Company CSR', {controller: "organizer_dashboard", action: "set_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% else %>
-            <%= button_to 'Unset Company CSR', {controller: "organizer_dashboard", action: "unset_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% end %>
-      </td>
+              <% if current_player.is_organizer == true %>
+<br>
+                  <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
+                      <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                  <% else %>
+                      <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                  <% end %>
 
-      <td>
-        <% if user["player"].company_rep != true %>
-            <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% else %>
-            <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% end %>
-      </td>
-
-      <td>
-        <% if user["player"].golf_course_csr != true %>
-            <%= button_to 'Set GolfCourse CSR', {controller: "organizer_dashboard", action: "set_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% else %>
-            <%= button_to 'Unset GolfCourse CSR', {controller: "organizer_dashboard", action: "unset_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% end %>
-      </td>
-
+              <% end %>
+              <br>
+              </div>
+            </div>
+          </div>
+        </div>
 
       <!-- Only see the ability to make users admins if organizer  -->
-      <% if current_player.is_organizer == true %>
-      <td>
-        <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
-        <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-        <% else %>
-        <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-        <% end %>
-      </td>
-      <% end %>
+
    </tr>
   <% end %>
 </tbody>
