@@ -145,6 +145,7 @@ Rails.application.routes.draw do
   get 'dashboard/sponsoredtournaments_feed'
   get 'charges/new'
   get 'dashboard/my_orders'
+  get 'dashboard/get_tournament_modal'
 
 
   root to: 'welcome#hello_world'

@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   def participatingtournaments_feed
     tournaments= getpartipatingtournaments
     tournamentslist = tournaments.map do |t|
-      { :title=> t.name, :start => t.start_date }
+      { :tournament_id=>t.id, :title=> t.name, :start => t.start_date }
     end
 
     render :json=> tournamentslist.to_json
@@ -21,7 +21,7 @@ class DashboardController < ApplicationController
   def createdtournaments_feed
     tournaments= getcreatedtournaments
     tournamentslist = tournaments.map do |t|
-      { :title=> t.name, :start => t.start_date }
+      { :tournament_id=>t.id,:title=> t.name, :start => t.start_date }
     end
 
     render :json=> tournamentslist.to_json
@@ -29,19 +29,30 @@ class DashboardController < ApplicationController
   def spectatortournaments_feed
     tournaments= getspectatortournments
     tournamentslist= tournaments.map do|t|
-      {:title=> t.name, :start=> t.start_date}
+      {:tournament_id=>t.id,:title=> t.name, :start=> t.start_date}
     end
     render :json=> tournamentslist.to_json
   end
   def sponsoredtournaments_feed
     tournaments= getsponsoredtournaments
     tournamentslist= tournaments.map do|t|
-      {:title=> t.name, :start=> t.start_date}
+      {:tournament_id=>t.id, :title=> t.name, :start=> t.start_date}
     end
     render :json=> tournamentslist.to_json
   end
 
+  def get_tournament_modal
+    tournament_id=params[:tournament_id]
+    if(tournament_id.nil?)
+      raise "no tournament id specified"
+    end
+    tournament= Tournament.find(tournament_id)
+    if(tournament.nil?)
+      raise "tournament #{tournament_id} not found"
+    end
+    render partial: 'tournaments/tournament_modal',locals:{:tournament=> tournament}
 
+  end
 
   private
   def getpartipatingtournaments
@@ -62,5 +73,6 @@ class DashboardController < ApplicationController
     userid= current_user.id
     return Tournament.select('tournaments.*, people.created_at').joins(:people).where(:people=> {:user_id=> userid, :is_sponsor=> 1}).distinct(:id).order("people.created_at DESC")
   end
+
 
 end

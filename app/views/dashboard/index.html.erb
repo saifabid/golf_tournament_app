@@ -41,6 +41,7 @@
 
     </div>
   </div>
+  <div id="dashboardModalContainer"></div>
   </div>
 <script>
 
@@ -53,6 +54,16 @@
                 left: 'prev,next',
                 center: 'title'
             },
+
+            eventClick: function(calEvent, jsEvent, view) {
+
+                getTournamentModal(calEvent.tournament_id, function(response){
+                    $("#dashboardModalContainer").html(response);
+                   $("#dashboardModalContainer .modal").modal();
+                });
+
+            },
+
             eventSources: [
                 {
                     url: 'participatingtournaments_feed',
@@ -78,6 +89,17 @@
 
         });
     });
+
+    var getTournamentModal=function(tournament_id, successCallback) {
+        $.ajax({
+            url: '<%= dashboard_get_tournament_modal_path%>',
+            data: {tournament_id: tournament_id},
+            success: successCallback,
+            dataType: "html",
+            method: 'get'
+        });
+
+    };
 
 
 </script>
