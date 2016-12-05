@@ -1,0 +1,28 @@
+<% modal_id= "tournament#{tournament.id}-modal"%>
+<div id="<%=modal_id%>" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><%= tournament.name %></h4>
+      </div>
+      <div class="modal-body">
+        <div> Start Time: <%= tournament.start_date %></div>
+        <div><%= tournament.details%> </div>
+      </div>
+      <div class="modal-footer">
+        <%= link_to "View Tournament",{:controller=>'tournaments', :action=>'show', :id=> tournament.id}, :class=> 'btn btn-default'  %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#<%=modal_id%>">View Details</button>
+
+
+
+
+
+
+

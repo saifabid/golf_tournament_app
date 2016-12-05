@@ -1,9 +1,18 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
+      <button type = "button" class = "navbar-toggle"
+              data-toggle = "collapse" data-target = "#main-navbar">
+        <span class = "sr-only">Toggle navigation</span>
+        <span class = "icon-bar"></span>
+        <span class = "icon-bar"></span>
+        <span class = "icon-bar"></span>
+      </button>
       <a class="navbar-brand" href="/">Golf Tournament App</a>
-    </div>
 
+
+    </div>
+    <div id="main-navbar" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       <%= nav_link 'Home', root_path %>
       <%= nav_link 'Tournaments', main_app.tournament_list_list_path %>
@@ -32,5 +41,6 @@
 
     </ul>
 
+  </div>
   </div>
 </nav>
