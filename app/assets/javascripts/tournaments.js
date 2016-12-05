@@ -10,4 +10,5 @@ $(document).ready(function(){
 
         maxFileSize:5
     });
+    $(".card .card-title").dotdotdot( {height: 30});
 });
