@@ -64,6 +64,7 @@
                 getTournamentModal(calEvent.tournament_id, function (response) {
                     $("#dashboardModalContainer").html(response);
                     $("#dashboardModalContainer .modal").modal();
+                    $("#dashboardModalContainer button.show-tournament").hide();
                 });
 
             },
