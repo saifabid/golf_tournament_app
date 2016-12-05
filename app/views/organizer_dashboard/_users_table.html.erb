@@ -147,13 +147,19 @@
    <% end %>
       <td>
         <% if user["is_guest"] == true %>
-          <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+            <% if user["account"] == nil %>
+                <%= sprintf("guest %d", user["guest_number"]) %>
+            <% else %>
+                <%= sprintf("%s guest %d", user["account"].first_name, user["guest_number"]) %>
+            <% end %>
         <% end %>
         <% if user["is_guest"] == false %>
           <% if user["account"] == nil %>
             No Name
           <% else %>
+           <% if user["account"] != nil and user["account"].first_name != nil %>
           <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+            <% end %>
           <% end %>
         <% end %>
       </td>
