@@ -14,5 +14,9 @@
       </div>
 
       <div class="card-content"><em><%= tournament.start_date.strftime("%m/%d/%Y at %I:%M%p") %></em></div>
+
       </a>
+  <div class="text-center">
+    <%= render 'tournaments/tournament_modal', :tournament=> tournament %>
+  </div>
   </div>
