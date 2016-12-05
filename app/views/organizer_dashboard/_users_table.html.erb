@@ -1,123 +1,124 @@
-
 <script>
-  $(document).ready(function() {
-    jQuery.fn.table2CSV = function(options) {
-      var options = jQuery.extend({
-            separator: ',',
-            header: ["User", "Contact Email", "Check In Status", "Group Number"],
-            columns:  ["User", "Contact Email", "Check In Status", "Group Number"],
-            delivery: 'popup' /* popup, value, download */
-          },
-          options);
+    $(document).ready(function () {
+        jQuery.fn.table2CSV = function (options) {
+            var options = jQuery.extend({
+                    separator: ',',
+                    header: ["User", "Contact Email", "Check In Status", "Group Number"],
+                    columns: ["User", "Contact Email", "Check In Status", "Group Number"],
+                    delivery: 'popup' /* popup, value, download */
+                },
+                options);
 
-      var csvData = [];
-      var headerArr = [];
-      var el = this;
-      var basic = options.columns.length == 0 ? true : false;
-      var columnNumbers = [];
-      var columnCounter = 0;
+            var csvData = [];
+            var headerArr = [];
+            var el = this;
+            var basic = options.columns.length == 0 ? true : false;
+            var columnNumbers = [];
+            var columnCounter = 0;
 
-      //header
-      var numCols = options.header.length;
-      var tmpRow = []; // construct header avalible array
+            //header
+            var numCols = options.header.length;
+            var tmpRow = []; // construct header avalible array
 
-      if (numCols > 0) {
-        if (basic) {
-          for (var i = 0; i < numCols; i++) {
-            tmpRow[tmpRow.length] = formatData(options.header[i]);
-          }
-        } else if (!basic) {
-          for (var o = 0; o < numCols; o++) {
-            for (var i = 0; i < options.columns.length; i++) {
-              if (options.columns[i] == options.header[o]) {
-                tmpRow[tmpRow.length] = formatData(options.header[o]);
-                columnNumbers[columnCounter] = o;
-                columnCounter++;
-              }
+            if (numCols > 0) {
+                if (basic) {
+                    for (var i = 0; i < numCols; i++) {
+                        tmpRow[tmpRow.length] = formatData(options.header[i]);
+                    }
+                } else if (!basic) {
+                    for (var o = 0; o < numCols; o++) {
+                        for (var i = 0; i < options.columns.length; i++) {
+                            if (options.columns[i] == options.header[o]) {
+                                tmpRow[tmpRow.length] = formatData(options.header[o]);
+                                columnNumbers[columnCounter] = o;
+                                columnCounter++;
+                            }
+                        }
+                    }
+                }
+            } else {
+                jQuery(el).filter(':visible').find('th').each(function () {
+                    if (jQuery(this).css('display') != 'none') tmpRow[tmpRow.length] = formatData(jQuery(this).html());
+                });
             }
-          }
-        }
-      } else {
-        jQuery(el).filter(':visible').find('th').each(function() {
-          if (jQuery(this).css('display') != 'none') tmpRow[tmpRow.length] = formatData(jQuery(this).html());
-        });
-      }
 
-      row2CSV(tmpRow);
+            row2CSV(tmpRow);
 
-      // actual data
-      if (basic) {
-        jQuery(el).find('tr').each(function() {
-          var tmpRow = [];
-          jQuery(this).filter(':visible').find('td').each(function() {
-            if (jQuery(this).css('display') != 'none') {
-              tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
+            // actual data
+            if (basic) {
+                jQuery(el).find('tr').each(function () {
+                    var tmpRow = [];
+                    jQuery(this).filter(':visible').find('td').each(function () {
+                        if (jQuery(this).css('display') != 'none') {
+                            tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
+                        }
+                    });
+                    row2CSV(tmpRow);
+                });
+            } else {
+                jQuery(el).find('tr').each(function () {
+                    var tmpRow = [];
+                    var columnCounter = 0;
+                    jQuery(this).filter(':visible').find('td').each(function () {
+                        if ((jQuery(this).css('display') != 'none') && (columnCounter in columnNumbers)) {
+                            tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
+                        }
+                        columnCounter++;
+                    });
+                    row2CSV(tmpRow);
+                });
             }
-          });
-          row2CSV(tmpRow);
-        });
-      } else {
-        jQuery(el).find('tr').each(function() {
-          var tmpRow = [];
-          var columnCounter = 0;
-          jQuery(this).filter(':visible').find('td').each(function() {
-            if ((jQuery(this).css('display') != 'none') && (columnCounter in columnNumbers)) {
-              tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
+            if ((options.delivery == 'popup') || (options.delivery == 'download')) {
+                var mydata = csvData.join('\n');
+                return popup(mydata);
+            } else {
+                var mydata = csvData.join('\n');
+                return mydata;
             }
-            columnCounter++;
-          });
-          row2CSV(tmpRow);
+
+            function row2CSV(tmpRow) {
+                var tmp = tmpRow.join('') // to remove any blank rows
+                // alert(tmp);
+                if (tmpRow.length > 0 && tmp != '') {
+                    var mystr = tmpRow.join(options.separator);
+                    csvData[csvData.length] = jQuery.trim(mystr);
+                }
+            }
+
+            function formatData(input) {
+                // replace " with “
+                var regexp = new RegExp(/["]/g);
+                var output = input.replace(regexp, "“");
+                //HTML
+                var regexp = new RegExp(/\<[^\<]+\>/g);
+                var output = output.replace(regexp, "");
+                if (output == "") return '';
+                return '' + output + '';
+            }
+
+            function popup(data) {
+                if (options.delivery == 'download') {
+                    window.location = 'data:text/csv;charset=utf8,' + encodeURIComponent(data);
+                    return true;
+                } else {
+                    var generator = window.open('', 'csv', 'height=400,width=600');
+                    generator.document.write('<html><head><title>CSV</title>');
+                    generator.document.write('</head><body >');
+                    generator.document.write('<textArea cols=70 rows=15 wrap="off" >');
+                    generator.document.write(data);
+                    generator.document.write('</textArea>');
+                    generator.document.write('</body></html>');
+                    generator.document.close();
+                    return true;
+                }
+            }
+        };
+
+
+        $("#export").click(function () {
+            $("#user_table").table2CSV();
         });
-      }
-      if ((options.delivery == 'popup')||(options.delivery == 'download')) {
-        var mydata = csvData.join('\n');
-        return popup(mydata);
-      } else {
-        var mydata = csvData.join('\n');
-        return mydata;
-      }
-
-      function row2CSV(tmpRow) {
-        var tmp = tmpRow.join('') // to remove any blank rows
-        // alert(tmp);
-        if (tmpRow.length > 0 && tmp != '') {
-          var mystr = tmpRow.join(options.separator);
-          csvData[csvData.length] = jQuery.trim(mystr);
-        }
-      }
-      function formatData(input) {
-        // replace " with “
-        var regexp = new RegExp(/["]/g);
-        var output = input.replace(regexp, "“");
-        //HTML
-        var regexp = new RegExp(/\<[^\<]+\>/g);
-        var output = output.replace(regexp, "");
-        if (output == "") return '';
-        return '' + output + '';
-      }
-      function popup(data) {
-        if (options.delivery == 'download') {
-          window.location='data:text/csv;charset=utf8,' + encodeURIComponent(data);
-          return true;
-        } else {
-          var generator = window.open('', 'csv', 'height=400,width=600');
-          generator.document.write('<html><head><title>CSV</title>');
-          generator.document.write('</head><body >');
-          generator.document.write('<textArea cols=70 rows=15 wrap="off" >');
-          generator.document.write(data);
-          generator.document.write('</textArea>');
-          generator.document.write('</body></html>');
-          generator.document.close();
-          return true;
-        }
-      }
-    };
-
-
-    $("#export").click(function () {
-      $("#user_table").table2CSV();
-    });
-  })
+    })
 </script>
 
 
@@ -125,21 +126,21 @@
 
 <table id="user_table" class="table table-bordered">
   <thead>
-      <th>User</th>
-      <th>Contact Email</th>
-      <th>Checked in?</th>
-      <th>Group Number</th>
-      <th> </th>
+  <th>User</th>
+  <th>Contact Email</th>
+  <th>Checked in?</th>
+  <th>Group Number</th>
+  <th></th>
 
 
   </thead>
   <tbody>
-   <% users.each do |user|%>
-   <% if user['player'].is_admin == true %>
-   <tr class="info">
-     <% else %>
-   <tr>
-   <% end %>
+  <% users.each do |user| %>
+      <% if user['player'].is_admin == true %>
+          <tr class="info">
+      <% else %>
+          <tr>
+      <% end %>
       <td>
         <% if user["is_guest"] == true %>
             <% if user["account"] == nil %>
@@ -149,39 +150,39 @@
             <% end %>
         <% end %>
         <% if user["is_guest"] == false %>
-          <% if user["account"] == nil %>
-            No Name
-          <% else %>
-           <% if user["account"] != nil and user["account"].first_name != nil %>
-          <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+            <% if user["account"] == nil %>
+                No Name
+            <% else %>
+                <% if user["account"] != nil and user["account"].first_name != nil %>
+                    <%= sprintf("%s %s", user["account"].first_name, user["account"].last_name) %>
+                <% end %>
             <% end %>
-          <% end %>
         <% end %>
       </td>
       <td><%= user["email"] %></td>
       <td>
         <% if user["player"].checked_in != true %>
-          false
-          <% else %>
-          true
+            false
+        <% else %>
+            true
         <% end %>
       </td>
       <td>
         <%= user["group_number"] %>
       </td>
-<td>
+      <td>
         <div class="panel-group">
           <div class="panel panel-default">
 
-                <a class='btn btn-primary' data-toggle="collapse" href="#collapse<%= user['player'].id%>">Manage</a>
+            <a class='btn btn-primary' data-toggle="collapse" href="#collapse<%= user['player'].id %>">Manage</a>
 
-            <div id="collapse<%= user['player'].id%>" class="panel-collapse collapse">
+            <div id="collapse<%= user['player'].id %>" class="panel-collapse collapse">
               <div class="panel-body">
                 <%= render "organizer_dashboard/send_email_modal", user: user %>
-                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %> >Message</button>
+                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendemail#{user["player"].id}" %>>Message</button>
                 <br>
                 <%= render "organizer_dashboard/send_ticket_modal", user: user %>
-                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %> >Ticket</button>
+                <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendticket#{user["player"].id}" %>>Ticket</button>
                 <br>
                 <% if user["player"].checked_in == true %>
                     <%= button_to 'Check Out', {controller: "organizer_dashboard", action: "check_player_out", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
@@ -200,38 +201,38 @@
                 <% else %>
                     <%= button_to 'Unset Company CSR', {controller: "organizer_dashboard", action: "unset_company_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
                 <% end %>
-              <br>
-              <% if user["player"].company_rep != true %>
-                  <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-              <% else %>
-                  <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-              <% end %>
-              <% if user["player"].golf_course_csr != true %>
-                  <%= button_to 'Set GolfCourse CSR', {controller: "organizer_dashboard", action: "set_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-              <% else %>
-                  <%= button_to 'Unset GolfCourse CSR', {controller: "organizer_dashboard", action: "unset_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-              <% end %>
+                <br>
+                <% if user["player"].company_rep != true %>
+                    <%= button_to 'Set Company Rep', {controller: "organizer_dashboard", action: "set_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                <% else %>
+                    <%= button_to 'Unset Company Rep', {controller: "organizer_dashboard", action: "unset_company_rep", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                <% end %>
+                <% if user["player"].golf_course_csr != true %>
+                    <%= button_to 'Set GolfCourse CSR', {controller: "organizer_dashboard", action: "set_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                <% else %>
+                    <%= button_to 'Unset GolfCourse CSR', {controller: "organizer_dashboard", action: "unset_golf_course_csr", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                <% end %>
 
-              <% if current_player.is_organizer == true %>
-<br>
-                  <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
-                      <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
-                  <% else %>
-                      <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
-                  <% end %>
+                <% if current_player.is_organizer == true %>
+                    <br>
+                    <% if user["player"].is_admin == false || user["player"].is_admin == nil %>
+                        <%= button_to 'Set Admin Status', {controller: "organizer_dashboard", action: "set_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-success btn-sm" %>
+                    <% else %>
+                        <%= button_to 'Remove Admin Status', {controller: "organizer_dashboard", action: "remove_player_admin", id: user["player"].tournament_id, player_id: user["player"].id}, method: "post", class: "bold btn-danger btn-sm" %>
+                    <% end %>
 
-              <% end %>
-              <br>
+                <% end %>
+                <br>
               </div>
             </div>
           </div>
         </div>
 
-      <!-- Only see the ability to make users admins if organizer  -->
+        <!-- Only see the ability to make users admins if organizer  -->
 
-   </tr>
+      </tr>
   <% end %>
-</tbody>
+  </tbody>
 
 </table>
 <button id="export" class="btn btn-default" data-export="export">Export Data</button>
