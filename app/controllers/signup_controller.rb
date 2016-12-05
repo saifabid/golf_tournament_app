@@ -39,7 +39,7 @@ class SignupController < ApplicationController
   end
 
   def check_non_zero_tickets
-    if !params[:player_tickets].present? && !params[:foursome_tickets].present? && !params[:dinner_tickets].present? && !params[:spectator_tickets].present? && params[:sponsor_level].to_i == 0
+    if ((!params[:player_tickets].present? || params[:player_tickets].to_i==0)&& ( !params[:foursome_tickets].present? || params[:foursome_tickets].to_i==0)&& (!params[:dinner_tickets].present? ||params[:dinner_tickets].to_i==0 )&&(!params[:spectator_tickets].present? || params[:spectator_tickets].to_i==0 )&& params[:sponsor_level].to_i == 0)
       flash[:error] = "Please enter a ticket amount"
       redirect_to (sprintf("/signup/%d", params[:tournament_id]))
     end
