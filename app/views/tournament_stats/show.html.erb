@@ -1,4 +1,4 @@
-<head>
+
 	<!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -49,55 +49,113 @@
       	chart.draw(data, options);
       }
     </script>
-</head>
 
-<h1><%=@tournament_name%> stats</h1>
-	
-	Checked in: <%= @num_checked_in %>
-	<BR/> <BR/>
-	Number of guests (of users) at this event: <%= @num_guests %>
-	<BR/> <BR/>
-	Number of sponsors: <%= @num_sponsors %>
-	<BR/> <BR/>
-	Current revenue from selling sponsorships: $<%= @revenue_sponsors %>
-	<BR/> <BR/>
-	Player tickets sold: <%= @player_tickets_sold %>
-	<BR/> <BR/>
-	Foursomes sold: <%= @tournament.num_foursomes %>
-	<BR/> <BR/>
-	Spectator tickets sold: <%= @spectator_tickets_sold %>
-	<BR/> <BR/>
-	Dinner tickets sold: <%= @dinner_tickets_sold %>
-	<BR/> <BR/>
-	Player tickets sold: <%= @player_tickets_sold %>
-	<BR/> <BR/>
-	Current revenue from selling player tickets: $<%= @revenue_players %>
-	<BR/> <BR/>
-	Current revenue from selling foursome tickets: $<%= @revenue_foursomes %>
-	<BR/> <BR/>
-	Current revenue from selling spectator tickets: $<%= @revenue_spectators %>
-	<BR/> <BR/>
-	Current revenue from selling dinner tickets: $<%= @revenue_dinner %>
-	<BR/> <BR/>
-	Potential revenue from selling player tickets: $<%= @potential_revenue_players %>
-	<BR/> <BR/>
-	Potential revenue from selling spectator tickets: $<%= @potential_revenue_spectators %>
-	<BR/> <BR/>
-	Potential revenue from selling dinner tickets: $<%= @potential_revenue_dinner %>
-	<BR/> <BR/>
-	Total potential revenue: $<%= @potential_revenue %>
-	<BR/> <BR/>
-	Total current revenue: $<%= @revenue %>
-	<BR/> <BR/>
-	Current cost ($2.50 per player signed up): $<%= @cost %>
-	<BR/> <BR/>
-	Net: $<%= @net %>
-  <br/>
-  <br/>
 
-  <body>
-    <!--Div that will hold the pie chart-->
+<div class="row"><h1><%=@tournament_name%> stats</h1>
+</div>
+  <div class="row">    <!--Div that will hold the pie chart-->
     <div id="chart_div"></div>
-</body>
+  </div>
 
-<%= link_to "Download PDF", {:controller => "tournament_stats", :action => "download_pdf"} %>
+<div class="row">
+  <div class="col-centered col-md-8">
+  <ul class="list-group">
+    <li class="list-group-item">
+      Number of guests (of users) at this event:
+      <span class="badge"><%= @num_guests %></span>
+
+    </li>
+    <li class="list-group-item">
+      Number of sponsors:
+      <span class="badge"><%= @num_sponsors %></span>
+
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling sponsorships:
+      <span class="badge">$<%= @revenue_sponsors %></span>
+
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling sponsorships:
+      <span class="badge">$<%= @revenue_sponsors %></span>
+    </li>
+    <li class="list-group-item">
+      Checked in:
+      <span class="badge"><%= @num_checked_in %></span>
+    </li>
+    <li class="list-group-item">
+      Player tickets sold:
+      <span class="badge"><%= @player_tickets_sold %></span>
+    </li>
+    <li class="list-group-item">
+      Foursomes sold:
+      <span class="badge">  <%= @tournament.num_foursomes %></span>
+    </li>
+    <li class="list-group-item">
+      Spectator tickets sold:
+      <span class="badge">  <%= @spectator_tickets_sold %></span>
+    </li>
+    <li class="list-group-item">
+      Dinner tickets sold:
+      <span class="badge">  <%= @dinner_tickets_sold %></span>
+    </li>
+    <li class="list-group-item">
+      Player tickets sold:
+      <span class="badge">  <%= @player_tickets_sold %></span>
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling player tickets:
+      <span class="badge"> $<%= @revenue_players %></span>
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling spectator tickets:
+      <span class="badge"> $<%= @revenue_players %></span>
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling foursome tickets:
+      <span class="badge"> $<%= @revenue_spectators %></span>
+    </li>
+    <li class="list-group-item">
+      Current revenue from selling dinner tickets:
+      <span class="badge">  $<%= @revenue_dinner %></span>
+    </li>
+
+    <li class="list-group-item">
+      Potential revenue from selling player tickets:
+      <span class="badge">   $<%= @potential_revenue_players %></span>
+    </li>
+    <li class="list-group-item">
+      Potential revenue from selling spectator tickets:
+      <span class="badge">   $<%= @potential_revenue_spectators %></span>
+    </li>
+    <li class="list-group-item">
+      Potential revenue from selling dinner tickets:
+      <span class="badge">   $<%= @potential_revenue_dinner %></span>
+    </li>
+    <li class="list-group-item">
+      Total potential revenue:
+      <span class="badge"> $<%= @potential_revenue %> </span>
+    </li>
+    <li class="list-group-item">
+      Total current revenue:
+      <span class="badge">$<%= @revenue %> </span>
+    </li>
+    <li class="list-group-item">
+      Current cost ($2.50 per player signed up):
+      <span class="badge"> $<%= @cost %> </span>
+    </li>
+    <li class="list-group-item">
+      Net:
+      <span class="badge">  $<%= @net %> </span>
+    </li>
+  </ul>
+</div>
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-md-2 col-centered">
+<%= link_to "Download PDF", {:controller => "tournament_stats", :action => "download_pdf"}, :class=> 'btn btn-default' %>
+  </div> </div>
