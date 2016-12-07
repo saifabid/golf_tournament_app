@@ -102,9 +102,9 @@ class SheetsController < ApplicationController
 		@groups = {}
 		Group.where(:tournament_id => @t_id).each do |group|
 			begin
-				@groups[group.tournament_group_num] = group.start.strftime('%H:%M')
+				@groups[group.id] = [group.tournament_group_num, group.start.strftime('%H:%M')]
 			rescue
-				@groups[group.tournament_group_num] = "not assigned yet"
+				@groups[group.id] = [group.tournament_group_num, "not assigned yet"]
 			end
 		end
 	end
