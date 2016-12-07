@@ -68,6 +68,10 @@
           <div class = "center-text">
             <button type="button" class="btn-success btn-sm" data-toggle="modal" data-target=<%= "#sendpassword#{params[:id]}" %> >Send Password by Email</button>
           </div>
+
+          <div>
+            Event Password: <%= @tournament.private_event_password %>
+          </div>
       <% end %>
       <% if @tournament.player_questionnaire %>
           <br>
