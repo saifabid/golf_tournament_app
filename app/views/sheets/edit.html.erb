@@ -10,7 +10,7 @@
 
       <table class="table table-bordered">
         <thead>
-          <th unique_group_id = "<%= key %>">Group <%= value[0] %>  <span style ="float:right;">    Tee off time: 
+          <th unique_group_id = "<%= value[0] %>">Group <%= value[0] %>  <span style ="float:right;">    Tee off time: 
 
               <input class="timepicker text-center" jt-timepicker="" time="model.time" time-string="model.timeString" default-time="<%= value[1] %>" time-format="model.options.timeFormat" start-time="model.options.startTime" min-time="model.options.minTime" max-time="model.options.maxTime" interval="model.options.interval" dynamic="model.options.dynamic" scrollbar="model.options.scrollbar" dropdown="model.options.dropdown" value ="<%= value[1] %>">
 
@@ -21,14 +21,12 @@
           </th>
         </thead>
         <tbody class = "connectedSortable" id="values" >
-        <tr> 
-          <td> </td>
-        </tr>
+        
           <% @all_tournament_players.each do |player|%>
             <% if player.group_number == key %>
 
           <tr>
-            <td unique_group_id = "<%= key %>" person_id = "<%= player.id%>">
+            <td unique_group_id = "<%= value[0] %>" person_id = "<%= player.id%>">
               <% if player.is_guest == true %>
               <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
               <% else %>
@@ -39,6 +37,10 @@
           <% end %>
 
           <% end %>
+
+          <tr>
+            <td style="height:0px"> </td>
+          </tr>
         </tbody>
       </table>
     <% end %>
@@ -49,14 +51,12 @@
           <th> Unassigned players </th>
         </thead>
         <tbody class = "connectedSortable" id = "novalues">
-          <tr>
-            <td> </td>
-          </tr>
+          
           <% @all_tournament_players.each do |player|%>
             <% if player.group_number == -1 %>
 
           <tr>
-            <td unique_group_id = "-1" person_id = "<%= player.id%>">
+            <td unique_group_id = "<%= player.group_number %>" person_id = "<%= player.id%>">
               <% if player.is_guest == true %>
                 <%= sprintf("%s guest", Account.find_by(user_id: player.guest_of).first_name) %>
               <% else %>
@@ -67,6 +67,10 @@
           <% end %>
 
           <% end %>
+
+          <tr>
+            <td style="height:0px"> </td>
+          </tr>
         </tbody>
     </table>
   </div>
