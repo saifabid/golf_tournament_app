@@ -12,17 +12,19 @@ class SheetsController < ApplicationController
 	def update
 		@req = JSON.parse(request.body.read)
 		@assigned = @req["values_needed"]
+		puts @assigned
 		@unassigned = @req["values_not_needed"]
 		@t_id = @req["t_id"]
 		@time = @req["time"]
 
 		@assigned.each do |key, values|
-			@gr = Group.find_by(:tournament_id => @t_id, :id => key)
+			puts key, values
+			@gr = Group.find_by(:tournament_id => @t_id, :tournament_group_num => key)
 	
 			begin
 				@gr.member_one = values[0]
 				player = Person.find_by(:id => values[0])
-				player.group_number = key
+				player.group_number = @gr.id
 				player.save
 			rescue
 				@gr.member_one = -1
@@ -31,7 +33,7 @@ class SheetsController < ApplicationController
 			begin
 				@gr.member_two = values[1]
 				player = Person.find_by(:id => values[1])
-				player.group_number = key
+				player.group_number = @gr.id
 				player.save
 			rescue
 				@gr.member_two = -1
@@ -40,7 +42,7 @@ class SheetsController < ApplicationController
 			begin
 				@gr.member_three = values[2]
 				player = Person.find_by(:id => values[2])
-				player.group_number = key
+				player.group_number = @gr.id
 				player.save
 			rescue
 				@gr.member_three = -1
@@ -49,7 +51,7 @@ class SheetsController < ApplicationController
 			begin
 				@gr.member_four = values[3]
 				player = Person.find_by(:id => values[3])
-				player.group_number = key
+				player.group_number = @gr.id
 				player.save
 			rescue
 				@gr.member_four = -1
