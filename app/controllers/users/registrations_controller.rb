@@ -8,9 +8,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    @account = Account.new
+    @account.user_id = current_user.id
+    @account.first_name = "Default"
+    @account.last_name = "Name"
+    @account.save
+    current_user.account_id = @account.id
+    current_user.is_admin = false
+    current_user.save
+  end
 
   # GET /resource/edit
   def edit
@@ -57,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     new_user_url
-  end
+  end 
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)

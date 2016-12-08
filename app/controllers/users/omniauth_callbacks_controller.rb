@@ -70,32 +70,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   protected
 
   def fix_account
-    @account = nil
-    begin
-      puts 'Found account'
-      @account = Account.find_by!(user_id: @user.id)
-      @account.first_name = @vars.info.name.partition(' ')[0]
-      @account.last_name = @vars.info.name.partition(' ')[2]
-      @account.profile_pic = @vars.info.image
-      @account.save
-    rescue => error
-      puts '------------------------------------------------------fix_account'
-      puts error
-      puts '------------------------------------------------------'
-    end
-    if @account.nil?
-      puts 'Creating new account'
-      @account = Account.new
-      @account.user_id = @user.id
-      @account.first_name = @vars.info.name.partition(' ')[0]
-      @account.last_name = @vars.info.name.partition(' ')[2]
-      @account.profile_pic = @vars.info.image
-      @account.save
-
-      @user.account_id = @account.id
-      @user.is_admin = false
-      @user.save
-    end
+    @account = Account.find_by!(user_id: @user.id)
+    @account.first_name = @vars.info.name.partition(' ')[0]
+    @account.last_name = @vars.info.name.partition(' ')[2]
+    @account.profile_pic = @vars.info.image
+    @account.save
   end
     
 
