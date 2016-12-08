@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
         begin 
           ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player, "group_number" => p_group.tournament_group_num ]
         rescue
-          ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player, "group_number" => -1 ]
+          ac = Hash["account" => account, "email" => user.email, "is_guest" => false, "guest_number" => 0, "player" => parent_player, "group_number" => "Unassigned" ]
         end
 
         @all_tournament_players.push(ac)
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
             begin
               ac = Hash["account" => account, "email" => user.email, "is_guest" => true, "guest_number" => i+1, "player" => guest_player, "group_number" => g_group.tournament_group_num ]
             rescue
-              ac = Hash["account" => account, "email" => user.email, "is_guest" => true, "guest_number" => i+1, "player" => guest_player, "group_number" => -1 ]
+              ac = Hash["account" => account, "email" => user.email, "is_guest" => true, "guest_number" => i+1, "player" => guest_player, "group_number" => "Unassigned" ]
             end
 
             @all_tournament_players.push(ac)
