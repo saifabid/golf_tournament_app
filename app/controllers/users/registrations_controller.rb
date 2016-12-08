@@ -9,15 +9,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    if User.where(email: params[:user][:email]).first.nil?
+      exists = false
+    else
+      exists = true
+    end
     super
-    @account = Account.new
-    @account.user_id = current_user.id
-    @account.first_name = "Default"
-    @account.last_name = "Name"
-    @account.save
-    current_user.account_id = @account.id
-    current_user.is_admin = false
-    current_user.save
+    if not exists
+      @account = Account.new
+      @account.user_id = current_user.id
+      @account.first_name = "Default"
+      @account.last_name = "Name"
+      @account.save
+      current_user.account_id = @account.id
+      current_user.is_admin = false
+      current_user.save
+    end
   end
 
   # GET /resource/edit
