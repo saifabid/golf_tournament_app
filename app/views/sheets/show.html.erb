@@ -1,8 +1,13 @@
+<%= button_to 'Back to dashboard', {:controller => "organizer_dashboard", :action => "show"}, :method => :get %>
+<br/>
+
 <div class="row" style="border-bottom-style: solid;">
 	<div class="col-md-2 col-spacing">
 		<%= button_to 'Edit sheet', {:controller => "sheets", :action => "edit"}, :method=>:get %>
 	</div>
 </div>
+
+<br/>
 
 <% @groups.each do |key, value|%>
 <table class="table table-bordered">
