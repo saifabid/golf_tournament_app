@@ -1,6 +1,10 @@
 # Application URL
 `https://golf-tournament-app.herokuapp.com`
 
+# Full Feature List
+
+- The full feature list can be found in the file [csc444features.pdf](https://github.com/saifabid/golf_tournament_app/blob/master/csc444features.pdf) which is at the root of the project
+
 # Getting Started
 
 - On Mac, install `mysql` with [brew](http://brew.sh/) by running `brew install mysql`
